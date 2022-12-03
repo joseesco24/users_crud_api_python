@@ -10,6 +10,13 @@ services:
       context: .
     networks:
       - dockerized_database_network
+    environment:
+      DATABASE_USER: schema_1_user
+      DATABASE_NAME: users_db
+      DATABASE_PASSWORD: schema_1_user
+      DATABASE_SCHEMA: schema_1
+      DATABASE_HOST: dockerized_database
+      DATABASE_PORT: 5434
     ports:
       - target: 3048
         published: 3048
