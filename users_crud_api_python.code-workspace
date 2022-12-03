@@ -1,0 +1,61 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "sqltools.connections": [
+      {
+        "previewLimit": 50,
+        "server": "localhost",
+        "port": 5434,
+        "driver": "PostgreSQL",
+        "name": "postgres::docker::users_db",
+        "database": "users_db",
+        "username": "postgres",
+        "password": "postgres"
+      },
+      {
+        "previewLimit": 50,
+        "server": "localhost",
+        "port": 5434,
+        "driver": "PostgreSQL",
+        "name": "schema_1_owner::docker::users_db",
+        "database": "users_db",
+        "username": "schema_1_owner",
+        "password": "schema_1_owner"
+      },
+      {
+        "previewLimit": 50,
+        "server": "localhost",
+        "port": 5434,
+        "driver": "PostgreSQL",
+        "name": "schema_1_user::docker::users_db",
+        "database": "users_db",
+        "username": "schema_1_user",
+        "password": "schema_1_user"
+      },
+      {
+        "previewLimit": 50,
+        "server": "localhost",
+        "port": 5434,
+        "driver": "PostgreSQL",
+        "name": "schema_2_owner::docker::users_db",
+        "database": "users_db",
+        "username": "schema_2_owner",
+        "password": "schema_2_owner"
+      },
+      {
+        "previewLimit": 50,
+        "server": "localhost",
+        "port": 5434,
+        "driver": "PostgreSQL",
+        "name": "schema_2_user::docker::users_db",
+        "database": "users_db",
+        "username": "schema_2_user",
+        "password": "schema_2_user"
+      }
+    ]
+  }
+}
