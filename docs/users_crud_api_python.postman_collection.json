@@ -1,0 +1,67 @@
+{
+	"info": {
+		"_postman_id": "d8b93edf-bd93-4659-8fbf-9f29eb46b16a",
+		"name": "users_crud_api_python",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8443281"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "data.public",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostPath}}/users/data/public?fileName=hola",
+							"host": [
+								"{{hostPath}}"
+							],
+							"path": [
+								"users",
+								"data",
+								"public"
+							],
+							"query": [
+								{
+									"key": "fileName",
+									"value": "hola"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "hostPath",
+			"value": "localhost:3024",
+			"type": "string"
+		}
+	]
+}

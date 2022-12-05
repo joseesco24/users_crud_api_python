@@ -16,10 +16,10 @@ services:
       DATABASE_PASSWORD: schema_1_user
       DATABASE_SCHEMA: schema_1
       DATABASE_HOST: dockerized_database
-      DATABASE_PORT: 5434
+      DATABASE_PORT: 5432
     ports:
-      - target: 3048
-        published: 3048
+      - target: 10048
+        published: 10048
         protocol: tcp
     depends_on:
       - dockerized_database

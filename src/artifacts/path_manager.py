@@ -1,9 +1,7 @@
 # Python
-from ntpath import basename
 import posixpath
-import traceback
 
-__all__ = ["build_posix_path", "get_file_name"]
+__all__ = ["build_posix_path"]
 
 
 def build_posix_path(*args: list[str]) -> str:
@@ -22,17 +20,3 @@ def build_posix_path(*args: list[str]) -> str:
 
     partial_path: str = posixpath.join(*args)
     return f"/{partial_path}".strip()
-
-
-def get_file_name() -> str:
-
-    """get file name
-
-    this function returns the name of their caller module
-
-    returns:
-    - str: the name of the script without extension
-    """
-
-    (filename, _, _, _) = traceback.extract_stack()[-2]
-    return basename(filename).split(".")[0]

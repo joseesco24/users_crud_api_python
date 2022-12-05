@@ -92,13 +92,13 @@ docker build --tag ghcr.io/joseesco24/users_crud_api_python:latest .
 ### Docker App Deployment Without Detach
 
 ```bash
-docker run --rm --name users_crud_api_python_app --publish 3048:3048 --env-file ./.env --env APP_PORT=3048 --env APP_MODE=production ghcr.io/joseesco24/users_crud_api_python:latest
+docker run --rm --name users_crud_api_python_app --publish 10048:10048 --env-file ./.env --env APP_PORT=10048 --env APP_MODE=production ghcr.io/joseesco24/users_crud_api_python:latest
 ```
 
 ### Docker App Deployment With Detach
 
 ```bash
-docker run --detach --rm --name users_crud_api_python_app --publish 3048:3048 --env-file ./.env --env APP_PORT=3048 --env APP_MODE=production ghcr.io/joseesco24/users_crud_api_python:latest
+docker run --detach --rm --name users_crud_api_python_app --publish 10048:10048 --env-file ./.env --env APP_PORT=10048 --env APP_MODE=production ghcr.io/joseesco24/users_crud_api_python:latest
 ```
 
 ### Docker Access To The Container Terminal
