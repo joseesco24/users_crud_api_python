@@ -3,7 +3,6 @@ from enum import Enum
 
 # Pydantic
 from pydantic import BaseSettings
-from pydantic import HttpUrl
 from pydantic import Field
 
 
@@ -17,7 +16,7 @@ class __environment_mode__(str, Enum):
     testing: str = "testing"
 
 
-class __configs__(BaseSettings):
+class Configs(BaseSettings):
 
     # Environment configs.
     environment_mode: __environment_mode__ = Field(..., env="ENVIRONMENT_MODE")
@@ -26,4 +25,4 @@ class __configs__(BaseSettings):
         env_file = ".env"
 
 
-configs: __configs__ = __configs__()
+configs: Configs = Configs()

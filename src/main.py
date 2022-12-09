@@ -1,44 +1,57 @@
-# Python
+#!/usr/bin/env python3
+
+# ** info: python imports
 from os.path import join
 from os import environ
 from os import path
 import logging
 import sys
 
-# **info: appending src path to the system paths for absolute imports from src modules
+# **info: appending src path to the system paths for absolute imports from src path
 sys.path.append(join(path.dirname(path.realpath(__file__)), "..", "."))
 
-# Uvicorn
+# ** info: uvicorn imports
 import uvicorn
 
-# Starlette
-from starlette.middleware.base import BaseHTTPMiddleware
-
-# FastAPI
+# ** info: fastapi imports
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
-# Routers
+# ** info: routers imports
 from core_modules.users.controllers.controller import users_controller
 
-# Middlewares
-from src.common_modules.middlewares.error_handler import error_handler_middleware
-from src.common_modules.middlewares.logger import logging_middleware
-
-from src.artifacts.logger import setup_logging
-
-setup_logging()
+from src.artifacts.logger import custom_logger
 
 from src.artifacts.config import configs
 
-app = FastAPI()
+# ---------------------------------------------------------------------------------------------------------------------
+# ** info: initializing app dependencies
+# ---------------------------------------------------------------------------------------------------------------------
 
-#app.add_middleware(BaseHTTPMiddleware, dispatch=error_handler_middleware)
-#app.add_middleware(BaseHTTPMiddleware, dispatch=logging_middleware)
+app: FastAPI = FastAPI()
+
+# ---------------------------------------------------------------------------------------------------------------------
+# ** info: setting up global app logging
+# ---------------------------------------------------------------------------------------------------------------------
+
+if configs.environment_mode == "production":
+    custom_logger.setup_production_logging()
+    logging.info(f"logger setup on {configs.environment_mode} mode")
+else:
+    custom_logger.setup_development_logging()
+    logging.info(f"logger setup on {configs.environment_mode} mode")
+
+# ---------------------------------------------------------------------------------------------------------------------
+# ** info: setting up app routers and middlewares
+# ---------------------------------------------------------------------------------------------------------------------
 
 app.add_middleware(CORSMiddleware)
 
 app.include_router(users_controller)
+
+# ---------------------------------------------------------------------------------------------------------------------
+# ** info: disabling uvicorn access and error logs on production mode
+# ---------------------------------------------------------------------------------------------------------------------
 
 uvicorn_access = logging.getLogger("uvicorn.access")
 uvicorn_error = logging.getLogger("uvicorn.error")
@@ -56,14 +69,22 @@ if __name__ == "__main__":
 if __name__ != "__main__":
     logging.info(f"application reloaded in {configs.environment_mode} mode")
 
+# ---------------------------------------------------------------------------------------------------------------------
+# ** info: setting up uvicorn asgi server with fast api app
+# ---------------------------------------------------------------------------------------------------------------------
+
 uvicorn_server_configs = {
     "port": int(environ.get("PORT")) if environ.get("PORT") is not None else 10048,
-    "log_level": "error" if configs.environment_mode == "production" else "debug",
     "app": app if configs.environment_mode == "production" else "main:app",
     "reload": False if configs.environment_mode == "production" else True,
+    "log_level": "warning",
     "access_log": False,
     "use_colors": False,
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# ** info: running app using the previous uvicorn asgi server settings
+# ---------------------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     uvicorn.run(**uvicorn_server_configs)

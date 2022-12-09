@@ -1,9 +1,13 @@
-# FastAPI
+#!/usr/bin/env python3
+
+# ** info: python imports
+import logging
+
+# ** info: fastapi imports
 from fastapi import APIRouter
 from fastapi import status
 
 from fastapi import Depends
-
 
 # Commons
 from src.artifacts.path_manager import build_posix_path
@@ -25,5 +29,9 @@ users_controller: APIRouter = APIRouter(prefix=build_posix_path("users"))
 async def load_configuration_file(
     query: RequestDto = Depends(),
 ) -> ResponseDto:
+
+    logging.debug("starting public data controller")
+
+    logging.debug("ending public data controller")
 
     return ResponseDto(detail=f"{query.fileName} successfully validated")
