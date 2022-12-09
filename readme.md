@@ -56,19 +56,19 @@ pylint --rcfile=.pylintrc src/*.py
 ### Run On development Mode
 
 ```bash
-APP_MODE=development python src/main.py
+ENVIRONMENT_MODE=development python src/main.py
 ```
 
 ### Run On Testing Mode
 
 ```bash
-APP_MODE=testing python src/main.py
+ENVIRONMENT_MODE=testing python src/main.py
 ```
 
 ### Run On Production Mode
 
 ```bash
-APP_MODE=production python src/main.py
+ENVIRONMENT_MODE=production python src/main.py
 ```
 
 <br/>
@@ -92,13 +92,13 @@ docker build --tag ghcr.io/joseesco24/users_crud_api_python:latest .
 ### Docker App Deployment Without Detach
 
 ```bash
-docker run --rm --name users_crud_api_python_app --publish 10048:10048 --env-file ./.env --env APP_PORT=10048 --env APP_MODE=production ghcr.io/joseesco24/users_crud_api_python:latest
+docker run --rm --name users_crud_api_python_app --publish 10048:10048 --env-file ./.env --env ENVIRONMENT_MODE=production ghcr.io/joseesco24/users_crud_api_python:latest
 ```
 
 ### Docker App Deployment With Detach
 
 ```bash
-docker run --detach --rm --name users_crud_api_python_app --publish 10048:10048 --env-file ./.env --env APP_PORT=10048 --env APP_MODE=production ghcr.io/joseesco24/users_crud_api_python:latest
+docker run --detach --rm --name users_crud_api_python_app --publish 10048:10048 --env-file ./.env --env ENVIRONMENT_MODE=production ghcr.io/joseesco24/users_crud_api_python:latest
 ```
 
 ### Docker Access To The Container Terminal
