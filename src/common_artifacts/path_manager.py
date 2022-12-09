@@ -6,7 +6,7 @@ import posixpath
 # ** info: common artifacts imports
 from src.common_artifacts.singleton import Singleton
 
-__all__ = ["path_manager"]
+__all__: list[str] = ["path_manager"]
 
 
 class PathManager(metaclass=Singleton):

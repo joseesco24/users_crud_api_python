@@ -1,3 +1,9 @@
+""" custom logger module
+
+this module works as a singleton based object instance container that allows to overwrite the root logger with a custom one
+
+"""
+
 #!/usr/bin/env python3
 
 # ** info: python imports
@@ -15,18 +21,25 @@ from loguru import logger
 # ** info: common artifacts imports
 from src.common_artifacts.singleton import Singleton
 
-__all__ = ["custom_logger"]
+__all__: list[str] = ["custom_logger"]
 
 
 class CustomLogger(metaclass=Singleton):
 
-    """custom logger
+    """custom logger class
 
     a custom logger provider based on loguru loger
 
     """
 
     class CustomInterceptHandler(logging.Handler):
+
+        """custom intercept handler
+
+        a custom interceptor handler
+
+        """
+
         def emit(self, record: logging.LogRecord):
             try:
                 level: str = logger.level(record.levelname).name
@@ -45,6 +58,13 @@ class CustomLogger(metaclass=Singleton):
             )
 
     def custom_serializer(self, record) -> str:
+
+        """custom serializer
+
+        a custom log serializer compatible with loguru serialized logs
+
+        """
+
         subset: dict[str, any] = {
             "severity": record["level"].name,
             "timestamp": record["time"].strftime("%Y-%m-%d %H:%M:%S.%f"),
@@ -82,6 +102,13 @@ class CustomLogger(metaclass=Singleton):
         return json.dumps(subset)
 
     def custom_log_sink(self, message) -> None:
+
+        """custom log sink
+
+        a custom log sink compatible with loguru serialized logs
+
+        """
+
         serialized = self.custom_serializer(message.record)
         sys.stdout.write(serialized)
         sys.stdout.write("\n")
@@ -103,7 +130,7 @@ class CustomLogger(metaclass=Singleton):
         logging.root.setLevel(logging.DEBUG)
 
         for name in logging.root.manager.loggerDict.keys():
-            logging.getLogger(name).handlers = []
+            logging.getLogger(name).handlers = list()
             logging.getLogger(name).propagate = True
 
         # ** info: loguru configs
@@ -132,7 +159,7 @@ class CustomLogger(metaclass=Singleton):
         logging.root.setLevel(logging.DEBUG)
 
         for name in logging.root.manager.loggerDict.keys():
-            logging.getLogger(name).handlers = []
+            logging.getLogger(name).handlers = list()
             logging.getLogger(name).propagate = True
 
         # ** info: loguru configs

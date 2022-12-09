@@ -14,10 +14,17 @@ from fastapi import status
 # ** info: common artifacts imports
 from src.common_artifacts.singleton import Singleton
 
-__all__ = ["error_handler"]
+__all__: list[str] = ["error_handler"]
 
 
 class ErrorHandler(metaclass=Singleton):
+
+    """error handler
+
+    this class provides a custom error handler middleware for fastapi based applications
+
+    """
+
     def __init__(self):
         pass
 
@@ -39,6 +46,8 @@ class ErrorHandler(metaclass=Singleton):
 
             response: StreamingResponse = await call_next(request)
 
+        # ! warning: super general exception handling here
+        # pylint: disable=broad-except
         except Exception as exception:
 
             logging.exception(

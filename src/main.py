@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # ** info: python imports
+from logging import Logger
 from os.path import join
 from os import environ
 from os import path
@@ -61,20 +62,23 @@ app.include_router(users_controller)
 # ** info: setting up app shutdown and startup subrutines
 # ---------------------------------------------------------------------------------------------------------------------
 
+
 @app.on_event("startup")
 async def startup_event():
     large_process_thread_admin.start_large_process_thread_admin()
+
 
 @app.on_event("shutdown")
 def shutdown_event():
     large_process_thread_admin.end_large_process_thread_admin()
 
+
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: disabling uvicorn access and error logs on production mode
 # ---------------------------------------------------------------------------------------------------------------------
 
-uvicorn_access = logging.getLogger("uvicorn.access")
-uvicorn_error = logging.getLogger("uvicorn.error")
+uvicorn_access: Logger = logging.getLogger("uvicorn.access")
+uvicorn_error: Logger = logging.getLogger("uvicorn.error")
 
 if env_configs.environment_mode == "production":
     uvicorn_access.disabled = True
@@ -97,7 +101,7 @@ application_port: int = (
     int(environ.get("PORT")) if environ.get("PORT") is not None else 10048
 )
 
-uvicorn_server_configs = {
+uvicorn_server_configs: dict[str, any] = {
     "app": app if env_configs.environment_mode == "production" else "main:app",
     "reload": False if env_configs.environment_mode == "production" else True,
     "port": application_port,

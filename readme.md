@@ -42,7 +42,7 @@ pip-upgrade requirements.app.txt
 **Note:** Before running this command you need to install the dev dependencies.
 
 ```bash
-black src/*.py
+black ./src
 ```
 
 ### Lint The Code Using Pylint
@@ -50,7 +50,7 @@ black src/*.py
 **Note:** Before running this command you need to install the dev dependencies.
 
 ```bash
-pylint --rcfile=.pylintrc src/*.py
+pylint --rcfile=.pylintrc ./src
 ```
 
 ### Run On development Mode

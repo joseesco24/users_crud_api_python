@@ -14,7 +14,7 @@ import uuid
 from src.common_artifacts.singleton import Singleton
 
 
-__all__ = [
+__all__: list[str] = [
     "large_process_thread_admin",
     "large_callable_task_queue",
     "LargeCallableTask",

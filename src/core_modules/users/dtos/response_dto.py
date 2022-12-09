@@ -4,7 +4,7 @@
 from pydantic import BaseModel
 from pydantic import Field
 
-__all__ = ["ResponseDto"]
+__all__: list[str] = ["ResponseDto"]
 
 
 class ResponseDto(BaseModel):

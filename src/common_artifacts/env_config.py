@@ -8,7 +8,7 @@ from pydantic import BaseSettings
 from pydantic import Field
 
 
-__all__ = ["configs"]
+__all__: list[str] = ["env_configs"]
 
 
 class __environment_mode__(str, Enum):
