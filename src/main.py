@@ -64,12 +64,14 @@ app.include_router(users_controller)
 
 
 @app.on_event("startup")
-async def startup_event():
+async def startup_event() -> None:
+    # pylint: disable=unused-variable
     large_process_thread_admin.start_large_process_thread_admin()
 
 
 @app.on_event("shutdown")
-def shutdown_event():
+async def shutdown_event() -> None:
+    # pylint: disable=unused-variable
     large_process_thread_admin.end_large_process_thread_admin()
 
 

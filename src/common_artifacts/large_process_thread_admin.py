@@ -1,19 +1,25 @@
+# pylint: disable=unused-variable
 #!/usr/bin/env python3
 
 # ** info: python imports
 from dataclasses import dataclass
 from queue import PriorityQueue
 from dataclasses import field
+from datetime import datetime
 from threading import Thread
 from threading import Lock
 import logging
 import time
 import uuid
 
+# ** info: types imports
+from typing import Callable
+from typing import Union
+
 # ** info: common artifacts imports
 from src.common_artifacts.singleton import Singleton
 
-
+# pylint: disable=unused-variable
 __all__: list[str] = [
     "large_process_thread_admin",
     "large_callable_task_queue",
@@ -23,50 +29,50 @@ __all__: list[str] = [
 
 @dataclass(order=True)
 class LargeCallableTask:
-    function: callable = field(compare=False)
+
+    function: Callable = field(compare=False)
     kwargs: dict = field(compare=False)
     priority: int
 
-    __taskuuid__: str = field(compare=False, default=None)
+    timestamp: Union[datetime, None] = field(compare=True, default=None)
+    taskuuid: Union[str, None] = field(compare=False, default=None)
 
     def __post_init__(self):
-        if self.__taskuuid__ is None:
-            self.__taskuuid__ = uuid.uuid4()
+        if self.taskuuid is None:
+            self.taskuuid = uuid.uuid4()
+        if self.timestamp is None:
+            self.timestamp = datetime.now()
 
 
 class LargeCallableTaskQueue(metaclass=Singleton):
-    def __init__(self):
-        self.tasksQueue: PriorityQueue[LargeCallableTask] = PriorityQueue()
+    def __init__(self) -> None:
+        self.tasks_queue: PriorityQueue[LargeCallableTask] = PriorityQueue()
         self.lock: Lock = Lock()
 
-    def addTask(self, task: LargeCallableTask) -> None:
+    def add_task(self, task: LargeCallableTask) -> None:
         self.lock.acquire()
-        self.tasksQueue.put_nowait(task)
-        logging.info(
-            f"adding task {task.__taskuuid__}", extra={"taskMetadata": {**task}}
-        )
+        self.tasks_queue.put_nowait(task)
+        logging.info(f"adding task {task.taskuuid}")
         self.lock.release()
         return
 
-    def getTask(self) -> LargeCallableTask:
+    def get_task(self) -> LargeCallableTask:
         self.lock.acquire()
-        self.tasksQueue.task_done()
-        task: LargeCallableTask = self.tasksQueue.get_nowait()
-        logging.info(
-            f"getting task {task.__taskuuid__}", extra={"taskMetadata": {**task}}
-        )
+        self.tasks_queue.task_done()
+        task: LargeCallableTask = self.tasks_queue.get_nowait()
+        logging.info(f"getting task {task.taskuuid}")
         self.lock.release()
         return task
 
-    def isEmpty(self) -> bool:
+    def is_empty(self) -> bool:
         self.lock.acquire()
-        is_empty: bool = self.tasksQueue.empty()
+        is_empty: bool = self.tasks_queue.empty()
         self.lock.release()
         return is_empty
 
-    def getTasksCount(self) -> int:
+    def get_tasks_count(self) -> int:
         self.lock.acquire()
-        unfinished_tasks: int = self.tasksQueue.unfinished_tasks
+        unfinished_tasks: int = self.tasks_queue.unfinished_tasks
         self.lock.release()
         return unfinished_tasks
 
@@ -76,29 +82,29 @@ large_callable_task_queue: LargeCallableTaskQueue = LargeCallableTaskQueue()
 
 class LargeProcessThreadAdmin(metaclass=Singleton):
     def __init__(self) -> None:
-        self.loadingThread: Thread = Thread(target=self.__large_process_thread_admin__)
-        self.loadingThread.daemon = True
+        self.loading_thread: Thread = Thread(target=self.__large_process_thread_admin__)
+        self.loading_thread.daemon = True
         self.stop_event: bool = False
         self.lock: Lock = Lock()
 
     def start_large_process_thread_admin(self) -> None:
-        logging.info(f"starting large process thread")
+        logging.info(r"starting large process thread")
         self.lock.acquire()
         self.stop_event = False
         self.lock.release()
-        if self.loadingThread.is_alive() is False:
-            self.loadingThread.start()
+        if self.loading_thread.is_alive() is False:
+            self.loading_thread.start()
         else:
-            self.loadingThread.run()
+            self.loading_thread.run()
         return
 
     def end_large_process_thread_admin(self) -> None:
-        logging.info(f"joining large process thread")
+        logging.info(r"joining large process thread")
         self.lock.acquire()
         self.stop_event = True
         self.lock.release()
-        if self.loadingThread.is_alive() is True:
-            self.loadingThread.join()
+        if self.loading_thread.is_alive() is True:
+            self.loading_thread.join()
         return
 
     def __large_process_thread_admin__(self) -> None:
@@ -110,18 +116,23 @@ class LargeProcessThreadAdmin(metaclass=Singleton):
                 break
             self.lock.release()
 
-            logging.debug(f"tasks count: {large_callable_task_queue.getTasksCount()}")
-            logging.debug(f"is queue empty: {large_callable_task_queue.isEmpty()}")
+            logging.debug(f"tasks count: {large_callable_task_queue.get_tasks_count()}")
+            logging.debug(f"is queue empty: {large_callable_task_queue.is_empty()}")
 
-            if large_callable_task_queue.isEmpty() is False:
-                task: LargeCallableTask = large_callable_task_queue.getTask()
-                logging.info(f"executiong task {task.__taskuuid__}")
+            if large_callable_task_queue.is_empty() is False:
+                task: LargeCallableTask = large_callable_task_queue.get_task()
+                logging.info(f"executiong task {task.taskuuid}")
 
                 try:
+
                     task.function(**task.kwargs)
+
+                # ! warning: super general exception handling here
+                # pylint: disable=broad-except
                 except Exception as exception:
+
                     logging.exception(
-                        msg=f"error while executing task {task.__taskuuid__}: {exception.args[0]}"
+                        msg=f"error while executing task {task.taskuuid}: {exception.args[0]}"
                     )
 
             time.sleep(20)

@@ -1,11 +1,3 @@
-""" custom logger module
-
-this module works as a singleton based object instance container that allows to overwrite the root logger with a custom one
-
-"""
-
-#!/usr/bin/env python3
-
 # ** info: python imports
 import traceback
 import logging
@@ -14,6 +6,8 @@ import sys
 
 # ** info: types imports
 from types import FrameType
+from typing import Optional
+from typing import Union
 
 # ** info: loguru imports
 from loguru import logger
@@ -21,32 +15,19 @@ from loguru import logger
 # ** info: common artifacts imports
 from src.common_artifacts.singleton import Singleton
 
+# pylint: disable=unused-variable
 __all__: list[str] = ["custom_logger"]
 
 
 class CustomLogger(metaclass=Singleton):
-
-    """custom logger class
-
-    a custom logger provider based on loguru loger
-
-    """
-
     class CustomInterceptHandler(logging.Handler):
-
-        """custom intercept handler
-
-        a custom interceptor handler
-
-        """
-
         def emit(self, record: logging.LogRecord):
             try:
-                level: str = logger.level(record.levelname).name
+                level: Union[str, int] = logger.level(record.levelname).name
             except ValueError:
-                level: int = record.levelno
+                level = record.levelno
 
-            frame: FrameType = logging.currentframe()
+            frame: Optional[FrameType] = logging.currentframe()
             depth: int = 2
 
             while frame.f_code.co_filename == logging.__file__:
@@ -58,12 +39,6 @@ class CustomLogger(metaclass=Singleton):
             )
 
     def custom_serializer(self, record) -> str:
-
-        """custom serializer
-
-        a custom log serializer compatible with loguru serialized logs
-
-        """
 
         subset: dict[str, any] = {
             "severity": record["level"].name,
@@ -103,12 +78,6 @@ class CustomLogger(metaclass=Singleton):
 
     def custom_log_sink(self, message) -> None:
 
-        """custom log sink
-
-        a custom log sink compatible with loguru serialized logs
-
-        """
-
         serialized = self.custom_serializer(message.record)
         sys.stdout.write(serialized)
         sys.stdout.write("\n")
@@ -117,10 +86,8 @@ class CustomLogger(metaclass=Singleton):
     def setup_development_logging(self) -> None:
 
         """setup development logging
-
         this function overwrites the python root logger with a custom logger, so all the logs are
         written with the new overwritten configuration
-
         """
 
         fmt: str = "[{process.name}][{thread.name}][{time:YYYY-MM-DD HH:mm:ss.SSSSSS}]:{level} - {module}:{function}:{line} - {message}"
@@ -146,10 +113,8 @@ class CustomLogger(metaclass=Singleton):
     def setup_production_logging(self) -> None:
 
         """setup production logging
-
         this function overwrites the python root logger with a custom logger, so all the logs are
         written with the new overwritten configuration
-
         """
 
         fmt: str = "{message}"

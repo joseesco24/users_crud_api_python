@@ -6,6 +6,7 @@ import posixpath
 # ** info: common artifacts imports
 from src.common_artifacts.singleton import Singleton
 
+# pylint: disable=unused-variable
 __all__: list[str] = ["path_manager"]
 
 

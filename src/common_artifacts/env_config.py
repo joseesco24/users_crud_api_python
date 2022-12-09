@@ -7,20 +7,23 @@ from enum import Enum
 from pydantic import BaseSettings
 from pydantic import Field
 
-
+# pylint: disable=unused-variable
 __all__: list[str] = ["env_configs"]
 
 
-class __environment_mode__(str, Enum):
+class EnvironmentMode(str, Enum):
 
+    # pylint: disable=invalid-name
     development: str = "development"
+    # pylint: disable=invalid-name
     production: str = "production"
+    # pylint: disable=invalid-name
     testing: str = "testing"
 
 
 class EnvConfigs(BaseSettings):
 
-    environment_mode: __environment_mode__ = Field(..., env="ENVIRONMENT_MODE")
+    environment_mode: EnvironmentMode = Field(..., env="ENVIRONMENT_MODE")
 
     class Config:
         env_file = ".env"

@@ -216,4 +216,11 @@ disable=
       import-error,
       logging-fstring-interpolation,
       simplifiable-if-expression,
+      missing-class-docstring,
+      missing-module-docstring,
+      missing-function-docstring,
+      ungrouped-imports,
+      too-few-public-methods,
+      useless-return,
+      consider-using-with,
       wrong-import-position

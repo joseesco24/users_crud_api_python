@@ -50,7 +50,15 @@ black ./src
 **Note:** Before running this command you need to install the dev dependencies.
 
 ```bash
-pylint --rcfile=.pylintrc ./src
+pylint --fail-under=10 --rcfile=.pylintrc ./src
+```
+
+### Check Static Types Using Mypy
+
+**Note:** Before running this command you need to install the dev dependencies.
+
+```bash
+mypy --explicit-package-bases ./src
 ```
 
 ### Run On development Mode
