@@ -96,4 +96,5 @@ logging.info(f"application starting on port {application_port}")
 if __name__ == "__main__":
     uvicorn.run(**uvicorn_server_configs)
 
-logging.debug("application ended")
+if configs.environment_mode == "production":
+    logging.debug("application ended")
