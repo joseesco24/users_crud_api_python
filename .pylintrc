@@ -20,12 +20,13 @@ unsafe-load-any-extension=no
 [BASIC]
 argument-naming-style=snake_case
 attr-naming-style=snake_case
-bad-names=foo,
-          bar,
-          baz,
-          toto,
-          tutu,
-          tata
+bad-names=
+      foo,
+      bar,
+      baz,
+      toto,
+      tutu,
+      tata
 bad-names-rgxs=
 class-attribute-naming-style=any
 class-const-naming-style=UPPER_CASE
@@ -33,12 +34,13 @@ class-naming-style=PascalCase
 const-naming-style=UPPER_CASE
 docstring-min-length=-1
 function-naming-style=snake_case
-good-names=i,
-           j,
-           k,
-           ex,
-           Run,
-           _
+good-names=
+      i,
+      j,
+      k,
+      ex,
+      Run,
+      _
 good-names-rgxs=
 include-naming-hint=no
 inlinevar-naming-style=any
@@ -51,15 +53,17 @@ variable-naming-style=snake_case
 
 [CLASSES]
 check-protected-access-in-special-methods=no
-defining-attr-methods=__init__,
-                      __new__,
-                      setUp,
-                      __post_init__
-exclude-protected=_asdict,
-                  _fields,
-                  _replace,
-                  _source,
-                  _make
+defining-attr-methods=
+      __init__,
+      __new__,
+      setUp,
+      __post_init__
+exclude-protected=
+      _asdict,
+      _fields,
+      _replace,
+      _source,
+      _make
 valid-classmethod-first-arg=cls
 valid-metaclass-classmethod-first-arg=cls
 
@@ -78,8 +82,9 @@ max-statements=50
 min-public-methods=2
 
 [EXCEPTIONS]
-overgeneral-exceptions=BaseException,
-                       Exception
+overgeneral-exceptions=
+      BaseException,
+      Exception
 
 [FORMAT]
 expected-line-ending-format=
