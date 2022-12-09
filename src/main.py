@@ -73,14 +73,20 @@ if __name__ != "__main__":
 # ** info: setting up uvicorn asgi server with fast api app
 # ---------------------------------------------------------------------------------------------------------------------
 
+application_port: int = (
+    int(environ.get("PORT")) if environ.get("PORT") is not None else 10048
+)
+
 uvicorn_server_configs = {
-    "port": int(environ.get("PORT")) if environ.get("PORT") is not None else 10048,
     "app": app if configs.environment_mode == "production" else "main:app",
     "reload": False if configs.environment_mode == "production" else True,
+    "port": application_port,
     "log_level": "warning",
     "access_log": False,
     "use_colors": False,
 }
+
+logging.info(f"application starting on port {application_port}")
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: running app using the previous uvicorn asgi server settings
