@@ -84,7 +84,7 @@ uvicorn_server_configs = {
     "log_level": "warning",
     "access_log": False,
     "use_colors": False,
-    "host": "0.0.0.0"
+    "host": "0.0.0.0",
 }
 
 logging.info(f"application starting on port {application_port}")
@@ -95,3 +95,5 @@ logging.info(f"application starting on port {application_port}")
 
 if __name__ == "__main__":
     uvicorn.run(**uvicorn_server_configs)
+
+logging.debug("application ended")
