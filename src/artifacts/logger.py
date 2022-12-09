@@ -80,7 +80,9 @@ class CustomLogger:
 
     def custom_log_sink(self, message) -> None:
         serialized = self.custom_serializer(message.record)
-        print(serialized)
+        sys.stdout.write(serialized)
+        sys.stdout.write("\n")
+        sys.stdout.flush()
 
     def setup_development_logging(self) -> None:
 
