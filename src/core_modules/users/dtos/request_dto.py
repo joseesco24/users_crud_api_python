@@ -1,4 +1,6 @@
-# Pydantic
+#!/usr/bin/env python3
+
+# ** info: pydantic imports
 from pydantic import BaseModel
 from pydantic import Field
 

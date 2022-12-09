@@ -12,10 +12,13 @@ from types import FrameType
 # ** info: loguru imports
 from loguru import logger
 
+# ** info: common artifacts imports
+from src.common_artifacts.singleton import Singleton
+
 __all__ = ["custom_logger"]
 
 
-class CustomLogger:
+class CustomLogger(metaclass=Singleton):
 
     """custom logger
 
@@ -57,7 +60,7 @@ class CustomLogger:
             "fileName": record["file"].name,
         }
 
-        if record["extra"] is not None:
+        if record["extra"]:
             subset["payload"] = record["extra"]
 
         if record["exception"] is not None:

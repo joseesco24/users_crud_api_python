@@ -1,7 +1,9 @@
-# Python
+#!/usr/bin/env python3
+
+# ** info: python imports
 from enum import Enum
 
-# Pydantic
+# ** info: pydantic imports
 from pydantic import BaseSettings
 from pydantic import Field
 
@@ -16,13 +18,12 @@ class __environment_mode__(str, Enum):
     testing: str = "testing"
 
 
-class Configs(BaseSettings):
+class EnvConfigs(BaseSettings):
 
-    # Environment configs.
     environment_mode: __environment_mode__ = Field(..., env="ENVIRONMENT_MODE")
 
     class Config:
         env_file = ".env"
 
 
-configs: Configs = Configs()
+env_configs: EnvConfigs = EnvConfigs()
