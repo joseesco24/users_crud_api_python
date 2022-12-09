@@ -2,3 +2,4 @@ black==21.12b0
 pip-upgrader==1.4.15
 pipdeptree==2.3.3
 pylint==2.15.7
+commit-linter==1.0.2
