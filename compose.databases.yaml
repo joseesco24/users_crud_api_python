@@ -3,25 +3,25 @@
 version: "3.8"
 
 services:
-  dockerized_database:
-    container_name: dockerized_database
+  postgres_users_db:
+    container_name: postgres_users_db
     image: ghcr.io/joseesco24/postgres_users_db:latest
     networks:
-      - dockerized_database_network
+      - dockerized_databases_network
     ports:
       - target: 5432
         published: 5434
         protocol: tcp
     volumes:
       - type: volume
-        source: dockerized_database_disc
+        source: postgres_users_db_disc
         target: /var/lib/postgresql/data
 
 networks:
-  dockerized_database_network:
-    name: dockerized_database_network
+  dockerized_databases_network:
+    name: dockerized_databases_network
     external: false
     driver: bridge
 
 volumes:
-  dockerized_database_disc:
+  postgres_users_db_disc:
