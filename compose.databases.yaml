@@ -1,0 +1,27 @@
+# ** info: this file is a copy of https://github.com/joseesco24/postgres_users_db/blob/main/docker-compose.yml withut the build commands
+
+version: "3.8"
+
+services:
+  dockerized_database:
+    container_name: dockerized_database
+    image: ghcr.io/joseesco24/postgres_users_db:latest
+    networks:
+      - dockerized_database_network
+    ports:
+      - target: 5432
+        published: 5434
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: dockerized_database_disc
+        target: /var/lib/postgresql/data
+
+networks:
+  dockerized_database_network:
+    name: dockerized_database_network
+    external: false
+    driver: bridge
+
+volumes:
+  dockerized_database_disc:

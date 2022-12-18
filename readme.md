@@ -133,4 +133,22 @@ docker login -u joseesco24 -p < authentication token > ghcr.io
 docker push ghcr.io/joseesco24/users_crud_api_python:latest
 ```
 
+### Docker Compose Build Image Using Compose File
+
+```bash
+docker-compose -f compose.project.yaml build
+```
+
+### Docker Compose Start Dbs Services Using Compose File
+
+```bash
+docker-compose -f compose.databases.yaml up
+```
+
+### Docker Compose Stop Dbs Services Using Compose File
+
+```bash
+docker-compose -f compose.databases.yaml down
+```
+
 <br/>
