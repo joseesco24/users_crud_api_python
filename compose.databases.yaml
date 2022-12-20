@@ -1,4 +1,5 @@
-# ** info: this file is a copy of https://github.com/joseesco24/postgres_users_db/blob/main/docker-compose.yml withut the build commands
+# ** info: this file is a copy of https://github.com/joseesco24/postgres_users_db/blob/main/compose.project.yml withut the build commands
+# ** info: this file is a copy of https://github.com/joseesco24/mongo_configs_db/blob/main/compose.project.yml withut the build commands
 
 version: "3.8"
 
@@ -16,6 +17,19 @@ services:
       - type: volume
         source: postgres_users_db_disc
         target: /var/lib/postgresql/data
+  mongo_configs_db:
+    container_name: mongo_configs_db
+    image: ghcr.io/joseesco24/mongo_configs_db:latest
+    networks:
+      - dockerized_databases_network
+    ports:
+      - target: 27017
+        published: 5440
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: mongo_configs_db_disc
+        target: /data/db
 
 networks:
   dockerized_databases_network:
@@ -25,3 +39,4 @@ networks:
 
 volumes:
   postgres_users_db_disc:
+  mongo_configs_db_disc:

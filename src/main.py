@@ -100,7 +100,7 @@ if __name__ != "__main__":
 # ---------------------------------------------------------------------------------------------------------------------
 
 application_port: int = (
-    int(environ.get("PORT")) if environ.get("PORT") is not None else 10048
+    int(environ.get("SERVER_PORT")) if environ.get("SERVER_PORT") is not None else 10048
 )
 
 uvicorn_server_configs: dict[str, any] = {

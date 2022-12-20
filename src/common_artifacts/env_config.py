@@ -24,6 +24,7 @@ class EnvironmentMode(str, Enum):
 class EnvConfigs(BaseSettings):
 
     environment_mode: EnvironmentMode = Field(..., env="ENVIRONMENT_MODE")
+    server_port: int = Field(..., env="SERVER_PORT")
 
     class Config:
         env_file = ".env"

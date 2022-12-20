@@ -1,7 +1,6 @@
 version: "3.8"
 
 services:
-
   users_crud_api_python_app:
     container_name: users_crud_api_python_app
     image: ghcr.io/joseesco24/users_crud_api_python:latest
@@ -17,6 +16,8 @@ services:
       DATABASE_SCHEMA: schema_1
       DATABASE_HOST: dockerized_database
       DATABASE_PORT: 5432
+      ENVIRONMENT_MODE: production
+      SERVER_PORT: 10048
     ports:
       - target: 10048
         published: 10048
@@ -39,12 +40,10 @@ services:
         target: /var/lib/postgresql/data
 
 networks:
-
   dockerized_database_network:
     name: dockerized_database_network
     external: false
     driver: bridge
 
 volumes:
-
   dockerized_database_disc:
