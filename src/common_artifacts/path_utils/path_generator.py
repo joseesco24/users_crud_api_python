@@ -4,13 +4,13 @@
 import posixpath
 
 # ** info: common artifacts imports
-from src.common_artifacts.singleton import Singleton
+from src.common_artifacts.metaclass.singleton import Singleton
 
 # pylint: disable=unused-variable
 __all__: list[str] = ["path_manager"]
 
 
-class PathManager(metaclass=Singleton):
+class PathGenerator(metaclass=Singleton):
     def build_posix_path(self, *args: list[str]) -> str:
 
         """build posix path
@@ -29,4 +29,4 @@ class PathManager(metaclass=Singleton):
         return f"/{partial_path}".strip()
 
 
-path_manager: PathManager = PathManager()
+path_generator: PathGenerator = PathGenerator()

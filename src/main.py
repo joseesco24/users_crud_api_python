@@ -24,13 +24,12 @@ from starlette.middleware.base import BaseHTTPMiddleware
 # ** info: routers imports
 from core_modules.users.controllers.controller import users_controller
 
-# ** info: custom middlewares imports
-from common_modules.custom_middlewares.error_handler import error_handler
 
 # ** info: common artifacts imports
-from src.common_artifacts.large_process_thread_admin import large_process_thread_admin
-from src.common_artifacts.custom_logger import custom_logger
-from src.common_artifacts.env_config import env_configs
+from common_artifacts.threading_utils.managed_daemon import managed_daemon
+from src.common_artifacts.logging_utils.custom_logger import custom_logger
+from src.common_artifacts.middlewares.error_handler import error_handler
+from src.common_artifacts.env_utils.env_config import env_configs
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: initializing app dependencies
@@ -66,13 +65,13 @@ app.include_router(users_controller)
 @app.on_event("startup")
 async def startup_event() -> None:
     # pylint: disable=unused-variable
-    large_process_thread_admin.start_large_process_thread_admin()
+    managed_daemon.start_managed_daemon()
 
 
 @app.on_event("shutdown")
 async def shutdown_event() -> None:
     # pylint: disable=unused-variable
-    large_process_thread_admin.end_large_process_thread_admin()
+    managed_daemon.end_managed_daemon()
 
 
 # ---------------------------------------------------------------------------------------------------------------------

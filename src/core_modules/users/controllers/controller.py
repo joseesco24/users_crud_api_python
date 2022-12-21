@@ -10,7 +10,7 @@ from fastapi import status
 from fastapi import Depends
 
 # Commons
-from src.common_artifacts.path_manager import path_manager
+from common_artifacts.path_utils.path_generator import path_generator
 
 # Dtos
 from src.core_modules.users.dtos.response_dto import ResponseDto
@@ -19,11 +19,11 @@ from src.core_modules.users.dtos.request_dto import RequestDto
 # pylint: disable=unused-variable
 __all__: list[str] = ["users_controller"]
 
-users_controller: APIRouter = APIRouter(prefix=path_manager.build_posix_path("users"))
+users_controller: APIRouter = APIRouter(prefix=path_generator.build_posix_path("users"))
 
 
 @users_controller.get(
-    path=path_manager.build_posix_path("data", "public"),
+    path=path_generator.build_posix_path("data", "public"),
     response_model=ResponseDto,
     status_code=status.HTTP_200_OK,
 )

@@ -17,7 +17,7 @@ from typing import Callable
 from typing import Union
 
 # ** info: common artifacts imports
-from src.common_artifacts.singleton import Singleton
+from src.common_artifacts.metaclass.singleton import Singleton
 
 # pylint: disable=unused-variable
 __all__: list[str] = [
@@ -28,12 +28,11 @@ __all__: list[str] = [
 
 
 @dataclass(order=True)
-class LargeCallableTask:
+class ManagedDaemonTask:
 
     function: Callable = field(compare=False)
     kwargs: dict = field(compare=False)
-    priority: int
-
+    priority: int = field(compare=True, default=None)
     timestamp: Union[datetime, None] = field(compare=True, default=None)
     taskuuid: Union[str, None] = field(compare=False, default=None)
 
@@ -44,22 +43,22 @@ class LargeCallableTask:
             self.timestamp = datetime.now()
 
 
-class LargeCallableTaskQueue(metaclass=Singleton):
+class ManagedDaemonTaskQueue(metaclass=Singleton):
     def __init__(self) -> None:
-        self.tasks_queue: PriorityQueue[LargeCallableTask] = PriorityQueue()
+        self.tasks_queue: PriorityQueue[ManagedDaemonTask] = PriorityQueue()
         self.lock: Lock = Lock()
 
-    def add_task(self, task: LargeCallableTask) -> None:
+    def add_task(self, task: ManagedDaemonTask) -> None:
         self.lock.acquire()
         self.tasks_queue.put_nowait(task)
         logging.info(f"adding task {task.taskuuid}")
         self.lock.release()
         return
 
-    def get_task(self) -> LargeCallableTask:
+    def get_task(self) -> ManagedDaemonTask:
         self.lock.acquire()
         self.tasks_queue.task_done()
-        task: LargeCallableTask = self.tasks_queue.get_nowait()
+        task: ManagedDaemonTask = self.tasks_queue.get_nowait()
         logging.info(f"getting task {task.taskuuid}")
         self.lock.release()
         return task
@@ -77,17 +76,17 @@ class LargeCallableTaskQueue(metaclass=Singleton):
         return unfinished_tasks
 
 
-large_callable_task_queue: LargeCallableTaskQueue = LargeCallableTaskQueue()
+managed_daemon_task_queue: ManagedDaemonTaskQueue = ManagedDaemonTaskQueue()
 
 
-class LargeProcessThreadAdmin(metaclass=Singleton):
+class ManagedDaemon(metaclass=Singleton):
     def __init__(self) -> None:
-        self.loading_thread: Thread = Thread(target=self.__large_process_thread_admin__)
+        self.loading_thread: Thread = Thread(target=self.__managed_daemon__)
         self.loading_thread.daemon = True
         self.stop_event: bool = False
         self.lock: Lock = Lock()
 
-    def start_large_process_thread_admin(self) -> None:
+    def start_managed_daemon(self) -> None:
         logging.info(r"starting large process thread")
         self.lock.acquire()
         self.stop_event = False
@@ -98,7 +97,7 @@ class LargeProcessThreadAdmin(metaclass=Singleton):
             self.loading_thread.run()
         return
 
-    def end_large_process_thread_admin(self) -> None:
+    def end_managed_daemon(self) -> None:
         logging.info(r"joining large process thread")
         self.lock.acquire()
         self.stop_event = True
@@ -107,7 +106,7 @@ class LargeProcessThreadAdmin(metaclass=Singleton):
             self.loading_thread.join()
         return
 
-    def __large_process_thread_admin__(self) -> None:
+    def __managed_daemon__(self) -> None:
         while True:
 
             self.lock.acquire()
@@ -116,11 +115,11 @@ class LargeProcessThreadAdmin(metaclass=Singleton):
                 break
             self.lock.release()
 
-            logging.debug(f"tasks count: {large_callable_task_queue.get_tasks_count()}")
-            logging.debug(f"is queue empty: {large_callable_task_queue.is_empty()}")
+            logging.debug(f"tasks count: {managed_daemon_task_queue.get_tasks_count()}")
+            logging.debug(f"is queue empty: {managed_daemon_task_queue.is_empty()}")
 
-            if large_callable_task_queue.is_empty() is False:
-                task: LargeCallableTask = large_callable_task_queue.get_task()
+            if managed_daemon_task_queue.is_empty() is False:
+                task: ManagedDaemonTask = managed_daemon_task_queue.get_task()
                 logging.info(f"executiong task {task.taskuuid}")
 
                 try:
@@ -138,4 +137,4 @@ class LargeProcessThreadAdmin(metaclass=Singleton):
             time.sleep(20)
 
 
-large_process_thread_admin: LargeProcessThreadAdmin = LargeProcessThreadAdmin()
+managed_daemon: ManagedDaemon = ManagedDaemon()
