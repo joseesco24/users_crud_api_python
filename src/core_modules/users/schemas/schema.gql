@@ -1,0 +1,16 @@
+type Query {
+  message: String
+}
+
+type Users {
+  internal_id: String
+  estatal_id: Integer
+  first_name: String
+  last_name: String
+  phone_number: Integer
+  email: String
+  gender: String
+  birthday: String
+  creation: String
+  modification: String
+}
