@@ -1,8 +1,4 @@
-type Query {
-  message: String
-}
-
-type Users {
+type users {
   internal_id: String
   estatal_id: Integer
   first_name: String
