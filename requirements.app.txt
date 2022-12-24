@@ -8,4 +8,4 @@ uvicorn==0.20.0
 loguru==0.6.0
 schema==0.7.5
 httpx==0.23.1
-dependency-injector==4.40.0
+ariadne==0.17.0
