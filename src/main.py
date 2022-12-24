@@ -28,9 +28,7 @@ from starlette.routing import BaseRoute
 # ** info: routers imports
 from core_modules.users.routers.router import users_router
 
-
 # ** info: common artifacts imports
-# from common_artifacts.threading_utils.managed_daemon import managed_daemon
 from src.common_artifacts.logging_utils.custom_logger import custom_logger
 from src.common_artifacts.middlewares.error_handler import error_handler
 from src.common_artifacts.env_utils.env_config import env_configs
@@ -67,27 +65,6 @@ app.add_middleware(CORSMiddleware)
 app.add_middleware(BaseHTTPMiddleware, dispatch=error_handler)
 
 # ---------------------------------------------------------------------------------------------------------------------
-# ** info: setting up app shutdown and startup subrutines
-# ---------------------------------------------------------------------------------------------------------------------
-
-
-"""
-@app.on_event("startup")
-async def startup_event() -> None:
-    # pylint: disable=unused-variable
-    managed_daemon.start_managed_daemon()
-"""
-
-
-"""
-@app.on_event("shutdown")
-async def shutdown_event() -> None:
-    # pylint: disable=unused-variable
-    managed_daemon.end_managed_daemon()
-"""
-
-
-# ---------------------------------------------------------------------------------------------------------------------
 # ** info: disabling uvicorn access and error logs on production mode
 # ---------------------------------------------------------------------------------------------------------------------
 
@@ -112,7 +89,9 @@ if __name__ != r"__main__":
 # ---------------------------------------------------------------------------------------------------------------------
 
 application_port: int = (
-    int(environ.get(r"SERVER_PORT")) if environ.get(r"SERVER_PORT") is not None else 10048
+    int(environ.get(r"SERVER_PORT"))
+    if environ.get(r"SERVER_PORT") is not None
+    else 10048
 )
 
 uvicorn_server_configs: dict[str, any] = {
