@@ -22,7 +22,7 @@ from fastapi import FastAPI
 from starlette.middleware.base import BaseHTTPMiddleware
 
 # ** info: routers imports
-from core_modules.users.controllers.controller import users_controller
+from core_modules.users.routers.router import users_router
 
 
 # ** info: common artifacts imports
@@ -55,7 +55,7 @@ else:
 app.add_middleware(CORSMiddleware)
 app.add_middleware(BaseHTTPMiddleware, dispatch=error_handler)
 
-app.include_router(users_controller)
+app.include_router(users_router)
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: setting up app shutdown and startup subrutines
