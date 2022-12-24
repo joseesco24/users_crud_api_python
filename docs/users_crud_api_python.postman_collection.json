@@ -10,29 +10,50 @@
 			"name": "users",
 			"item": [
 				{
-					"name": "data.public",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{hostPath}}/users/data/public?fileName=hola",
-							"host": [
-								"{{hostPath}}"
-							],
-							"path": [
-								"users",
-								"data",
-								"public"
-							],
-							"query": [
+					"name": "root",
+					"item": [
+						{
+							"name": "root",
+							"event": [
 								{
-									"key": "fileName",
-									"value": "hola"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"test response status\", function() {",
+											"    pm.response.to.have.status(200)",
+											"})",
+											"",
+											"pm.test(\"test response time is less than 300s\", function() {",
+											"    pm.expect(pm.response.responseTime).to.be.below(300)",
+											"})"
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\n    first_name\n    second_name\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{hostPath}}/users",
+									"host": [
+										"{{hostPath}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
@@ -60,7 +81,7 @@
 	"variable": [
 		{
 			"key": "hostPath",
-			"value": "localhost:3024",
+			"value": "localhost:10048",
 			"type": "string"
 		}
 	]

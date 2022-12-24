@@ -1,0 +1,4 @@
+type Query {
+  first_name: String
+  second_name: String
+}
