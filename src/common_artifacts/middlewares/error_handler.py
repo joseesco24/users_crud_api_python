@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # ** info: python imports
 import logging
 

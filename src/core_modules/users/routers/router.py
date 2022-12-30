@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # ** info: python imports
 from pathlib import Path
 import logging
@@ -23,26 +21,26 @@ from common_artifacts.path_utils.path_generator import path_generator
 
 
 # pylint: disable=unused-variable
-__all__: list[str] = [r"users_router"]
+__all__: list[str] = ["users_router"]
 
 current_file_path: Path = Path(__file__).parent.resolve()
-schema_path: Path = Path(current_file_path, r"..", r"schemas", r"users.schema.graphql")
+schema_path: Path = Path(current_file_path, "..", "schemas", "users.schema.graphql")
 
 schema_literal: str = load_schema_from_path(schema_path)
 
 query: QueryType = QueryType()
 
 
-@query.field(r"first_name")
+@query.field("first_name")
 def resolve_first_name(*_):
-    logging.debug(r"resolving first_name field")
-    return r"Octavio Felipe"
+    logging.debug("resolving first_name field")
+    return "Octavio Felipe"
 
 
-@query.field(r"second_name")
+@query.field("second_name")
 def resolve_second_name(*_):
-    logging.debug(r"resolving second_name field")
-    return r"Paz Belarcazar"
+    logging.debug("resolving second_name field")
+    return "Paz Belarcaza"
 
 
 schema_executable: GraphQLSchema = make_executable_schema(schema_literal, query)
@@ -54,5 +52,5 @@ graphql_endpoint_definition: GraphQL = GraphQL(
 )
 
 users_router: Route = Route(
-    path=path_generator.build_posix_path(r"users"), endpoint=graphql_endpoint_definition
+    path=path_generator.build_posix_path("users"), endpoint=graphql_endpoint_definition
 )

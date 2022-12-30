@@ -1,5 +1,4 @@
 # pylint: disable=unused-variable
-#!/usr/bin/env python3
 
 # ** info: python imports
 from dataclasses import dataclass
@@ -21,9 +20,9 @@ from src.common_artifacts.metaclass.singleton import Singleton
 
 # pylint: disable=unused-variable
 __all__: list[str] = [
-    "large_process_thread_admin",
-    "large_callable_task_queue",
-    "LargeCallableTask",
+    "managed_daemon_task_queue",
+    "managed_daemon",
+    "ManagedDaemonTask",
 ]
 
 
@@ -87,7 +86,7 @@ class ManagedDaemon(metaclass=Singleton):
         self.lock: Lock = Lock()
 
     def start_managed_daemon(self) -> None:
-        logging.info(r"starting large process thread")
+        logging.info("starting large process thread")
         self.lock.acquire()
         self.stop_event = False
         self.lock.release()
@@ -98,7 +97,7 @@ class ManagedDaemon(metaclass=Singleton):
         return
 
     def end_managed_daemon(self) -> None:
-        logging.info(r"joining large process thread")
+        logging.info("joining large process thread")
         self.lock.acquire()
         self.stop_event = True
         self.lock.release()
@@ -111,7 +110,7 @@ class ManagedDaemon(metaclass=Singleton):
 
             self.lock.acquire()
             if self.stop_event is True:
-                logging.info(r"stop event set true ending queue supervisor loop")
+                logging.info("stop event set true ending queue supervisor loop")
                 break
             self.lock.release()
 

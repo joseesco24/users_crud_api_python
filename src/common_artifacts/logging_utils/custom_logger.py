@@ -16,7 +16,7 @@ from loguru import logger
 from src.common_artifacts.metaclass.singleton import Singleton
 
 # pylint: disable=unused-variable
-__all__: list[str] = [r"custom_logger"]
+__all__: list[str] = ["custom_logger"]
 
 
 class CustomLogger(metaclass=Singleton):
@@ -42,10 +42,10 @@ class CustomLogger(metaclass=Singleton):
 
         # ** info: loguru configs
         loguru_configs: dict = {
-            r"sink": sys.stdout,
-            r"serialize": False,
-            r"colorize": False,
-            r"format": fmt,
+            "sink": sys.stdout,
+            "serialize": False,
+            "colorize": False,
+            "format": fmt,
         }
 
         logger.configure(handlers=[loguru_configs])
@@ -69,10 +69,10 @@ class CustomLogger(metaclass=Singleton):
 
         # ** info: loguru configs
         loguru_configs: dict = {
-            r"sink": self.__custom_log_sink,
-            r"serialize": True,
-            r"colorize": False,
-            r"format": fmt,
+            "sink": self.__custom_log_sink,
+            "serialize": True,
+            "colorize": False,
+            "format": fmt,
         }
 
         logger.configure(handlers=[loguru_configs])
@@ -87,25 +87,25 @@ class CustomLogger(metaclass=Singleton):
     def __custom_serializer(self, record) -> str:
 
         subset: dict[str, any] = {
-            r"severity": record[r"level"].name,
-            r"timestamp": record[r"time"].strftime("%Y-%m-%d %H:%M:%S.%f"),
-            r"message": record[r"message"],
-            r"function": record[r"function"],
-            r"module": record[r"module"],
-            r"line": record[r"line"],
-            r"processName": record[r"process"].name,
-            r"processId": record[r"process"].id,
-            r"threadName": record[r"thread"].name,
-            r"threadId": record[r"thread"].id,
-            r"filePath": record[r"file"].path,
-            r"fileName": record[r"file"].name,
+            "severity": record["level"].name,
+            "timestamp": record["time"].strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "message": record["message"],
+            "function": record["function"],
+            "module": record["module"],
+            "line": record["line"],
+            "processName": record["process"].name,
+            "processId": record["process"].id,
+            "threadName": record["thread"].name,
+            "threadId": record["thread"].id,
+            "filePath": record["file"].path,
+            "fileName": record["file"].name,
         }
 
-        if record[r"extra"]:
-            subset[r"payload"] = record[r"extra"]
+        if record["extra"]:
+            subset["payload"] = record["extra"]
 
-        if record[r"exception"] is not None:
-            error: Exception = record[r"exception"]
+        if record["exception"] is not None:
+            error: Exception = record["exception"]
 
             error_traceback: traceback = error.traceback
             error_message: str = error.value.args[0]
@@ -114,10 +114,10 @@ class CustomLogger(metaclass=Singleton):
 
             string_traceback = "".join(traceback.format_tb(error_traceback))
 
-            subset[r"errorDetails"] = {
-                r"exceptionType": error_type,
-                r"errorMessage": error_message,
-                r"errorTraceback": string_traceback,
+            subset["errorDetails"] = {
+                "exceptionType": error_type,
+                "errorMessage": error_message,
+                "errorTraceback": string_traceback,
             }
 
         return json.dumps(subset)
