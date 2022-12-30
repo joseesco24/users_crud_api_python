@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # ** info: python imports
 from enum import Enum
 
@@ -8,26 +6,28 @@ from pydantic import BaseSettings
 from pydantic import Field
 
 # pylint: disable=unused-variable
-__all__: list[str] = ["env_configs"]
+__all__: list[str] = [r"env_configs"]
 
 
 class EnvironmentMode(str, Enum):
 
     # pylint: disable=invalid-name
-    development: str = "development"
+    development: str = r"development"
+
     # pylint: disable=invalid-name
-    production: str = "production"
+    production: str = r"production"
+
     # pylint: disable=invalid-name
-    testing: str = "testing"
+    testing: str = r"testing"
 
 
 class EnvConfigs(BaseSettings):
 
-    environment_mode: EnvironmentMode = Field(..., env="ENVIRONMENT_MODE")
-    server_port: int = Field(..., env="SERVER_PORT")
+    environment_mode: EnvironmentMode = Field(..., env=r"ENVIRONMENT_MODE")
+    server_port: int = Field(..., env=r"SERVER_PORT")
 
     class Config:
-        env_file = ".env"
+        env_file = r".env"
 
 
 env_configs: EnvConfigs = EnvConfigs()
