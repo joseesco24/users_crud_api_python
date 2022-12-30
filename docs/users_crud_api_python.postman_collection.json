@@ -37,7 +37,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query {\n    first_name\n    second_name\n}",
+										"query": "query {\n    getUsersByinternalId (internalId: \"8dd93284-c27e-46bc-b251-fb1a7a432aab\") {\n        internalId\n        firstName\n        lastName\n        phoneNumber\n    }\n}",
 										"variables": ""
 									}
 								},
