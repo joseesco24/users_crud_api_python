@@ -1,4 +1,17 @@
 type Query {
-  first_name: String
-  second_name: String
+  getUsers: [User]
+}
+
+type User {
+	internalId: ID
+	estatalId: ID,
+	firstName: String
+	lastName: String
+	phoneNumber: Int
+	email: String
+	gender: String
+	birthday: String
+	creation: String
+	modification: String
+  password: String
 }
