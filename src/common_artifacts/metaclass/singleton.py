@@ -1,18 +1,14 @@
-#!/usr/bin/env python3
-
 # ** info: typing imports
 from typing import Dict
 
 # pylint: disable=unused-variable
-__all__: list[str] = ["Singleton"]
+__all__: list[str] = [r"Singleton"]
 
 
 class Singleton(type):
 
     """singleton
-
     a simple metaclass that allows to implement sigleton pattern easily
-
     """
 
     __instances__: Dict = dict()
