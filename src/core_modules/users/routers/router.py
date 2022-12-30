@@ -34,13 +34,13 @@ query: QueryType = QueryType()
 
 
 @query.field(r"first_name")
-def resolve_hello(*_):
+def resolve_first_name(*_):
     logging.debug(r"resolving first_name field")
     return r"Octavio Felipe"
 
 
 @query.field(r"second_name")
-def resolve_hello(*_):
+def resolve_second_name(*_):
     logging.debug(r"resolving second_name field")
     return r"Paz Belarcazar"
 
