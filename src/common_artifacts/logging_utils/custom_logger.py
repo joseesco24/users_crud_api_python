@@ -30,7 +30,10 @@ class CustomLogger(metaclass=Singleton):
         written with the new overwritten configuration
         """
 
-        fmt: str = "[{process.name}][{thread.name}][{time:YYYY-MM-DD HH:mm:ss.SSSSSS}]:{level} - {module}:{function}:{line} - {message}"
+        # ** info: optional add [{process.name}][{thread.name}] to fmt to see the thread and process names
+
+        # pylint: disable=line-too-long
+        fmt: str = "[<fg #66a3ff>{time:YYYY-MM-DD HH:mm:ss.SSSSSS}</fg #66a3ff>] <level>{level}</level> ({module}:{function}:<bold>{line}</bold>): {message}"
 
         # ** info: overwriting all the loggers configs with the new one
         logging.root.handlers = [self.__CustomInterceptHandler()]
@@ -44,7 +47,7 @@ class CustomLogger(metaclass=Singleton):
         loguru_configs: dict = {
             "sink": sys.stdout,
             "serialize": False,
-            "colorize": False,
+            "colorize": True,
             "format": fmt,
         }
 

@@ -91,12 +91,12 @@ application_port: int = (
 )
 
 uvicorn_server_configs: dict[str, any] = {
+    "use_colors": False if env_configs.environment_mode == "production" else True,
     "app": app if env_configs.environment_mode == "production" else "main:app",
     "reload": False if env_configs.environment_mode == "production" else True,
     "port": application_port,
     "log_level": "warning",
     "access_log": False,
-    "use_colors": False,
     "host": "0.0.0.0",
 }
 
