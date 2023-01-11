@@ -24,7 +24,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.routing import BaseRoute
 
 # ** info: routers imports
-from core_modules.users.routers.router import users_router
+from core_modules.users.routers.users_router import users_router
 
 # ** info: common artifacts imports
 from src.common_artifacts.logging_utils.custom_logger import custom_logger
