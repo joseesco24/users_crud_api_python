@@ -10,7 +10,6 @@ __all__: list[str] = ["path_generator"]
 
 class PathGenerator(metaclass=Singleton):
     def build_posix_path(self, *args: list[str]) -> str:
-
         """build posix path
 
         this function takes all the received string arguments and concatenate each one of the

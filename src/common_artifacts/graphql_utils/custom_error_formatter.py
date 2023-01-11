@@ -21,7 +21,6 @@ class CustomErrorFormatter(metaclass=Singleton):
 
     @staticmethod
     def formatter(error: GraphQLError, debug: bool) -> dict:
-
         logging.error(
             f"a not handled graphql error has occurred on the api server, error message: {error.message}"
         )

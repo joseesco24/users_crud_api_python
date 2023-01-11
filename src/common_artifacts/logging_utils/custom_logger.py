@@ -24,7 +24,6 @@ class CustomLogger(metaclass=Singleton):
         pass
 
     def setup_development_logging(self) -> None:
-
         """setup development logging
         this function overwrites the python root logger with a custom logger, so all the logs are
         written with the new overwritten configuration
@@ -54,7 +53,6 @@ class CustomLogger(metaclass=Singleton):
         logger.configure(handlers=[loguru_configs])
 
     def setup_production_logging(self) -> None:
-
         """setup production logging
         this function overwrites the python root logger with a custom logger, so all the logs are
         written with the new overwritten configuration
@@ -81,14 +79,12 @@ class CustomLogger(metaclass=Singleton):
         logger.configure(handlers=[loguru_configs])
 
     def __custom_log_sink(self, message) -> None:
-
         serialized = self.__custom_serializer(message.record)
         sys.stdout.write(serialized)
         sys.stdout.write("\n")
         sys.stdout.flush()
 
     def __custom_serializer(self, record) -> str:
-
         subset: dict[str, any] = {
             "severity": record["level"].name,
             "timestamp": record["time"].strftime("%Y-%m-%d %H:%M:%S.%f"),

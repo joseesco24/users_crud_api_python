@@ -10,7 +10,6 @@ __all__: list[str] = ["env_configs"]
 
 
 class EnvironmentMode(str, Enum):
-
     # pylint: disable=invalid-name
     development: str = "development"
 
@@ -22,7 +21,6 @@ class EnvironmentMode(str, Enum):
 
 
 class EnvConfigs(BaseSettings):
-
     environment_mode: EnvironmentMode = Field(..., env="ENVIRONMENT_MODE")
     server_port: int = Field(..., env="SERVER_PORT")
 

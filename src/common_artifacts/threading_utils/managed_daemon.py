@@ -28,7 +28,6 @@ __all__: list[str] = [
 
 @dataclass(order=True)
 class ManagedDaemonTask:
-
     function: Callable = field(compare=False)
     kwargs: dict = field(compare=False)
     priority: int = field(compare=True, default=None)
@@ -107,7 +106,6 @@ class ManagedDaemon(metaclass=Singleton):
 
     def __managed_daemon__(self) -> None:
         while True:
-
             self.lock.acquire()
             if self.stop_event is True:
                 logging.info("stop event set true ending queue supervisor loop")
@@ -122,13 +120,11 @@ class ManagedDaemon(metaclass=Singleton):
                 logging.info(f"executiong task {task.taskuuid}")
 
                 try:
-
                     task.function(**task.kwargs)
 
                 # ! warning: super general exception handling here
                 # pylint: disable=broad-except
                 except Exception as exception:
-
                     logging.exception(
                         msg=f"error while executing task {task.taskuuid}: {exception.args[0]}"
                     )

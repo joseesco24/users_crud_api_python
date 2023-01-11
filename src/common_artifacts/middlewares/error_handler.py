@@ -40,15 +40,12 @@ class ErrorHandler(metaclass=Singleton):
         request: Request,
         call_next: callable,
     ) -> StreamingResponse:
-
         try:
-
             response: StreamingResponse = await call_next(request)
 
         # ! warning: super general exception handling here
         # pylint: disable=broad-except
         except Exception as exception:
-
             logging.exception(
                 f"a not handled error has occurred on the api server: {exception.args[0]}"
             )
