@@ -91,7 +91,6 @@ def get_users(*_):
 
 @query.field("getUsersByinternalId")
 def get_users_by_internal_id(*_, internalId: str):
-    print(internalId)
     logging.debug("starting getUser resolver")
     filtered_users: List[Any] = list(
         filter(lambda user: str(user["internalId"]) == internalId, users)
