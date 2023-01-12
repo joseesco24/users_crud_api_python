@@ -21,18 +21,16 @@ from ariadne import make_executable_schema
 from ariadne import load_schema_from_path
 
 # Commons
-from src.common_artifacts.graphql_utils.custom_error_formatter import (
-    custom_error_formatter,
-)
-from common_artifacts.path_utils.path_generator import path_generator
-from src.common_artifacts.env_utils.env_config import env_configs
+from src.artifacts.graphql_utils.custom_error_formatter import custom_error_formatter
+from src.artifacts.path_utils.path_generator import path_generator
+from src.artifacts.env_utils.env_config import env_configs
 
 
 # pylint: disable=unused-variable
-__all__: list[str] = ["users_router"]
+__all__: list[str] = ["main_router"]
 
 current_file_path: Path = Path(__file__).parent.resolve()
-schema_path: Path = Path(current_file_path, "..", "schemas", "users.schema.graphql")
+schema_path: Path = Path(current_file_path, "main.schema.graphql")
 
 schema_literal: str = load_schema_from_path(schema_path)
 
@@ -108,6 +106,6 @@ graphql_endpoint_definition: GraphQL = GraphQL(
     schema=schema_executable,
 )
 
-users_router: Route = Route(
-    path=path_generator.build_posix_path("users"), endpoint=graphql_endpoint_definition
+main_router: Route = Route(
+    path=path_generator.build_posix_path("graphql"), endpoint=graphql_endpoint_definition
 )

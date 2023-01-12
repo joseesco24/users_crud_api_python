@@ -7,55 +7,45 @@
 	},
 	"item": [
 		{
-			"name": "users",
-			"item": [
+			"name": "graphql",
+			"event": [
 				{
-					"name": "root",
-					"item": [
-						{
-							"name": "root",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"test response status\", function() {",
-											"    pm.response.to.have.status(200)",
-											"})",
-											"",
-											"pm.test(\"test response time is less than 300s\", function() {",
-											"    pm.expect(pm.response.responseTime).to.be.below(300)",
-											"})"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "graphql",
-									"graphql": {
-										"query": "query {\n    getUsersByinternalId (internalId: \"8dd93284-c27e-46bc-b251-fb1a7a432aab\") {\n        internalId\n        firstName\n        lastName\n        phoneNumber\n    }\n}",
-										"variables": ""
-									}
-								},
-								"url": {
-									"raw": "{{hostPath}}/users",
-									"host": [
-										"{{hostPath}}"
-									],
-									"path": [
-										"users"
-									]
-								}
-							},
-							"response": []
-						}
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test response status\", function() {",
+							"    pm.response.to.have.status(200)",
+							"})",
+							"",
+							"pm.test(\"test response time is less than 300s\", function() {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\n    getUsersByinternalId (internalId: \"8dd93284-c27e-46bc-b251-fb1a7a432aab\") {\n        internalId\n        firstName\n        lastName\n        phoneNumber\n    }\n    getUsers {\n        internalId\n        estatalId\n        firstName\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{hostPath}}/graphql",
+					"host": [
+						"{{hostPath}}"
+					],
+					"path": [
+						"graphql"
 					]
 				}
-			]
+			},
+			"response": []
 		}
 	],
 	"event": [

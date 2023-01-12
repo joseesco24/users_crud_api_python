@@ -24,18 +24,21 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.routing import BaseRoute
 
 # ** info: routers imports
-from core_modules.users.routers.users_router import users_router
+from src.main_router import main_router
 
 # ** info: common artifacts imports
-from src.common_artifacts.logging_utils.custom_logger import custom_logger
-from src.common_artifacts.middlewares.error_handler import error_handler
-from src.common_artifacts.env_utils.env_config import env_configs
+from src.artifacts.logging_utils.custom_logger import custom_logger
+from src.artifacts.env_utils.env_config import env_configs
+
+# ** info: middlewares imports
+from src.middlewares.error_handler import error_handler
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: initializing app routers
 # ---------------------------------------------------------------------------------------------------------------------
 
-routers: List[BaseRoute] = [users_router]
+routers: List[BaseRoute] = [main_router]
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: initializing app dependencies and mounting routes
