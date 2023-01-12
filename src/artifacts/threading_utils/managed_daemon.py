@@ -16,7 +16,7 @@ from typing import Callable
 from typing import Union
 
 # ** info: common artifacts imports
-from src.artifacts.metaclass.singleton import Singleton
+from src.artifacts.pattern_utils.singleton import Singleton
 
 # pylint: disable=unused-variable
 __all__: list[str] = [
