@@ -13,7 +13,7 @@ from typing import Union
 from loguru import logger
 
 # ** info: common artifacts imports
-from src.artifacts.pattern_utils.singleton import Singleton
+from src.artifacts.pattern.singleton import Singleton
 
 # pylint: disable=unused-variable
 __all__: list[str] = ["custom_logger"]

@@ -10,7 +10,7 @@ from starlette.requests import Request
 from fastapi import status
 
 # ** info: common artifacts imports
-from src.artifacts.pattern_utils.singleton import Singleton
+from src.artifacts.pattern.singleton import Singleton
 
 # pylint: disable=unused-variable
 __all__: list[str] = ["error_handler"]
@@ -19,9 +19,7 @@ __all__: list[str] = ["error_handler"]
 class ErrorHandler(metaclass=Singleton):
 
     """error handler
-
     this class provides a custom error handler middleware for fastapi based applications
-
     """
 
     def __init__(self):

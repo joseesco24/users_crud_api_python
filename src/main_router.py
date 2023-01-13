@@ -21,9 +21,9 @@ from ariadne import make_executable_schema
 from ariadne import load_schema_from_path
 
 # Commons
-from src.artifacts.graphql_utils.custom_error_formatter import custom_error_formatter
-from src.artifacts.path_utils.path_generator import path_generator
-from src.artifacts.env_utils.env_config import env_configs
+from src.artifacts.graphql.custom_error_formatter import custom_error_formatter
+from src.artifacts.path.path_generator import path_generator
+from src.artifacts.env.env_config import env_configs
 
 
 # pylint: disable=unused-variable
@@ -107,5 +107,6 @@ graphql_endpoint_definition: GraphQL = GraphQL(
 )
 
 main_router: Route = Route(
-    path=path_generator.build_posix_path("graphql"), endpoint=graphql_endpoint_definition
+    path=path_generator.build_posix_path("graphql"),
+    endpoint=graphql_endpoint_definition,
 )

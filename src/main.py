@@ -27,8 +27,8 @@ from starlette.routing import BaseRoute
 from src.main_router import main_router
 
 # ** info: common artifacts imports
-from src.artifacts.logging_utils.custom_logger import custom_logger
-from src.artifacts.env_utils.env_config import env_configs
+from src.artifacts.logging.custom_logger import custom_logger
+from src.artifacts.env.env_config import env_configs
 
 # ** info: middlewares imports
 from src.middlewares.error_handler import error_handler
