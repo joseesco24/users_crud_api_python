@@ -1,3 +1,7 @@
+"""main.schema.graphql
+this file acts as a declarative contract for the unique api endpoint
+"""
+
 type Query {
   getUsersByinternalId(internalId: ID!): [User]
   getUsers: [User]

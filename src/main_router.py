@@ -1,3 +1,7 @@
+"""main_router.py
+this module is the incharge of assemble, make executable and expose the paths of the main.schema.graphql file in a single route
+"""
+
 # ** info: python imports
 from pathlib import Path
 import logging
