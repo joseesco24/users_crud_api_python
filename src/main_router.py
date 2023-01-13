@@ -20,10 +20,10 @@ from ariadne.validation import cost_validator
 from ariadne import make_executable_schema
 from ariadne import load_schema_from_path
 
-# Commons
-from src.artifacts.graphql.custom_error_formatter import custom_error_formatter
-from src.artifacts.path.path_generator import path_generator
-from src.artifacts.env.env_config import env_configs
+# ** info: artifacts imports
+from src.artifacts.graphql.error_formatter import error_formatter
+from src.artifacts.path.generator import generator
+from src.artifacts.env.configs import configs
 
 
 # pylint: disable=unused-variable
@@ -100,13 +100,13 @@ def get_users_by_internal_id(*_, internalId: str):
 schema_executable: GraphQLSchema = make_executable_schema(schema_literal, query)
 
 graphql_endpoint_definition: GraphQL = GraphQL(
-    debug=False if env_configs.environment_mode == "production" else True,
+    debug=False if configs.environment_mode == "production" else True,
     validation_rules=[cost_validator(maximum_cost=5)],
-    error_formatter=custom_error_formatter.formatter,
+    error_formatter=error_formatter.formatter,
     schema=schema_executable,
 )
 
 main_router: Route = Route(
-    path=path_generator.build_posix_path("graphql"),
+    path=generator.build_posix_path("graphql"),
     endpoint=graphql_endpoint_definition,
 )

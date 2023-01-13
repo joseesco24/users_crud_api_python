@@ -1,14 +1,14 @@
 # ** info: python imports
 import posixpath
 
-# ** info: common artifacts imports
+# ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
 
 # pylint: disable=unused-variable
-__all__: list[str] = ["path_generator"]
+__all__: list[str] = ["generator"]
 
 
-class PathGenerator(metaclass=Singleton):
+class Generator(metaclass=Singleton):
     def build_posix_path(self, *args: list[str]) -> str:
         """build posix path
         this function takes all the received string arguments and concatenate each one of the
@@ -23,4 +23,4 @@ class PathGenerator(metaclass=Singleton):
         return f"/{partial_path}".strip()
 
 
-path_generator: PathGenerator = PathGenerator()
+generator: Generator = Generator()

@@ -12,10 +12,10 @@ from graphql import GraphQLError
 from src.artifacts.pattern.singleton import Singleton
 
 # pylint: disable=unused-variable
-__all__: list[str] = ["custom_error_formatter"]
+__all__: list[str] = ["error_formatter"]
 
 
-class CustomErrorFormatter(metaclass=Singleton):
+class ErrorFormatter(metaclass=Singleton):
     def __init__(self) -> None:
         pass
 
@@ -35,4 +35,4 @@ class CustomErrorFormatter(metaclass=Singleton):
         return formatted
 
 
-custom_error_formatter: CustomErrorFormatter = CustomErrorFormatter()
+error_formatter: ErrorFormatter = ErrorFormatter()

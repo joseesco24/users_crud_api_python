@@ -6,7 +6,7 @@ from pydantic import BaseSettings
 from pydantic import Field
 
 # pylint: disable=unused-variable
-__all__: list[str] = ["env_configs"]
+__all__: list[str] = ["configs"]
 
 
 class EnvironmentMode(str, Enum):
@@ -20,7 +20,7 @@ class EnvironmentMode(str, Enum):
     testing: str = "testing"
 
 
-class EnvConfigs(BaseSettings):
+class Configs(BaseSettings):
     environment_mode: EnvironmentMode = Field(..., env="ENVIRONMENT_MODE")
     server_port: int = Field(..., env="SERVER_PORT")
 
@@ -28,4 +28,4 @@ class EnvConfigs(BaseSettings):
         env_file = ".env"
 
 
-env_configs: EnvConfigs = EnvConfigs()
+configs: Configs = Configs()

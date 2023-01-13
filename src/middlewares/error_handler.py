@@ -9,7 +9,7 @@ from starlette.requests import Request
 # ** info: fastapi imports
 from fastapi import status
 
-# ** info: common artifacts imports
+# ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
 
 # pylint: disable=unused-variable

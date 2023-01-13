@@ -12,7 +12,7 @@ from typing import Union
 # ** info: loguru imports
 from loguru import logger
 
-# ** info: common artifacts imports
+# ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
 
 # pylint: disable=unused-variable

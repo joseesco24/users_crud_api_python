@@ -15,7 +15,7 @@ import uuid
 from typing import Callable
 from typing import Union
 
-# ** info: common artifacts imports
+# ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
 
 # pylint: disable=unused-variable

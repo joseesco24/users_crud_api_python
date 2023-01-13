@@ -26,9 +26,9 @@ from starlette.routing import BaseRoute
 # ** info: routers imports
 from src.main_router import main_router
 
-# ** info: common artifacts imports
+# ** info: artifacts imports
 from src.artifacts.logging.custom_logger import custom_logger
-from src.artifacts.env.env_config import env_configs
+from src.artifacts.env.configs import configs
 
 # ** info: middlewares imports
 from src.middlewares.error_handler import error_handler
@@ -50,12 +50,12 @@ app: FastAPI = FastAPI(routes=routers)
 # ** info: setting up global app logging
 # ---------------------------------------------------------------------------------------------------------------------
 
-if env_configs.environment_mode == "production":
+if configs.environment_mode == "production":
     custom_logger.setup_production_logging()
-    logging.info(f"logger setup on {env_configs.environment_mode} mode")
+    logging.info(f"logger setup on {configs.environment_mode} mode")
 else:
     custom_logger.setup_development_logging()
-    logging.info(f"logger setup on {env_configs.environment_mode} mode")
+    logging.info(f"logger setup on {configs.environment_mode} mode")
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: setting up app middlewares
@@ -72,7 +72,7 @@ app.add_middleware(BaseHTTPMiddleware, dispatch=error_handler)
 uvicorn_access: Logger = logging.getLogger("uvicorn.access")
 uvicorn_error: Logger = logging.getLogger("uvicorn.erro")
 
-if env_configs.environment_mode == "production":
+if configs.environment_mode == "production":
     uvicorn_access.disabled = True
     uvicorn_error.disabled = True
 else:
@@ -80,10 +80,10 @@ else:
     uvicorn_error.disabled = False
 
 if __name__ == "__main__":
-    logging.info(f"application started in {env_configs.environment_mode} mode")
+    logging.info(f"application started in {configs.environment_mode} mode")
 
 if __name__ != "__main__":
-    logging.info(f"application reloaded in {env_configs.environment_mode} mode")
+    logging.info(f"application reloaded in {configs.environment_mode} mode")
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: setting up uvicorn asgi server with fast api app
@@ -94,9 +94,9 @@ application_port: int = (
 )
 
 uvicorn_server_configs: dict[str, any] = {
-    "use_colors": False if env_configs.environment_mode == "production" else True,
-    "app": app if env_configs.environment_mode == "production" else "main:app",
-    "reload": False if env_configs.environment_mode == "production" else True,
+    "use_colors": False if configs.environment_mode == "production" else True,
+    "app": app if configs.environment_mode == "production" else "main:app",
+    "reload": False if configs.environment_mode == "production" else True,
     "port": application_port,
     "log_level": "warning",
     "access_log": False,
@@ -112,5 +112,5 @@ logging.info(f"application starting on port {application_port}")
 if __name__ == "__main__":
     uvicorn.run(**uvicorn_server_configs)
 
-if env_configs.environment_mode == "production":
+if configs.environment_mode == "production":
     logging.debug("application ended")
