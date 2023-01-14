@@ -133,6 +133,12 @@ docker login -u joseesco24 -p < authentication token > ghcr.io
 docker push ghcr.io/joseesco24/users_crud_api_python:latest
 ```
 
+### Docker Pull The Image From GitHub Container Registry
+
+```bash
+docker pull ghcr.io/joseesco24/users_crud_api_python:latest
+```
+
 ### Docker Compose Build Image Using Compose File
 
 ```bash
