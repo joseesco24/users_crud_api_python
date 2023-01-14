@@ -1,13 +1,20 @@
-"""main.schema.graphql
-this file acts as a declarative contract for the unique api endpoint
-"""
-
 type Query {
-  getUsersByinternalId(internalId: ID!): [User]
-  getUsers: [User]
+  getUsersFull(limit: Int!, offset: Int!): [UserFull]
+  getUsersPub(limit: Int!, offset: Int!): [UserPub]
 }
 
-type User {
+type UserPub {
+  internalId: ID
+  estatalId: ID
+  firstName: String
+  lastName: String
+  phoneNumber: Int
+  email: String
+  gender: String
+  birthday: String
+}
+
+type UserFull {
   internalId: ID
   estatalId: ID
   firstName: String

@@ -1,5 +1,7 @@
 """main_router.py
+
 this module is the incharge of assemble, make executable and expose the paths of the main.schema.graphql file in a single route
+
 """
 
 # ** info: python imports
@@ -51,26 +53,40 @@ schema_literal: str = load_schema_from_path(schema_path)
 query: QueryType = QueryType()
 
 
-@query.field("getUsers")
-async def get_users(*_: Any) -> List[Any]:
-    logging.debug("starting getUsers resolver facade")
+@query.field("getUsersFull")
+async def get_users_full(*_: Any, limit: int, offset: int) -> List[Any]:
+    """get_users_full
 
-    response: List[Any] = await users_resolvers.get_users()
+    getUsersFull resolver facade
 
-    logging.debug("ending getUsers resolver facade")
+    """
+
+    logging.debug("starting getUsersFull resolver facade")
+
+    response: List[Any] = await users_resolvers.get_users_full(
+        limit=limit, offset=offset
+    )
+
+    logging.debug("ending getUsersFull resolver facade")
 
     return response
 
 
-@query.field("getUsersByinternalId")
-async def get_users_by_internal_id(*_: Any, internalId: str) -> List[Any]:
-    logging.debug("starting getUsersByinternalId resolver facade")
+@query.field("getUsersPub")
+async def get_users_pub(*_: Any, limit: int, offset: int) -> List[Any]:
+    """get_users_pub
 
-    response: List[Any] = await users_resolvers.get_users_by_internal_id(
-        internal_id=internalId
+    getUsersPub resolver facade
+
+    """
+
+    logging.debug("starting getUsersPub resolver facade")
+
+    response: List[Any] = await users_resolvers.get_users_pub(
+        limit=limit, offset=offset
     )
 
-    logging.debug("ending getUsersByinternalId resolver facade")
+    logging.debug("ending getUsersPub resolver facade")
 
     return response
 

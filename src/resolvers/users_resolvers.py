@@ -62,24 +62,34 @@ users: List[Any] = [
 
 class UsersResolvers(metaclass=Singleton):
     @cached(cache=resolvers_cache.ttl_cache)
-    async def get_users(self) -> List[Any]:
-        logging.debug("starting get_users resolver method")
+    async def get_users_full(self, limit: int, offset: int) -> List[Any]:
+        """get_users_full
+
+        getUsersFull root resolver
+
+        """
+
+        logging.debug("starting getUsersFull resolver method")
 
         response: List[Any] = users
 
-        logging.debug("ending get_users resolver method")
+        logging.debug("ending getUsersFull resolver method")
 
         return response
 
     @cached(cache=resolvers_cache.ttl_cache)
-    async def get_users_by_internal_id(self, internal_id: str) -> List[Any]:
-        logging.debug("starting get_users_by_internal_id resolver method")
+    async def get_users_pub(self, limit: int, offset: int) -> List[Any]:
+        """get_users_pub
 
-        response: List[Any] = list(
-            filter(lambda user: str(user["internalId"]) == internal_id, users)
-        )
+        getUsersPub root resolver
 
-        logging.debug("ending get_users_by_internal_id resolver method")
+        """
+
+        logging.debug("starting getUsersPub resolver method")
+
+        response: List[Any] = users
+
+        logging.debug("ending getUsersPub resolver method")
 
         return response
 
