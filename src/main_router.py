@@ -31,6 +31,10 @@ from src.artifacts.graphql.error_formatter import error_formatter
 from src.artifacts.path.generator import generator
 from src.artifacts.env.configs import configs
 
+# ** info: users dtos imports
+from src.dtos.users_dtos import UserFullDto
+from src.dtos.users_dtos import UserPubDto
+
 # ** info: resolvers imports
 from src.resolvers.users_resolvers import users_resolvers
 
@@ -54,7 +58,7 @@ query: QueryType = QueryType()
 
 
 @query.field("usersFull")
-async def users_full_facade(*_: Any, limit: int, offset: int) -> List[Any]:
+async def users_full_facade(*_: Any, limit: int, offset: int) -> List[UserFullDto]:
     """users_full_facade
 
     usersFull resolver facade
@@ -63,7 +67,7 @@ async def users_full_facade(*_: Any, limit: int, offset: int) -> List[Any]:
 
     logging.debug("starting usersFull resolver facade")
 
-    response: List[Any] = await users_resolvers.users_full_resolver(
+    response: List[UserFullDto] = await users_resolvers.users_full_resolver(
         limit=limit, offset=offset
     )
 
@@ -73,7 +77,7 @@ async def users_full_facade(*_: Any, limit: int, offset: int) -> List[Any]:
 
 
 @query.field("usersPub")
-async def users_pub_facade(*_: Any, limit: int, offset: int) -> List[Any]:
+async def users_pub_facade(*_: Any, limit: int, offset: int) -> List[UserPubDto]:
     """users_pub_facade
 
     usersPub resolver facade
@@ -82,7 +86,7 @@ async def users_pub_facade(*_: Any, limit: int, offset: int) -> List[Any]:
 
     logging.debug("starting usersPub resolver facade")
 
-    response: List[Any] = await users_resolvers.users_pub_resolver(
+    response: List[UserPubDto] = await users_resolvers.users_pub_resolver(
         limit=limit, offset=offset
     )
 
