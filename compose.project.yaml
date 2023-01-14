@@ -7,13 +7,13 @@ services:
     networks:
       - dockerized_databases_network
     environment:
-      DATABASE_USER: schema_1_user
-      DATABASE_NAME: users_db
-      DATABASE_PASSWORD: schema_1_user
-      DATABASE_HOST: postgres_users_db
-      DATABASE_PORT: 5432
-      ENVIRONMENT_MODE: production
-      SERVER_PORT: 10048
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      ENVIRONMENT_MODE: ${ENVIRONMENT_MODE}
+      SERVER_PORT: ${SERVER_PORT}
     ports:
       - target: 10048
         published: 10048
