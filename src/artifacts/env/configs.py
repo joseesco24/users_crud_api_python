@@ -24,6 +24,12 @@ class Configs(BaseSettings):
     environment_mode: EnvironmentMode = Field(..., env="ENVIRONMENT_MODE")
     server_port: int = Field(..., env="SERVER_PORT")
 
+    database_password: str = Field(..., env="DATABASE_PASSWORD")
+    database_host: str = Field(..., env="DATABASE_HOST")
+    database_name: str = Field(..., env="DATABASE_NAME")
+    database_user: str = Field(..., env="DATABASE_USER")
+    database_port: int = Field(..., env="DATABASE_PORT")
+
     class Config:
         env_file = ".env"
 
