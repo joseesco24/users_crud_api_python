@@ -9,7 +9,7 @@ from typing import Any
 from asyncache import cached
 
 # ** info: resolvers cache
-from src.resolvers.resolvers_cache import resolvers_cache
+from src.resolvers.cache_manager import cache_manager
 
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
@@ -61,7 +61,7 @@ users: List[Any] = [
 
 
 class UsersResolvers(metaclass=Singleton):
-    @cached(cache=resolvers_cache.ttl_cache)
+    @cached(cache=cache_manager.ttl_cache)
     async def users_full_resolver(self, limit: int, offset: int) -> List[Any]:
         """users_full_resolver
 
@@ -77,7 +77,7 @@ class UsersResolvers(metaclass=Singleton):
 
         return response
 
-    @cached(cache=resolvers_cache.ttl_cache)
+    @cached(cache=cache_manager.ttl_cache)
     async def users_pub_resolver(self, limit: int, offset: int) -> List[Any]:
         """users_pub_resolver
 
