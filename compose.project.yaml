@@ -4,17 +4,13 @@ services:
   users_crud_api_python_app:
     container_name: users_crud_api_python_app
     image: ghcr.io/joseesco24/users_crud_api_python:latest
-    build:
-      dockerfile: Dockerfile
-      context: .
     networks:
-      - dockerized_database_network
+      - dockerized_databases_network
     environment:
       DATABASE_USER: schema_1_user
       DATABASE_NAME: users_db
       DATABASE_PASSWORD: schema_1_user
-      DATABASE_SCHEMA: schema_1
-      DATABASE_HOST: dockerized_database
+      DATABASE_HOST: postgres_users_db
       DATABASE_PORT: 5432
       ENVIRONMENT_MODE: production
       SERVER_PORT: 10048
@@ -23,27 +19,35 @@ services:
         published: 10048
         protocol: tcp
     depends_on:
-      - dockerized_database
+      - postgres_users_db
+      - mongo_configs_db
 
-  dockerized_database:
-    container_name: dockerized_database
+  postgres_users_db:
+    container_name: postgres_users_db
     image: ghcr.io/joseesco24/postgres_users_db:latest
     networks:
-      - dockerized_database_network
-    ports:
-      - target: 5432
-        published: 5434
-        protocol: tcp
+      - dockerized_databases_network
     volumes:
       - type: volume
-        source: dockerized_database_disc
+        source: postgres_users_db_disc
         target: /var/lib/postgresql/data
 
+  mongo_configs_db:
+    container_name: mongo_configs_db
+    image: ghcr.io/joseesco24/mongo_configs_db:latest
+    networks:
+      - dockerized_databases_network
+    volumes:
+      - type: volume
+        source: mongo_configs_db_disc
+        target: /data/db
+
 networks:
-  dockerized_database_network:
-    name: dockerized_database_network
+  dockerized_databases_network:
+    name: dockerized_databases_network
     external: false
     driver: bridge
 
 volumes:
-  dockerized_database_disc:
+  postgres_users_db_disc:
+  mongo_configs_db_disc:
