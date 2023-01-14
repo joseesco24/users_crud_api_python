@@ -53,40 +53,40 @@ schema_literal: str = load_schema_from_path(schema_path)
 query: QueryType = QueryType()
 
 
-@query.field("getUsersFull")
-async def get_users_full(*_: Any, limit: int, offset: int) -> List[Any]:
-    """get_users_full
+@query.field("usersFull")
+async def users_full_facade(*_: Any, limit: int, offset: int) -> List[Any]:
+    """users_full_facade
 
-    getUsersFull resolver facade
+    usersFull resolver facade
 
     """
 
-    logging.debug("starting getUsersFull resolver facade")
+    logging.debug("starting usersFull resolver facade")
 
-    response: List[Any] = await users_resolvers.get_users_full(
+    response: List[Any] = await users_resolvers.users_full_resolver(
         limit=limit, offset=offset
     )
 
-    logging.debug("ending getUsersFull resolver facade")
+    logging.debug("ending usersFull resolver facade")
 
     return response
 
 
-@query.field("getUsersPub")
-async def get_users_pub(*_: Any, limit: int, offset: int) -> List[Any]:
-    """get_users_pub
+@query.field("usersPub")
+async def users_pub_facade(*_: Any, limit: int, offset: int) -> List[Any]:
+    """users_pub_facade
 
-    getUsersPub resolver facade
+    usersPub resolver facade
 
     """
 
-    logging.debug("starting getUsersPub resolver facade")
+    logging.debug("starting usersPub resolver facade")
 
-    response: List[Any] = await users_resolvers.get_users_pub(
+    response: List[Any] = await users_resolvers.users_pub_resolver(
         limit=limit, offset=offset
     )
 
-    logging.debug("ending getUsersPub resolver facade")
+    logging.debug("ending usersPub resolver facade")
 
     return response
 

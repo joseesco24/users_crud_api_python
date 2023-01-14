@@ -62,34 +62,34 @@ users: List[Any] = [
 
 class UsersResolvers(metaclass=Singleton):
     @cached(cache=resolvers_cache.ttl_cache)
-    async def get_users_full(self, limit: int, offset: int) -> List[Any]:
-        """get_users_full
+    async def users_full_resolver(self, limit: int, offset: int) -> List[Any]:
+        """users_full_resolver
 
-        getUsersFull root resolver
+        usersFull root resolver
 
         """
 
-        logging.debug("starting getUsersFull resolver method")
+        logging.debug("starting usersFull resolver method")
 
         response: List[Any] = users
 
-        logging.debug("ending getUsersFull resolver method")
+        logging.debug("ending usersFull resolver method")
 
         return response
 
     @cached(cache=resolvers_cache.ttl_cache)
-    async def get_users_pub(self, limit: int, offset: int) -> List[Any]:
-        """get_users_pub
+    async def users_pub_resolver(self, limit: int, offset: int) -> List[Any]:
+        """users_pub_resolver
 
-        getUsersPub root resolver
+        usersPub root resolver
 
         """
 
-        logging.debug("starting getUsersPub resolver method")
+        logging.debug("starting usersPub resolver method")
 
         response: List[Any] = users
 
-        logging.debug("ending getUsersPub resolver method")
+        logging.debug("ending usersPub resolver method")
 
         return response
 

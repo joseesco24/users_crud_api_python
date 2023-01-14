@@ -1,6 +1,6 @@
 type Query {
-  getUsersFull(limit: Int!, offset: Int!): [UserFull]
-  getUsersPub(limit: Int!, offset: Int!): [UserPub]
+  usersFull(limit: Int!, offset: Int!): [UserFull]
+  usersPub(limit: Int!, offset: Int!): [UserPub]
 }
 
 type UserPub {
