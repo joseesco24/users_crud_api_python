@@ -8,6 +8,10 @@ import gc
 # ** info: typing imports
 from typing import Union
 
+# ** info: fastapi imports
+from fastapi import HTTPException
+from fastapi import status
+
 # **info: sqlalchemy engine imports
 from sqlalchemy.engine import Engine
 
@@ -108,7 +112,8 @@ class ConnectionManager(metaclass=Singleton):
         self._start_engine()
         self._start_session()
 
-        self._check_session_health()
+        if self._check_session_health() is False:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         logging.info(
             f"using session: {self._session.session_id} - session healthy since: {self._session.session_creation}"
