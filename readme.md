@@ -1,6 +1,6 @@
 # Users Crud Api Python
 
-A really simple CRUD REST API based on Docker and Python.
+A really simple CRUD GraphQL API based on Docker and Python.
 
 <br/>
 
