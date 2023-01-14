@@ -4,7 +4,7 @@ A really simple CRUD REST API based on Docker and Python.
 
 <br/>
 
-## Project commands
+## Project Commands
 
 **Note:** Before running any of these commands be sure that your **CWD** is **users_crud_api_python** directory.
 
@@ -61,7 +61,7 @@ pylint --fail-under=10 --rcfile=.pylintrc ./src
 mypy --explicit-package-bases ./src
 ```
 
-### Run On development Mode
+### Run On Development Mode
 
 ```bash
 ENVIRONMENT_MODE=development python src/main.py
@@ -81,7 +81,7 @@ ENVIRONMENT_MODE=production python src/main.py
 
 <br/>
 
-## Docker Project commands
+## Docker Project Commands
 
 **Note:** Before running any of these commands be sure that your **CWD** is **users_crud_api_python** directory.
 
@@ -121,28 +121,34 @@ docker exec -it users_crud_api_python_app /bin/bash
 docker kill users_crud_api_python_app
 ```
 
-### Docker Login Into GitHub Container Registry
+### Docker Login Into Github Container Registry
 
 ```bash
 docker login -u joseesco24 -p < authentication token > ghcr.io
 ```
 
-### Docker Push The Image To GitHub Container Registry
+### Docker Push The Image To Github Container Registry
 
 ```bash
 docker push ghcr.io/joseesco24/users_crud_api_python:latest
 ```
 
-### Docker Pull The Image From GitHub Container Registry
+### Docker Pull The Image From Github Container Registry
 
 ```bash
 docker pull ghcr.io/joseesco24/users_crud_api_python:latest
 ```
 
+<br/>
+
+## Docker Compose Project Commands
+
+**Note:** Before running any of these commands be sure that your **CWD** is **users_crud_api_python** directory.
+
 ### Docker Compose Build Image Using Compose File
 
 ```bash
-docker-compose -f compose.project.yaml build
+docker-compose -f compose.build.yaml build
 ```
 
 ### Docker Compose Start Dbs Services Using Compose File
@@ -155,6 +161,18 @@ docker-compose -f compose.databases.yaml up
 
 ```bash
 docker-compose -f compose.databases.yaml down
+```
+
+### Docker Compose Start Project Using Compose File
+
+```bash
+docker-compose -f compose.project.yaml up
+```
+
+### Docker Compose Stop Project Using Compose File
+
+```bash
+docker-compose -f compose.project.yaml down
 ```
 
 <br/>
