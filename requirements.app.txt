@@ -9,3 +9,4 @@ loguru==0.6.0
 schema==0.7.5
 httpx==0.23.3
 ariadne==0.17.1
+cachetools==5.2.1
