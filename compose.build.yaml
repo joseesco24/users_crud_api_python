@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  users_crud_api_python_app:
+    image: ghcr.io/joseesco24/users_crud_api_python:latest
+    build:
+      dockerfile: Dockerfile
+      context: .
