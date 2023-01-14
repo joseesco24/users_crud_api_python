@@ -6,7 +6,7 @@ from typing import List
 from typing import Any
 
 # ** info: cache tools
-from cachetools import cached
+from asyncache import cached
 
 # ** info: resolvers cache
 from src.resolvers.resolvers_cache import resolvers_cache
@@ -63,19 +63,26 @@ users: List[Any] = [
 
 class UsersResolvers(metaclass=Singleton):
     @cached(cache=resolvers_cache.ttl_cache)
-    def get_users(self) -> List[Any]:
+    async def get_users(self) -> List[Any]:
         logging.debug("starting get_users resolver method")
+
+        response: List[Any] = users
+
         logging.debug("ending get_users resolver method")
-        return users
+
+        return response
 
     @cached(cache=resolvers_cache.ttl_cache)
-    def get_users_by_internal_id(self, internal_id: str) -> List[Any]:
+    async def get_users_by_internal_id(self, internal_id: str) -> List[Any]:
         logging.debug("starting get_users_by_internal_id resolver method")
-        filtered_users: List[Any] = list(
+
+        response: List[Any] = list(
             filter(lambda user: str(user["internalId"]) == internal_id, users)
         )
+
         logging.debug("ending get_users_by_internal_id resolver method")
-        return filtered_users
+
+        return response
 
 
 users_resolvers: UsersResolvers = UsersResolvers()

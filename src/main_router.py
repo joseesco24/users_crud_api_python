@@ -53,10 +53,10 @@ query: QueryType = QueryType()
 
 
 @query.field("getUsers")
-def get_users(*_: Any) -> List[Any]:
+async def get_users(*_: Any) -> List[Any]:
     logging.debug("starting getUsers resolver facade")
 
-    response: List[Any] = users_resolvers.get_users()
+    response: List[Any] = await users_resolvers.get_users()
 
     logging.debug("ending getUsers resolver facade")
 
@@ -64,10 +64,10 @@ def get_users(*_: Any) -> List[Any]:
 
 
 @query.field("getUsersByinternalId")
-def get_users_by_internal_id(*_: Any, internalId: str) -> List[Any]:
+async def get_users_by_internal_id(*_: Any, internalId: str) -> List[Any]:
     logging.debug("starting getUsersByinternalId resolver facade")
 
-    response: List[Any] = users_resolvers.get_users_by_internal_id(
+    response: List[Any] = await users_resolvers.get_users_by_internal_id(
         internal_id=internalId
     )
 
