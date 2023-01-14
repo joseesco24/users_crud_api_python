@@ -11,7 +11,6 @@ from asyncache import cached
 # ** info: resolvers cache
 from src.resolvers.resolvers_cache import resolvers_cache
 
-
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
 

@@ -32,7 +32,6 @@ from src.artifacts.env.configs import configs
 # ** info: resolvers imports
 from src.resolvers.users_resolvers import users_resolvers
 
-
 # pylint: disable=unused-variable
 __all__: list[str] = ["main_router"]
 
@@ -81,7 +80,6 @@ async def get_users_by_internal_id(*_: Any, internalId: str) -> List[Any]:
 # ---------------------------------------------------------------------------------------------------------------------
 
 schema_executable: GraphQLSchema = make_executable_schema(schema_literal, query)
-
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: assembling schema executable with graphql endpoint

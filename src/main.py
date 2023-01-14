@@ -37,7 +37,6 @@ from src.artifacts.env.configs import configs
 # ** info: middlewares imports
 from src.middlewares.error_handler import error_handler
 
-
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: initializing app routers
 # ---------------------------------------------------------------------------------------------------------------------
