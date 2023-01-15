@@ -23,6 +23,7 @@ from ariadne.validation import cost_validator
 from ariadne import make_executable_schema
 from ariadne import load_schema_from_path
 from ariadne.asgi import GraphQL
+from ariadne import MutationType
 from ariadne import QueryType
 
 # ** info: artifacts imports
@@ -54,7 +55,44 @@ schema_literal: str = load_schema_from_path(schema_path)
 # ** info: assembling querie facades with resolvers
 # ---------------------------------------------------------------------------------------------------------------------
 
+mutation: MutationType = MutationType()
 query: QueryType = QueryType()
+
+
+@mutation.field("addUser")
+async def add_user_facade(
+    *_: Any,
+    estatalId: int,
+    firstName: str,
+    lastName: str,
+    phoneNumber: int,
+    email: str,
+    gender: str,
+    birthday: str,
+    password: str
+) -> List[UserFullDto]:
+    """add_user_facade
+
+    addUser resolver facade
+
+    """
+
+    logging.debug("starting addUser resolver facade")
+
+    response: List[UserFullDto] = await users_resolvers.add_user_resolver(
+        estatal_id=estatalId,
+        first_name=firstName,
+        last_name=lastName,
+        phone_number=phoneNumber,
+        email=email,
+        gender=gender,
+        birthday=birthday,
+        password=password,
+    )
+
+    logging.debug("ending addUser resolver facade")
+
+    return response
 
 
 @query.field("usersFullData")
@@ -77,7 +115,9 @@ async def users_full_data_facade(*_: Any, limit: int, offset: int) -> List[UserF
 
 
 @query.field("usersPublicData")
-async def users_public_data_facade(*_: Any, limit: int, offset: int) -> List[UserPublicDto]:
+async def users_public_data_facade(
+    *_: Any, limit: int, offset: int
+) -> List[UserPublicDto]:
     """users_public_data_facade
 
     usersPublicData resolver facade

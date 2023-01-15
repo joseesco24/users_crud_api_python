@@ -12,6 +12,9 @@ class DatetimeProvider(metaclass=Singleton):
     def get_utc_time(self) -> datetime:
         return datetime.utcnow()
 
+    def get_utc_pretty_string(self) -> str:
+        return self.get_utc_time().strftime("%Y-%m-%d %H:%M:%S.%f")
+
     def get_utc_iso_string(self) -> str:
         return self.get_utc_time().isoformat()
 

@@ -5,6 +5,9 @@ from typing import Any
 # **info: sqlalchemy imports
 from sqlalchemy import select
 
+# **info: sqlalchemy orm imports
+from sqlalchemy.orm import Session
+
 # ** info: users entity
 from src.entities.users_entity import Users
 
@@ -23,6 +26,44 @@ __all__: list[str] = ["users_provider"]
 
 
 class UsersProvider(metaclass=Singleton):
+    def add_user(
+        self,
+        internal_id: str,
+        estatal_id: int,
+        first_name: str,
+        last_name: str,
+        phone_number: int,
+        email: str,
+        gender: str,
+        birthday: str,
+        creation: str,
+        modification: str,
+        password: str,
+    ) -> UserPublicDto:
+        user_public_data: UserPublicDto = UserPublicDto
+
+        new_user: Users = Users(
+            internal_id=internal_id,
+            estatal_id=estatal_id,
+            first_name=first_name,
+            last_name=last_name,
+            phone_number=phone_number,
+            email=email,
+            gender=gender,
+            birthday=birthday,
+            creation=creation,
+            modification=modification,
+            password=password,
+        )
+
+        session: Session = connection_manager.get_session()
+        session.add(new_user)
+        session.flush()
+
+        user_public_data = self._users_entity_to_users_public_dto(user=new_user)
+
+        return user_public_data
+
     def fetch_users_full_data(self, limit: int, offset: int) -> List[UserFullDto]:
         users_full_data: List[UserFullDto] = list()
 

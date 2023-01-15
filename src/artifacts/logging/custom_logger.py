@@ -88,9 +88,7 @@ class CustomLogger(metaclass=Singleton):
     def __custom_serializer(self, record) -> str:
         subset: dict[str, any] = {
             "severity": record["level"].name,
-            "timestamp": datetime_provider.get_utc_time().strftime(
-                "%Y-%m-%d %H:%M:%S.%f"
-            ),
+            "timestamp": datetime_provider.get_utc_pretty_string(),
             "message": record["message"],
             "function": record["function"],
             "module": record["module"],

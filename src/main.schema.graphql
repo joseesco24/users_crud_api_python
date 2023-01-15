@@ -7,6 +7,21 @@ type Query {
   usersFullData(limit: Int!, offset: Int!): [UserFullData!]!
 }
 
+type Mutation {
+  addUser(input: UserCreationData): UserPublicData!
+}
+
+input UserCreationData {
+  estatalId: Integer!
+  firstName: String!
+  lastName: String!
+  phoneNumber: Integer!
+  email: String!
+  gender: String!
+  birthday: String!
+  password: String!
+}
+
 type UserPublicData {
   internalId: ID!
   estatalId: Integer!
