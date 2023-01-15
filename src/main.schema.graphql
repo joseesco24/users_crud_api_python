@@ -1,3 +1,5 @@
+# ** info: this schema works as a contract between the app and the client
+
 scalar Integer
 
 type Query {
