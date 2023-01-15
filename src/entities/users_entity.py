@@ -18,7 +18,7 @@ class Users(Base):
     __tablename__: str = "users"
 
     internal_id: Column = Column(String(40), primary_key=True)
-    estatal_id: Column = Column(Integer)
+    estatal_id: Column = Column(Integer, unique=True)
     first_name: Column = Column(String(50))
     last_name: Column = Column(String(50))
     phone_number: Column = Column(Integer)
