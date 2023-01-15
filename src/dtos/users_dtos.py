@@ -1,8 +1,8 @@
 # pylint: disable=unused-variable
-__all__: list[str] = ["UserPubDto", "UserFullDto"]
+__all__: list[str] = ["UserPublicDto", "UserFullDto"]
 
 
-class UserPubDto:
+class UserPublicDto:
     internalId: str
     estatalId: str
     firstName: str
@@ -13,7 +13,7 @@ class UserPubDto:
     birthday: str
 
 
-class UserFullDto(UserPubDto):
+class UserFullDto(UserPublicDto):
     creation: str
     modification: str
     password: str

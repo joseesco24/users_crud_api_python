@@ -8,8 +8,8 @@ from typing import List
 from asyncache import cached
 
 # ** info: users dtos imports
+from src.dtos.users_dtos import UserPublicDto
 from src.dtos.users_dtos import UserFullDto
-from src.dtos.users_dtos import UserPubDto
 
 # ** info: users provider import
 from src.database.users_database.users_provider import users_provider
@@ -26,38 +26,42 @@ __all__: list[str] = ["users_resolvers"]
 
 class UsersResolvers(metaclass=Singleton):
     @cached(cache=cache_manager.ttl_cache)
-    async def users_full_resolver(self, limit: int, offset: int) -> List[UserFullDto]:
-        """users_full_resolver
+    async def users_full_data_resolver(
+        self, limit: int, offset: int
+    ) -> List[UserFullDto]:
+        """users_full_data_resolver
 
-        usersFull root resolver
+        usersFullData root resolver
 
         """
 
-        logging.debug("starting usersFull resolver method")
+        logging.debug("starting usersFullData resolver method")
 
         response: List[UserFullDto] = users_provider.fetch_users_full_data(
             limit=limit, offset=offset
         )
 
-        logging.debug("ending usersFull resolver method")
+        logging.debug("ending usersFullData resolver method")
 
         return response
 
     @cached(cache=cache_manager.ttl_cache)
-    async def users_pub_resolver(self, limit: int, offset: int) -> List[UserPubDto]:
-        """users_pub_resolver
+    async def users_public_data_resolver(
+        self, limit: int, offset: int
+    ) -> List[UserPublicDto]:
+        """users_public_data_resolver
 
-        usersPub root resolver
+        usersPublicData root resolver
 
         """
 
-        logging.debug("starting usersPub resolver method")
+        logging.debug("starting usersPublicData resolver method")
 
-        response: List[UserPubDto] = users_provider.fetch_users_pub_data(
+        response: List[UserPublicDto] = users_provider.fetch_users_public_data(
             limit=limit, offset=offset
         )
 
-        logging.debug("ending usersPub resolver method")
+        logging.debug("ending usersPublicData resolver method")
 
         return response
 

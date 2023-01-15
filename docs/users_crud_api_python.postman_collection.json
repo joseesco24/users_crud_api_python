@@ -31,7 +31,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "query {\n    usersFull (limit: 20, offset: 0) {\n        internalId\n        firstName\n        lastName\n        estatalId\n        phoneNumber\n        password\n    }\n}",
+						"query": "query {\n    usersFullData (limit: 4, offset: 2) {\n        internalId\n        firstName\n        lastName\n        estatalId\n        phoneNumber\n        password\n    }\n}",
 						"variables": ""
 					}
 				},

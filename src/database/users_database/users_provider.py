@@ -8,9 +8,9 @@ from sqlalchemy import select
 # ** info: users entity
 from src.entities.users_entity import Users
 
-# ** info: users dtos
+# ** info: users dtos imports
+from src.dtos.users_dtos import UserPublicDto
 from src.dtos.users_dtos import UserFullDto
-from src.dtos.users_dtos import UserPubDto
 
 # ** info: users database connection manager import
 from src.database.users_database.connection_manager import connection_manager
@@ -71,8 +71,8 @@ class UsersProvider(metaclass=Singleton):
 
         return users_full_dto
 
-    def fetch_users_pub_data(self, limit: int, offset: int) -> List[UserPubDto]:
-        users_pub_data: List[UserPubDto] = list()
+    def fetch_users_public_data(self, limit: int, offset: int) -> List[UserPublicDto]:
+        users_pub_data: List[UserPublicDto] = list()
 
         query: Any = (
             select(
@@ -95,12 +95,12 @@ class UsersProvider(metaclass=Singleton):
 
         results: List[Users] = connection_manager.get_session().execute(statement=query)
 
-        users_pub_data = list(map(self._users_entity_to_users_pub_dto, results))
+        users_pub_data = list(map(self._users_entity_to_users_public_dto, results))
 
         return users_pub_data
 
-    def _users_entity_to_users_pub_dto(self, user: Users) -> UserPubDto:
-        users_pub_dto: UserPubDto = UserPubDto()
+    def _users_entity_to_users_public_dto(self, user: Users) -> UserPublicDto:
+        users_pub_dto: UserPublicDto = UserPublicDto()
 
         users_pub_dto.internalId = str(user.internal_id)
         users_pub_dto.estatalId = str(user.estatal_id)

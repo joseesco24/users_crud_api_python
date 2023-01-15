@@ -3,11 +3,11 @@
 scalar Integer
 
 type Query {
-  usersFull(limit: Int!, offset: Int!): [UserFull!]!
-  usersPub(limit: Int!, offset: Int!): [UserPub!]!
+  usersPublicData(limit: Int!, offset: Int!): [UserPublicData!]!
+  usersFullData(limit: Int!, offset: Int!): [UserFullData!]!
 }
 
-type UserPub {
+type UserPublicData {
   internalId: ID!
   estatalId: Integer!
   firstName: String!
@@ -18,7 +18,7 @@ type UserPub {
   birthday: String!
 }
 
-type UserFull {
+type UserFullData {
   internalId: ID!
   estatalId: Integer!
   firstName: String!

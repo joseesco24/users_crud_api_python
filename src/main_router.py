@@ -32,8 +32,8 @@ from src.artifacts.path.generator import generator
 from src.artifacts.env.configs import configs
 
 # ** info: users dtos imports
+from src.dtos.users_dtos import UserPublicDto
 from src.dtos.users_dtos import UserFullDto
-from src.dtos.users_dtos import UserPubDto
 
 # ** info: resolvers imports
 from src.resolvers.users_resolvers import users_resolvers
@@ -57,36 +57,36 @@ schema_literal: str = load_schema_from_path(schema_path)
 query: QueryType = QueryType()
 
 
-@query.field("usersFull")
-async def users_full_facade(*_: Any, limit: int, offset: int) -> List[UserFullDto]:
-    """users_full_facade
+@query.field("usersFullData")
+async def users_full_data_facade(*_: Any, limit: int, offset: int) -> List[UserFullDto]:
+    """users_full_data_facade
 
-    usersFull resolver facade
+    usersFullData resolver facade
 
     """
 
-    logging.debug("starting usersFull resolver facade")
+    logging.debug("starting usersFullData resolver facade")
 
-    response: List[UserFullDto] = await users_resolvers.users_full_resolver(
+    response: List[UserFullDto] = await users_resolvers.users_full_data_resolver(
         limit=limit, offset=offset
     )
 
-    logging.debug("ending usersFull resolver facade")
+    logging.debug("ending usersFullData resolver facade")
 
     return response
 
 
-@query.field("usersPub")
-async def users_pub_facade(*_: Any, limit: int, offset: int) -> List[UserPubDto]:
-    """users_pub_facade
+@query.field("usersPublicData")
+async def users_public_data_facade(*_: Any, limit: int, offset: int) -> List[UserPublicDto]:
+    """users_public_data_facade
 
-    usersPub resolver facade
+    usersPublicData resolver facade
 
     """
 
-    logging.debug("starting usersPub resolver facade")
+    logging.debug("starting usersPublicData resolver facade")
 
-    response: List[UserPubDto] = await users_resolvers.users_pub_resolver(
+    response: List[UserPublicDto] = await users_resolvers.users_public_data_resolver(
         limit=limit, offset=offset
     )
 
