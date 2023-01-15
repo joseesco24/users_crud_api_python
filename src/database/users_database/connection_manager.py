@@ -1,5 +1,4 @@
 # ** info: python imports
-from datetime import datetime
 from uuid import UUID
 import logging
 import uuid
@@ -26,9 +25,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 
 # ** info: artifacts imports
+from src.artifacts.datetime.datetime_provider import datetime_provider
 from src.artifacts.pattern.singleton import Singleton
-
-# ** info: artifacts imports
 from src.artifacts.env.configs import configs
 
 # pylint: disable=unused-variable
@@ -37,7 +35,7 @@ __all__: list[str] = ["connection_manager"]
 
 class MySession(Session):
     def __init__(self, *args, **kwargs):
-        self.session_creation: str = datetime.utcnow().isoformat()
+        self.session_creation: str = datetime_provider.get_utc_iso_string()
         self.session_id: UUID = uuid.uuid4()
         super().__init__(*args, **kwargs)
 

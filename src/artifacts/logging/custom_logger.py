@@ -13,6 +13,7 @@ from typing import Union
 from loguru import logger
 
 # ** info: artifacts imports
+from src.artifacts.datetime.datetime_provider import datetime_provider
 from src.artifacts.pattern.singleton import Singleton
 
 # pylint: disable=unused-variable
@@ -32,7 +33,7 @@ class CustomLogger(metaclass=Singleton):
         # ** info: optional add [{process.name}][{thread.name}] to fmt to see the thread and process names
 
         # pylint: disable=line-too-long
-        fmt: str = "[<fg #66a3ff>{time:YYYY-MM-DD HH:mm:ss.SSSSSS}</fg #66a3ff>] <level>{level}</level> ({module}:{function}:<bold>{line}</bold>): {message}"
+        fmt: str = "[<fg #66a3ff>{time:YYYY-MM-DD HH:mm:ss.SSSSSS!UTC}</fg #66a3ff>] <level>{level}</level> ({module}:{function}:<bold>{line}</bold>): {message}"
 
         # ** info: overwriting all the loggers configs with the new one
         logging.root.handlers = [self.__CustomInterceptHandler()]
@@ -87,7 +88,9 @@ class CustomLogger(metaclass=Singleton):
     def __custom_serializer(self, record) -> str:
         subset: dict[str, any] = {
             "severity": record["level"].name,
-            "timestamp": record["time"].strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "timestamp": datetime_provider.get_utc_time().strftime(
+                "%Y-%m-%d %H:%M:%S.%f"
+            ),
             "message": record["message"],
             "function": record["function"],
             "module": record["module"],
