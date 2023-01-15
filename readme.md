@@ -2,6 +2,8 @@
 
 A really simple CRUD GraphQL API based on Docker and Python.
 
+**Note:** In develop mode and running locally the docs are available at this [**url**](http://localhost:10048/graphql)
+
 <br/>
 
 ## Project Commands
