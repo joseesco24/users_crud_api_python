@@ -1,31 +1,31 @@
 scalar Integer
 
 type Query {
-  usersFull(limit: Int!, offset: Int!): [UserFull]
-  usersPub(limit: Int!, offset: Int!): [UserPub]
+  usersFull(limit: Int!, offset: Int!): [UserFull!]!
+  usersPub(limit: Int!, offset: Int!): [UserPub!]!
 }
 
 type UserPub {
-  internalId: ID
-  estatalId: Integer
-  firstName: String
-  lastName: String
-  phoneNumber: Integer
-  email: String
-  gender: String
-  birthday: String
+  internalId: ID!
+  estatalId: Integer!
+  firstName: String!
+  lastName: String!
+  phoneNumber: Integer!
+  email: String!
+  gender: String!
+  birthday: String!
 }
 
 type UserFull {
-  internalId: ID
-  estatalId: Integer
-  firstName: String
-  lastName: String
-  phoneNumber: Integer
-  email: String
-  gender: String
-  birthday: String
-  creation: String
-  modification: String
-  password: String
+  internalId: ID!
+  estatalId: Integer!
+  firstName: String!
+  lastName: String!
+  phoneNumber: Integer!
+  email: String!
+  gender: String!
+  birthday: String!
+  creation: String!
+  modification: String!
+  password: String!
 }
