@@ -102,6 +102,8 @@ uvicorn_server_configs: dict[str, any] = {
     "use_colors": False if configs.environment_mode == "production" else True,
     "app": app if configs.environment_mode == "production" else "main:app",
     "reload": False if configs.environment_mode == "production" else True,
+    "reload_includes": ["*.py", "*.graphql"],
+    "reload_excludes": ["*.pyc", "*.pyo"],
     "port": application_port,
     "log_level": "warning",
     "access_log": False,
