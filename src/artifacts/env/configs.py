@@ -30,6 +30,9 @@ class Configs(BaseSettings):
     database_user: str = Field(..., env="DATABASE_USER")
     database_port: int = Field(..., env="DATABASE_PORT")
 
+    resolvers_cache_size: int = Field(..., env="RESOLVERS_CACHE_SIZE")
+    resolvers_cache_ttl: int = Field(..., env="RESOLVERS_CACHE_TTL")
+
     class Config:
         env_file = ".env"
 

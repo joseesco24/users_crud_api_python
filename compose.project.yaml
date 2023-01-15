@@ -12,8 +12,10 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       DATABASE_HOST: "postgres_users_db"
       DATABASE_PORT: 5432
-      ENVIRONMENT_MODE: "production"
+      ENVIRONMENT_MODE: ${ENVIRONMENT_MODE}
       SERVER_PORT: ${SERVER_PORT}
+      RESOLVERS_CACHE_SIZE: ${RESOLVERS_CACHE_SIZE}
+      RESOLVERS_CACHE_TTL: ${RESOLVERS_CACHE_TTL}
     ports:
       - target: 10048
         published: 10048
