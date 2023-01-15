@@ -31,7 +31,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "query {\n    getUsersByinternalId (internalId: \"8dd93284-c27e-46bc-b251-fb1a7a432aab\") {\n        internalId\n        firstName\n        lastName\n        phoneNumber\n    }\n    getUsers {\n        internalId\n        estatalId\n        firstName\n    }\n}",
+						"query": "query {\n    usersFull (limit: 20, offset: 0) {\n        internalId\n        firstName\n        lastName\n        estatalId\n        phoneNumber\n        password\n    }\n}",
 						"variables": ""
 					}
 				},
