@@ -57,17 +57,17 @@ class UsersProvider(metaclass=Singleton):
     def _users_entity_to_users_full_dto(self, user: Users) -> UserFullDto:
         users_full_dto: UserFullDto = UserFullDto()
 
-        users_full_dto.internalId = user.internal_id
-        users_full_dto.estatalId = user.estatal_id
-        users_full_dto.firstName = user.first_name
-        users_full_dto.lastName = user.last_name
-        users_full_dto.phoneNumber = user.phone_number
-        users_full_dto.email = user.email
-        users_full_dto.gender = user.gender
-        users_full_dto.birthday = user.birthday
-        users_full_dto.creation = user.creation
-        users_full_dto.modification = user.modification
-        users_full_dto.password = user.password
+        users_full_dto.internalId = str(user.internal_id)
+        users_full_dto.estatalId = str(user.estatal_id)
+        users_full_dto.firstName = str(user.first_name)
+        users_full_dto.lastName = str(user.last_name)
+        users_full_dto.phoneNumber = int(user.phone_number)
+        users_full_dto.email = str(user.email)
+        users_full_dto.gender = str(user.gender)
+        users_full_dto.birthday = str(user.birthday)
+        users_full_dto.creation = str(user.creation)
+        users_full_dto.modification = str(user.modification)
+        users_full_dto.password = str(user.password)
 
         return users_full_dto
 
@@ -102,14 +102,14 @@ class UsersProvider(metaclass=Singleton):
     def _users_entity_to_users_pub_dto(self, user: Users) -> UserPubDto:
         users_pub_dto: UserPubDto = UserPubDto()
 
-        users_pub_dto.internalId = user.internal_id
-        users_pub_dto.estatalId = user.estatal_id
-        users_pub_dto.firstName = user.first_name
-        users_pub_dto.lastName = user.last_name
-        users_pub_dto.phoneNumber = user.phone_number
-        users_pub_dto.email = user.email
-        users_pub_dto.gender = user.gender
-        users_pub_dto.birthday = user.birthday
+        users_pub_dto.internalId = str(user.internal_id)
+        users_pub_dto.estatalId = str(user.estatal_id)
+        users_pub_dto.firstName = str(user.first_name)
+        users_pub_dto.lastName = str(user.last_name)
+        users_pub_dto.phoneNumber = int(user.phone_number)
+        users_pub_dto.email = str(user.email)
+        users_pub_dto.gender = str(user.gender)
+        users_pub_dto.birthday = str(user.birthday)
 
         return users_pub_dto
 
