@@ -19,14 +19,14 @@ from starlette.routing import Route
 from graphql import GraphQLSchema
 
 # ** info: ariadne imports
-from ariadne.asgi import GraphQL
-from ariadne import QueryType
-
 from ariadne.validation import cost_validator
 from ariadne import make_executable_schema
 from ariadne import load_schema_from_path
+from ariadne.asgi import GraphQL
+from ariadne import QueryType
 
 # ** info: artifacts imports
+from src.artifacts.graphql.custom_scalars_serializer import integer_scalar
 from src.artifacts.graphql.error_formatter import error_formatter
 from src.artifacts.path.generator import generator
 from src.artifacts.env.configs import configs
@@ -99,7 +99,9 @@ async def users_pub_facade(*_: Any, limit: int, offset: int) -> List[UserPubDto]
 # ** info: assembling schema literal with schema executable
 # ---------------------------------------------------------------------------------------------------------------------
 
-schema_executable: GraphQLSchema = make_executable_schema(schema_literal, query)
+schema_executable: GraphQLSchema = make_executable_schema(
+    schema_literal, query, integer_scalar
+)
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: assembling schema executable with graphql endpoint

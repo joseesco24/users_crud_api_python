@@ -1,3 +1,5 @@
+scalar Integer
+
 type Query {
   usersFull(limit: Int!, offset: Int!): [UserFull]
   usersPub(limit: Int!, offset: Int!): [UserPub]
@@ -5,10 +7,10 @@ type Query {
 
 type UserPub {
   internalId: ID
-  estatalId: ID
+  estatalId: Integer
   firstName: String
   lastName: String
-  phoneNumber: Int
+  phoneNumber: Integer
   email: String
   gender: String
   birthday: String
@@ -16,10 +18,10 @@ type UserPub {
 
 type UserFull {
   internalId: ID
-  estatalId: ID
+  estatalId: Integer
   firstName: String
   lastName: String
-  phoneNumber: Int
+  phoneNumber: Integer
   email: String
   gender: String
   birthday: String
