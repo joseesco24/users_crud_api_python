@@ -36,7 +36,13 @@ class QuerySession(Session):
     def __init__(self, *args, **kwargs):
         self.session_creation: str = datetime_provider.get_utc_iso_string()
         self.session_id: str = uuid_provider.get_str_uuid()
+
         super().__init__(*args, **kwargs)
+
+        self._post_init()
+
+    def _post_init(self) -> None:
+        logging.info(f"query session started with id: {self.session_id}")
 
     def commit_and_close(self) -> None:
         logging.info(f"committing and closing query session with id: {self.session_id}")
@@ -56,7 +62,13 @@ class CrudSession(Session):
     def __init__(self, *args, **kwargs):
         self.session_creation: str = datetime_provider.get_utc_iso_string()
         self.session_id: str = uuid_provider.get_str_uuid()
+
         super().__init__(*args, **kwargs)
+
+        self._post_init()
+
+    def _post_init(self) -> None:
+        logging.info(f"crud session started with id: {self.session_id}")
 
     def commit_and_close(self) -> None:
         logging.info(f"committing and closing crud session with id: {self.session_id}")
@@ -101,9 +113,6 @@ class ConnectionManager(metaclass=Singleton):
     def _start_query_session(self) -> None:
         if self._query_session is None:
             self._query_session = sessionmaker(class_=QuerySession, bind=self._engine)()
-            logging.info(
-                f"query session started with id: {self._query_session.session_id}"
-            )
 
     def _end_query_session(self) -> None:
         if self._query_session is not None:
