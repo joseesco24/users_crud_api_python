@@ -44,7 +44,7 @@ RUN find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
 # ---------------------------------------------------------------------------------------------------------------------
 
 # ** info: declaration of the production image base version
-FROM python:3.10.6-slim-buster
+FROM python:3.10.6-slim-bullseye
 
 # ** info: declaration of the production working directory and username inside the production image
 ARG USERNAME=production
