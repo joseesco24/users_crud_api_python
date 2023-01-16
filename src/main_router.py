@@ -70,7 +70,7 @@ async def add_user_facade(
     gender: str,
     birthday: str,
     password: str
-) -> List[UserFullDto]:
+) -> UserPublicDto:
     """add_user_facade
 
     addUser resolver facade
@@ -79,7 +79,7 @@ async def add_user_facade(
 
     logging.debug("starting addUser resolver facade")
 
-    response: List[UserFullDto] = await users_resolvers.add_user_resolver(
+    response: UserPublicDto = await users_resolvers.add_user_resolver(
         estatal_id=estatalId,
         first_name=firstName,
         last_name=lastName,
@@ -140,7 +140,7 @@ async def users_public_data_facade(
 # ---------------------------------------------------------------------------------------------------------------------
 
 schema_executable: GraphQLSchema = make_executable_schema(
-    schema_literal, query, integer_scalar
+    schema_literal, query, mutation, integer_scalar
 )
 
 # ---------------------------------------------------------------------------------------------------------------------

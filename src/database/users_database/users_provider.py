@@ -5,9 +5,6 @@ from typing import Any
 # **info: sqlalchemy imports
 from sqlalchemy import select
 
-# **info: sqlalchemy orm imports
-from sqlalchemy.orm import Session
-
 # ** info: users entity
 from src.entities.users_entity import Users
 
@@ -17,6 +14,7 @@ from src.dtos.users_dtos import UserFullDto
 
 # ** info: users database connection manager import
 from src.database.users_database.connection_manager import connection_manager
+from src.database.users_database.connection_manager import CrudSession
 
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
@@ -56,11 +54,11 @@ class UsersProvider(metaclass=Singleton):
             password=password,
         )
 
-        session: Session = connection_manager.get_session()
-        session.add(new_user)
-        session.flush()
-
         user_public_data = self._users_entity_to_users_public_dto(user=new_user)
+
+        session: CrudSession = connection_manager.get_crud_session()
+        session.add(new_user)
+        session.commit_and_close()
 
         return user_public_data
 
@@ -89,7 +87,9 @@ class UsersProvider(metaclass=Singleton):
             .offset(offset)
         )
 
-        results: List[Users] = connection_manager.get_session().execute(statement=query)
+        results: List[Users] = connection_manager.get_query_session().execute(
+            statement=query
+        )
 
         users_full_data = list(map(self._users_entity_to_users_full_dto, results))
 
@@ -134,7 +134,9 @@ class UsersProvider(metaclass=Singleton):
             .offset(offset)
         )
 
-        results: List[Users] = connection_manager.get_session().execute(statement=query)
+        results: List[Users] = connection_manager.get_query_session().execute(
+            statement=query
+        )
 
         users_pub_data = list(map(self._users_entity_to_users_public_dto, results))
 

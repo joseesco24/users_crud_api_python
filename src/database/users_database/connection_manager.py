@@ -29,14 +29,47 @@ from src.artifacts.pattern.singleton import Singleton
 from src.artifacts.env.configs import configs
 
 # pylint: disable=unused-variable
-__all__: list[str] = ["connection_manager"]
+__all__: list[str] = ["connection_manager", "CrudSession", "QuerySession"]
 
 
-class MySession(Session):
+class QuerySession(Session):
     def __init__(self, *args, **kwargs):
         self.session_creation: str = datetime_provider.get_utc_iso_string()
         self.session_id: str = uuid_provider.get_str_uuid()
         super().__init__(*args, **kwargs)
+
+    def commit_and_close(self) -> None:
+        logging.info(f"committing and closing query session with id: {self.session_id}")
+        super().commit()
+        super().close()
+
+    def commit(self) -> None:
+        logging.info(f"committing query session with id: {self.session_id}")
+        super().commit()
+
+    def close(self) -> None:
+        logging.info(f"closing query session with id: {self.session_id}")
+        super().close()
+
+
+class CrudSession(Session):
+    def __init__(self, *args, **kwargs):
+        self.session_creation: str = datetime_provider.get_utc_iso_string()
+        self.session_id: str = uuid_provider.get_str_uuid()
+        super().__init__(*args, **kwargs)
+
+    def commit_and_close(self) -> None:
+        logging.info(f"committing and closing crud session with id: {self.session_id}")
+        super().commit()
+        super().close()
+
+    def commit(self) -> None:
+        logging.info(f"committing crud session with id: {self.session_id}")
+        super().commit()
+
+    def close(self) -> None:
+        logging.info(f"closing crud session with id: {self.session_id}")
+        super().close()
 
 
 class ConnectionManager(metaclass=Singleton):
@@ -47,7 +80,7 @@ class ConnectionManager(metaclass=Singleton):
         self._host: str = host
         self._port: int = port
 
-        self._session: Union[MySession, None] = None
+        self._query_session: Union[QuerySession, None] = None
         self._engine: Union[Engine, None] = None
 
     def _start_engine(self) -> None:
@@ -57,66 +90,75 @@ class ConnectionManager(metaclass=Singleton):
             )
 
     def _end_engine(self) -> None:
-        if self._session is not None:
-            self._end_session()
+        if self._query_session is not None:
+            self._end_query_session()
         if self._engine is not None:
             self._engine.dispose()
-
             del self._engine
             gc.collect()
-
             self._engine = None
 
-    def _start_session(self) -> None:
-        if self._session is None:
-            self._session = sessionmaker(class_=MySession, bind=self._engine)()
+    def _start_query_session(self) -> None:
+        if self._query_session is None:
+            self._query_session = sessionmaker(class_=QuerySession, bind=self._engine)()
+            logging.info(
+                f"query session started with id: {self._query_session.session_id}"
+            )
 
-            logging.debug(f"session started with id {self._session.session_id}")
-
-    def _end_session(self) -> None:
-        if self._session is not None:
-            logging.debug(f"ending session with id {self._session.session_id}")
-
-            self._session.close()
-
-            del self._session
+    def _end_query_session(self) -> None:
+        if self._query_session is not None:
+            self._query_session.close()
+            del self._query_session
             gc.collect()
+            self._query_session = None
 
-            self._session = None
+    def _reset_query_session(self) -> None:
+        self._end_query_session()
+        self._start_query_session()
 
-    def _reset_session(self) -> None:
-        self._end_session()
-        self._start_session()
-
-    def _check_session_health(self) -> bool:
+    def _check_query_session_health(self) -> bool:
         try:
-            self._session.execute("select 1")
+            self._query_session.execute("select 1")
 
-            logging.debug(f"session {self._session.session_id} is healthy")
+            logging.debug(f"query session {self._query_session.session_id} is healthy")
 
             return True
 
         except SQLAlchemyError:
             logging.exception(
-                f"session {self._session.session_id} is not healthy - creating a new session"
+                f"query session {self._query_session.session_id} isn't healthy"
             )
+            logging.warning("creating a new query session")
 
-            self._reset_session()
+            self._reset_query_session()
 
             return False
 
-    def get_session(self) -> Session:
+    def get_crud_session(self) -> CrudSession:
         self._start_engine()
-        self._start_session()
 
-        if self._check_session_health() is False:
+        crud_session: CrudSession = sessionmaker(
+            class_=CrudSession, bind=self._engine
+        )()
+
+        logging.info(f"crud session started with id: {crud_session.session_id}")
+        logging.info(f"using crud session with id: {crud_session.session_id}")
+        logging.info(f"session healthy since: {crud_session.session_creation}")
+
+        return crud_session
+
+    def get_query_session(self) -> QuerySession:
+        self._start_engine()
+
+        self._start_query_session()
+
+        if self._check_query_session_health() is False:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        logging.info(
-            f"using session: {self._session.session_id} - session healthy since: {self._session.session_creation}"
-        )
+        logging.info(f"using query session with id: {self._query_session.session_id}")
+        logging.info(f"session healthy since: {self._query_session.session_creation}")
 
-        return self._session
+        return self._query_session
 
 
 connection_manager: ConnectionManager = ConnectionManager(

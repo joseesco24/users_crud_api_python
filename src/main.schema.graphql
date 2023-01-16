@@ -8,18 +8,16 @@ type Query {
 }
 
 type Mutation {
-  addUser(input: UserCreationData): UserPublicData!
-}
-
-input UserCreationData {
-  estatalId: Integer!
-  firstName: String!
-  lastName: String!
-  phoneNumber: Integer!
-  email: String!
-  gender: String!
-  birthday: String!
-  password: String!
+  addUser(
+    estatalId: Integer!
+    firstName: String!
+    lastName: String!
+    phoneNumber: Integer!
+    email: String!
+    gender: String!
+    birthday: String!
+    password: String!
+  ): UserPublicData
 }
 
 type UserPublicData {

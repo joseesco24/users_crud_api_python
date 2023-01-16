@@ -37,7 +37,7 @@ class UsersResolvers(metaclass=Singleton):
         gender: str,
         birthday: str,
         password: str,
-    ) -> List[UserFullDto]:
+    ) -> UserPublicDto:
         """add_user_resolver
 
         usersFullData root resolver
@@ -50,7 +50,10 @@ class UsersResolvers(metaclass=Singleton):
         creation: str = datetime_provider.get_utc_iso_string()
         internal_id: str = uuid_provider.get_str_uuid()
 
-        response: List[UserFullDto] = users_provider.add_user(
+        first_name = first_name.lower()
+        last_name = last_name.lower()
+
+        response: UserPublicDto = users_provider.add_user(
             internal_id=internal_id,
             estatal_id=estatal_id,
             first_name=first_name,
