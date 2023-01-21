@@ -1,6 +1,3 @@
-# ** info: this file is a copy of https://github.com/joseesco24/postgres_users_db/blob/main/compose.project.yml withut the build commands
-# ** info: this file is a copy of https://github.com/joseesco24/mongo_configs_db/blob/main/compose.project.yml withut the build commands
-
 version: "3.8"
 
 services:
