@@ -37,6 +37,7 @@ services:
       - type: volume
         source: postgres_users_db_disc
         target: /var/lib/postgresql/data
+
   mongo_configs_db:
     container_name: mongo_configs_db
     image: ghcr.io/joseesco24/mongo_configs_db:latest
@@ -50,6 +51,16 @@ services:
       - type: volume
         source: mongo_configs_db_disc
         target: /data/db
+
+  redis_cache_db:
+    container_name: redis_cache_db
+    image: ghcr.io/joseesco24/redis_cache_db:latest
+    networks:
+      - dockerized_databases_network
+    ports:
+      - target: 6378
+        published: 5436
+        protocol: tcp
 
 networks:
   dockerized_databases_network:
