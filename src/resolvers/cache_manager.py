@@ -16,7 +16,7 @@ __all__: list[str] = ["cache_manager"]
 class CacheManager(metaclass=Singleton):
     def __init__(self) -> None:
         self.ttl_cache: TTLCache = TTLCache(
-            ttl=timedelta(seconds=configs.resolvers_cache_ttl),
+            ttl=timedelta(seconds=configs.cache_ttl),
             maxsize=configs.resolvers_cache_size,
             timer=datetime.utcnow,
         )

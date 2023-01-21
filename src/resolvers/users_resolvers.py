@@ -2,6 +2,7 @@
 import logging
 
 # ** info: typing imports
+from typing import Union
 from typing import List
 
 # ** info: cache tools
@@ -16,6 +17,8 @@ from src.database.users_database.users_provider import users_provider
 
 # ** info: resolvers cache
 from src.resolvers.cache_manager import cache_manager
+
+from src.database.cache_database.connection_manager import connection_manager
 
 # ** info: artifacts imports
 from src.artifacts.datetime.datetime_provider import datetime_provider
@@ -91,7 +94,6 @@ class UsersResolvers(metaclass=Singleton):
 
         return response
 
-    @cached(cache=cache_manager.ttl_cache)
     async def users_public_data_resolver(
         self, limit: int, offset: int
     ) -> List[UserPublicDto]:
@@ -100,6 +102,13 @@ class UsersResolvers(metaclass=Singleton):
         usersPublicData root resolver
 
         """
+        key: str = "users_public_data_resolver_key"
+        cache_result: Union[List[UserPublicDto], None] = await connection_manager.get(
+            key=key
+        )
+
+        if cache_result is not None:
+            return cache_result
 
         logging.debug("starting usersPublicData resolver method")
 
@@ -108,6 +117,8 @@ class UsersResolvers(metaclass=Singleton):
         )
 
         logging.debug("ending usersPublicData resolver method")
+
+        await connection_manager.set(key=key, value=response)
 
         return response
 
