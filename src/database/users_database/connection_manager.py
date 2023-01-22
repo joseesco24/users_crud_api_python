@@ -16,7 +16,6 @@ from sqlalchemy.engine import Engine
 from sqlalchemy import create_engine
 
 # **info: sqlalchemy orm imports
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import Session
 
 # **info: sqlalchemy exc imports
@@ -33,61 +32,78 @@ __all__: list[str] = ["connection_manager", "CrudSession", "QuerySession"]
 
 
 class QuerySession(Session):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, logs: bool, *args, **kwargs):
         self.session_creation: str = datetime_provider.get_utc_iso_string()
         self.session_id: str = uuid_provider.get_str_uuid()
+        self._logs: bool = logs
 
         super().__init__(*args, **kwargs)
 
         self._post_init()
 
     def _post_init(self) -> None:
-        logging.info(f"query session started with id: {self.session_id}")
+        if self._logs:
+            logging.info(f"query session started with id: {self.session_id}")
 
     def commit_and_close(self) -> None:
-        logging.info(f"committing and closing query session with id: {self.session_id}")
+        if self._logs:
+            logging.info(
+                f"committing and closing query session with id: {self.session_id}"
+            )
         super().commit()
         super().close()
 
     def commit(self) -> None:
-        logging.info(f"committing query session with id: {self.session_id}")
+        if self._logs:
+            logging.info(f"committing query session with id: {self.session_id}")
         super().commit()
 
     def close(self) -> None:
-        logging.info(f"closing query session with id: {self.session_id}")
+        if self._logs:
+            logging.info(f"closing query session with id: {self.session_id}")
         super().close()
 
 
 class CrudSession(Session):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, logs: bool, *args, **kwargs):
         self.session_creation: str = datetime_provider.get_utc_iso_string()
         self.session_id: str = uuid_provider.get_str_uuid()
+        self._logs: bool = logs
 
         super().__init__(*args, **kwargs)
 
         self._post_init()
 
     def _post_init(self) -> None:
-        logging.info(f"crud session started with id: {self.session_id}")
+        if self._logs:
+            logging.info(f"crud session started with id: {self.session_id}")
 
     def commit_and_close(self) -> None:
-        logging.info(f"committing and closing crud session with id: {self.session_id}")
+        if self._logs:
+            logging.info(
+                f"committing and closing crud session with id: {self.session_id}"
+            )
         super().commit()
         super().close()
 
     def commit(self) -> None:
-        logging.info(f"committing crud session with id: {self.session_id}")
+        if self._logs:
+            logging.info(f"committing crud session with id: {self.session_id}")
         super().commit()
 
     def close(self) -> None:
-        logging.info(f"closing crud session with id: {self.session_id}")
+        if self._logs:
+            logging.info(f"closing crud session with id: {self.session_id}")
         super().close()
 
 
 class ConnectionManager(metaclass=Singleton):
-    def __init__(self, user: str, password: str, host: str, port: int, database: str):
+    def __init__(
+        self, user: str, password: str, host: str, port: int, database: str, logs: bool
+    ):
         self._database: str = database
         self._password: str = password
+        self._logs: bool = logs
         self._user: str = user
         self._host: str = host
         self._port: int = port
@@ -112,7 +128,7 @@ class ConnectionManager(metaclass=Singleton):
 
     def _start_query_session(self) -> None:
         if self._query_session is None:
-            self._query_session = sessionmaker(class_=QuerySession, bind=self._engine)()
+            self._query_session = QuerySession(logs=self._logs, bind=self._engine)
 
     def _end_query_session(self) -> None:
         if self._query_session is not None:
@@ -128,45 +144,42 @@ class ConnectionManager(metaclass=Singleton):
     def _check_query_session_health(self) -> bool:
         try:
             self._query_session.execute("select 1")
-
-            logging.debug(f"query session {self._query_session.session_id} is healthy")
-
+            if self._logs:
+                logging.debug(
+                    f"query session {self._query_session.session_id} is healthy"
+                )
             return True
 
         except SQLAlchemyError:
-            logging.exception(
-                f"query session {self._query_session.session_id} isn't healthy"
-            )
-            logging.warning("creating a new query session")
-
+            if self._logs:
+                logging.exception(
+                    f"query session {self._query_session.session_id} isn't healthy"
+                )
+                logging.warning("creating a new query session")
             self._reset_query_session()
-
             return False
 
     def get_crud_session(self) -> CrudSession:
         self._start_engine()
-
-        crud_session: CrudSession = sessionmaker(
-            class_=CrudSession, bind=self._engine
-        )()
-
-        logging.info(f"crud session started with id: {crud_session.session_id}")
-        logging.info(f"using crud session with id: {crud_session.session_id}")
-        logging.info(f"session healthy since: {crud_session.session_creation}")
-
+        crud_session: CrudSession = CrudSession(logs=self._logs, bind=self._engine)
+        if self._logs:
+            logging.info(f"crud session started with id: {crud_session.session_id}")
+            logging.info(f"using crud session with id: {crud_session.session_id}")
+            logging.info(f"session healthy since: {crud_session.session_creation}")
         return crud_session
 
     def get_query_session(self) -> QuerySession:
         self._start_engine()
-
         self._start_query_session()
-
         if self._check_query_session_health() is False:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-        logging.info(f"using query session with id: {self._query_session.session_id}")
-        logging.info(f"session healthy since: {self._query_session.session_creation}")
-
+        if self._logs:
+            logging.info(
+                f"using query session with id: {self._query_session.session_id}"
+            )
+            logging.info(
+                f"session healthy since: {self._query_session.session_creation}"
+            )
         return self._query_session
 
 
@@ -176,4 +189,5 @@ connection_manager: ConnectionManager = ConnectionManager(
     user=configs.database_user,
     host=configs.database_host,
     port=configs.database_port,
+    logs=configs.database_logs,
 )
