@@ -7,10 +7,10 @@
 	},
 	"item": [
 		{
-			"name": "usersFullData",
+			"name": "users",
 			"item": [
 				{
-					"name": "alias full example",
+					"name": "fetch users full example",
 					"event": [
 						{
 							"listen": "test",
@@ -34,53 +34,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query {\n    usuarios: usersFullData (limit: 4, offset: 0) {\n        idSistema: internalId\n        nombre: firstName\n        apellido: lastName\n        cedula: estatalId\n        numeroTelefono: phoneNumber\n        genero: gender\n        fechaNacimiento: birthday\n        correo: email\n        creacion: creation\n        modificacion: modification\n        hashClave: password\n    }\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{hostPath}}/graphql",
-							"host": [
-								"{{hostPath}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "usersPublicData",
-			"item": [
-				{
-					"name": "alias public example",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"test response status\", function() {",
-									"    pm.response.to.have.status(200)",
-									"})",
-									"",
-									"pm.test(\"test response time is less than 300s\", function() {",
-									"    pm.expect(pm.response.responseTime).to.be.below(300)",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query {\n    usuarios: usersPublicData (limit: 4, offset: 0) {\n        idSistema: internalId\n        nombre: firstName\n        apellido: lastName\n        cedula: estatalId\n        numeroTelefono: phoneNumber\n        genero: gender\n        fechaNacimiento: birthday\n        correo: email\n    }\n}",
+								"query": "query {\n    usuarios: users (limit: 4, offset: 0) {\n        idSistema: internalId\n        nombre: firstName\n        apellido: lastName\n        cedula: estatalId\n        numeroTelefono: phoneNumber\n        genero: gender\n        fechaNacimiento: birthday\n        correo: email\n    }\n}",
 								"variables": ""
 							}
 						},
@@ -126,7 +80,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation {\n    nuevoUsuario: addUser (\n        estatalId: 1075313850,\n        firstName: \"jose\",\n        lastName: \"daniel\",\n        phoneNumber: 3188987488,\n        email: \"josed@outlook.com\",\n        gender: \"Male\",\n        birthday: \"1998-07-24\",\n        password: \"password\"\n    ) {\n        idSistema: internalId\n        nombre: firstName\n        apellido: lastName\n        cedula: estatalId\n        numeroTelefono: phoneNumber\n        genero: gender\n        fechaNacimiento: birthday\n        correo: email\n    }\n}",
+								"query": "mutation {\n    nuevoUsuario: addUser (\n        estatalId: 1075313858,\n        firstName: \"jose\",\n        lastName: \"daniel\",\n        phoneNumber: 3188987488,\n        email: \"josed@outlook.com\",\n        gender: \"Male\",\n        birthday: \"1998-07-24\",\n        password: \"password\"\n    ) {\n        idSistema: internalId\n        nombre: firstName\n        apellido: lastName\n        cedula: estatalId\n        numeroTelefono: phoneNumber\n        genero: gender\n        fechaNacimiento: birthday\n        correo: email\n    }\n}",
 								"variables": ""
 							}
 						},
