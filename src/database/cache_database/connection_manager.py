@@ -216,7 +216,7 @@ class ConnectionManager(metaclass=Singleton):
         return None
 
     async def set_with_ttl(
-        self, key: str, value: Any, time: int = configs.cache_ttl
+        self, key: str, value: Any, time: int = configs.cache_database_default_ttl
     ) -> None:
         await self._upload_connection._set_with_ttl(
             key=key, value=pickle.dumps(value), time=time

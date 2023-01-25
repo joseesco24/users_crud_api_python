@@ -95,9 +95,7 @@ async def add_user_facade(
 
 
 @query.field("users")
-async def users_public_data_facade(
-    *_: Any, limit: int, offset: int
-) -> List[UserDto]:
+async def users_public_data_facade(*_: Any, limit: int, offset: int) -> List[UserDto]:
     """users_facade
 
     users resolver facade
@@ -128,7 +126,7 @@ schema_executable: GraphQLSchema = make_executable_schema(
 # ---------------------------------------------------------------------------------------------------------------------
 
 graphql_endpoint_definition: GraphQL = GraphQL(
-    debug=False if configs.environment_mode == "production" else True,
+    debug=False if configs.app_environment_mode == "production" else True,
     validation_rules=[cost_validator(maximum_cost=5)],
     error_formatter=error_formatter.formatter,
     schema=schema_executable,

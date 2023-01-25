@@ -7,7 +7,6 @@ this module is the incharge of assemble and execute the app
 # ** info: python imports
 from logging import Logger
 from os.path import join
-from os import environ
 from os import path
 import logging
 import sys
@@ -55,12 +54,12 @@ app: FastAPI = FastAPI(routes=routers)
 # ** info: setting up global app logging
 # ---------------------------------------------------------------------------------------------------------------------
 
-if configs.environment_mode == "production":
+if configs.app_environment_mode == "production":
     custom_logger.setup_production_logging()
-    logging.info(f"logger setup on {configs.environment_mode} mode")
+    logging.info(f"logger setup on {configs.app_environment_mode} mode")
 else:
     custom_logger.setup_development_logging()
-    logging.info(f"logger setup on {configs.environment_mode} mode")
+    logging.info(f"logger setup on {configs.app_environment_mode} mode")
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: setting up app middlewares
@@ -77,7 +76,7 @@ app.add_middleware(BaseHTTPMiddleware, dispatch=error_handler)
 uvicorn_access: Logger = logging.getLogger("uvicorn.access")
 uvicorn_error: Logger = logging.getLogger("uvicorn.erro")
 
-if configs.environment_mode == "production":
+if configs.app_environment_mode == "production":
     uvicorn_access.disabled = True
     uvicorn_error.disabled = True
 else:
@@ -85,32 +84,29 @@ else:
     uvicorn_error.disabled = False
 
 if __name__ == "__main__":
-    logging.info(f"application started in {configs.environment_mode} mode")
+    logging.info(f"application started in {configs.app_environment_mode} mode")
 
 if __name__ != "__main__":
-    logging.info(f"application reloaded in {configs.environment_mode} mode")
+    logging.info(f"application reloaded in {configs.app_environment_mode} mode")
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: setting up uvicorn asgi server with fast api app
 # ---------------------------------------------------------------------------------------------------------------------
 
-application_port: int = (
-    int(environ.get("SERVER_PORT")) if environ.get("SERVER_PORT") is not None else 10048
-)
 
 uvicorn_server_configs: dict[str, any] = {
-    "use_colors": False if configs.environment_mode == "production" else True,
-    "app": app if configs.environment_mode == "production" else "main:app",
-    "reload": False if configs.environment_mode == "production" else True,
+    "use_colors": False if configs.app_environment_mode == "production" else True,
+    "app": app if configs.app_environment_mode == "production" else "main:app",
+    "reload": False if configs.app_environment_mode == "production" else True,
     "reload_includes": ["*.py", "*.graphql"],
     "reload_excludes": ["*.pyc", "*.pyo"],
-    "port": application_port,
+    "port": configs.app_server_port,
     "log_level": "warning",
     "access_log": False,
     "host": "0.0.0.0",
 }
 
-logging.info(f"application starting on port {application_port}")
+logging.info(f"application starting on port {configs.app_server_port}")
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: running app using the previous uvicorn asgi server settings
@@ -119,5 +115,5 @@ logging.info(f"application starting on port {application_port}")
 if __name__ == "__main__":
     uvicorn.run(**uvicorn_server_configs)
 
-if configs.environment_mode == "production":
+if configs.app_environment_mode == "production":
     logging.debug("application ended")
