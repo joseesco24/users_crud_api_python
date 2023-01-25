@@ -190,7 +190,7 @@ class UploadConnection(metaclass=Singleton):
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
         await self._connection.expire(name=key, time=timedelta(seconds=time))
 
-    async def _set(self, key: str, value: Any, time: int) -> None:
+    async def _set_with_ttl(self, key: str, value: Any, time: int) -> None:
         self._start_connection()
         if await self._check_connection_health() is False:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -215,8 +215,10 @@ class ConnectionManager(metaclass=Singleton):
             return pickle.loads(cache_response)
         return None
 
-    async def set(self, key: str, value: Any, time: int = configs.cache_ttl) -> None:
-        await self._upload_connection._set(
+    async def set_with_ttl(
+        self, key: str, value: Any, time: int = configs.cache_ttl
+    ) -> None:
+        await self._upload_connection._set_with_ttl(
             key=key, value=pickle.dumps(value), time=time
         )
 

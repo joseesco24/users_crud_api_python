@@ -2,23 +2,16 @@
 import logging
 
 # ** info: typing imports
-from typing import Union
 from typing import List
 
-# ** info: cache tools
-from asyncache import cached
-
 # ** info: users dtos imports
-from src.dtos.users_dtos import UserPublicDto
-from src.dtos.users_dtos import UserFullDto
+from src.dtos.users_dtos import UserDto
 
 # ** info: users provider import
 from src.database.users_database.users_provider import users_provider
 
 # ** info: resolvers cache
-from src.resolvers.cache_manager import cache_manager
-
-from src.database.cache_database.connection_manager import connection_manager
+from src.database.cache_database.cache_provider import cache_provider
 
 # ** info: artifacts imports
 from src.artifacts.datetime.datetime_provider import datetime_provider
@@ -40,7 +33,7 @@ class UsersResolvers(metaclass=Singleton):
         gender: str,
         birthday: str,
         password: str,
-    ) -> UserPublicDto:
+    ) -> UserDto:
         """add_user_resolver
 
         usersFullData root resolver
@@ -56,7 +49,7 @@ class UsersResolvers(metaclass=Singleton):
         first_name = first_name.lower()
         last_name = last_name.lower()
 
-        response: UserPublicDto = users_provider.add_user(
+        response: UserDto = users_provider.add_user(
             internal_id=internal_id,
             estatal_id=estatal_id,
             first_name=first_name,
@@ -74,51 +67,23 @@ class UsersResolvers(metaclass=Singleton):
 
         return response
 
-    @cached(cache=cache_manager.ttl_cache)
-    async def users_full_data_resolver(
+    @cache_provider.ttl_cache(ttl=120)
+    async def users_resolver(
         self, limit: int, offset: int
-    ) -> List[UserFullDto]:
-        """users_full_data_resolver
+    ) -> List[UserDto]:
+        """users_resolver
 
-        usersFullData root resolver
+        users root resolver
 
         """
 
-        logging.debug("starting usersFullData resolver method")
+        logging.debug("starting users resolver method")
 
-        response: List[UserFullDto] = users_provider.fetch_users_full_data(
+        response: List[UserDto] = users_provider.fetch_users_data(
             limit=limit, offset=offset
         )
 
-        logging.debug("ending usersFullData resolver method")
-
-        return response
-
-    async def users_public_data_resolver(
-        self, limit: int, offset: int
-    ) -> List[UserPublicDto]:
-        """users_public_data_resolver
-
-        usersPublicData root resolver
-
-        """
-        key: str = "users_public_data_resolver_key"
-        cache_result: Union[List[UserPublicDto], None] = await connection_manager.get(
-            key=key
-        )
-
-        if cache_result is not None:
-            return cache_result
-
-        logging.debug("starting usersPublicData resolver method")
-
-        response: List[UserPublicDto] = users_provider.fetch_users_public_data(
-            limit=limit, offset=offset
-        )
-
-        logging.debug("ending usersPublicData resolver method")
-
-        await connection_manager.set(key=key, value=response)
+        logging.debug("ending users resolver method")
 
         return response
 
