@@ -33,8 +33,7 @@ from src.artifacts.path.generator import generator
 from src.artifacts.env.configs import configs
 
 # ** info: users dtos imports
-from src.dtos.users_dtos import UserPublicDto
-from src.dtos.users_dtos import UserFullDto
+from src.dtos.users_dtos import UserDto
 
 # ** info: resolvers imports
 from src.resolvers.users_resolvers import users_resolvers
@@ -70,7 +69,7 @@ async def add_user_facade(
     gender: str,
     birthday: str,
     password: str
-) -> UserPublicDto:
+) -> UserDto:
     """add_user_facade
 
     addUser resolver facade
@@ -79,7 +78,7 @@ async def add_user_facade(
 
     logging.debug("starting addUser resolver facade")
 
-    response: UserPublicDto = await users_resolvers.add_user_resolver(
+    response: UserDto = await users_resolvers.add_user_resolver(
         estatal_id=estatalId,
         first_name=firstName,
         last_name=lastName,
@@ -95,42 +94,23 @@ async def add_user_facade(
     return response
 
 
-@query.field("usersFullData")
-async def users_full_data_facade(*_: Any, limit: int, offset: int) -> List[UserFullDto]:
-    """users_full_data_facade
-
-    usersFullData resolver facade
-
-    """
-
-    logging.debug("starting usersFullData resolver facade")
-
-    response: List[UserFullDto] = await users_resolvers.users_full_data_resolver(
-        limit=limit, offset=offset
-    )
-
-    logging.debug("ending usersFullData resolver facade")
-
-    return response
-
-
-@query.field("usersPublicData")
+@query.field("users")
 async def users_public_data_facade(
     *_: Any, limit: int, offset: int
-) -> List[UserPublicDto]:
-    """users_public_data_facade
+) -> List[UserDto]:
+    """users_facade
 
-    usersPublicData resolver facade
+    users resolver facade
 
     """
 
-    logging.debug("starting usersPublicData resolver facade")
+    logging.debug("starting users resolver facade")
 
-    response: List[UserPublicDto] = await users_resolvers.users_public_data_resolver(
+    response: List[UserDto] = await users_resolvers.users_resolver(
         limit=limit, offset=offset
     )
 
-    logging.debug("ending usersPub resolver facade")
+    logging.debug("ending users resolver facade")
 
     return response
 

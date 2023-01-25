@@ -3,8 +3,7 @@
 scalar Integer
 
 type Query {
-  usersPublicData(limit: Int!, offset: Int!): [UserPublicData!]!
-  usersFullData(limit: Int!, offset: Int!): [UserFullData!]!
+  users(limit: Int!, offset: Int!): [User!]!
 }
 
 type Mutation {
@@ -17,10 +16,10 @@ type Mutation {
     gender: String!
     birthday: String!
     password: String!
-  ): UserPublicData
+  ): User
 }
 
-type UserPublicData {
+type User {
   internalId: ID!
   estatalId: Integer!
   firstName: String!
@@ -29,18 +28,4 @@ type UserPublicData {
   email: String!
   gender: String!
   birthday: String!
-}
-
-type UserFullData {
-  internalId: ID!
-  estatalId: Integer!
-  firstName: String!
-  lastName: String!
-  phoneNumber: Integer!
-  email: String!
-  gender: String!
-  birthday: String!
-  creation: String!
-  modification: String!
-  password: String!
 }

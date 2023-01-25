@@ -9,8 +9,7 @@ from sqlalchemy import select
 from src.entities.users_entity import Users
 
 # ** info: users dtos imports
-from src.dtos.users_dtos import UserPublicDto
-from src.dtos.users_dtos import UserFullDto
+from src.dtos.users_dtos import UserDto
 
 # ** info: users database connection manager import
 from src.database.users_database.connection_manager import connection_manager
@@ -37,8 +36,8 @@ class UsersProvider(metaclass=Singleton):
         creation: str,
         modification: str,
         password: str,
-    ) -> UserPublicDto:
-        user_public_data: UserPublicDto = UserPublicDto
+    ) -> UserDto:
+        user_dto: UserDto = UserDto()
 
         new_user: Users = Users(
             internal_id=internal_id,
@@ -54,66 +53,16 @@ class UsersProvider(metaclass=Singleton):
             password=password,
         )
 
-        user_public_data = self._users_entity_to_users_public_dto(user=new_user)
+        user_dto = self._users_entity_to_users_public_dto(user=new_user)
 
         session: CrudSession = connection_manager.get_crud_session()
         session.add(new_user)
         session.commit_and_close()
 
-        return user_public_data
+        return user_dto
 
-    def fetch_users_full_data(self, limit: int, offset: int) -> List[UserFullDto]:
-        users_full_data: List[UserFullDto] = list()
-
-        query: Any = (
-            select(
-                [
-                    Users.internal_id,
-                    Users.estatal_id,
-                    Users.first_name,
-                    Users.last_name,
-                    Users.phone_number,
-                    Users.email,
-                    Users.gender,
-                    Users.birthday,
-                    Users.creation,
-                    Users.modification,
-                    Users.password,
-                ]
-            )
-            .select_from(Users)
-            .order_by(Users.creation.desc())
-            .limit(limit)
-            .offset(offset)
-        )
-
-        results: List[Users] = connection_manager.get_query_session().execute(
-            statement=query
-        )
-
-        users_full_data = list(map(self._users_entity_to_users_full_dto, results))
-
-        return users_full_data
-
-    def _users_entity_to_users_full_dto(self, user: Users) -> UserFullDto:
-        users_full_dto: UserFullDto = UserFullDto()
-
-        users_full_dto.internalId = str(user.internal_id)
-        users_full_dto.estatalId = str(user.estatal_id)
-        users_full_dto.firstName = str(user.first_name)
-        users_full_dto.lastName = str(user.last_name)
-        users_full_dto.phoneNumber = int(user.phone_number)
-        users_full_dto.email = str(user.email)
-        users_full_dto.gender = str(user.gender)
-        users_full_dto.birthday = str(user.birthday)
-        users_full_dto.creation = str(user.creation)
-        users_full_dto.modification = str(user.modification)
-        users_full_dto.password = str(user.password)
-
-        return users_full_dto
-
-    def fetch_users_public_data(self, limit: int, offset: int) -> List[UserPublicDto]:
-        users_pub_data: List[UserPublicDto] = list()
+    def fetch_users_data(self, limit: int, offset: int) -> List[UserDto]:
+        users_data: List[UserDto] = list()
 
         query: Any = (
             select(
@@ -138,23 +87,23 @@ class UsersProvider(metaclass=Singleton):
             statement=query
         )
 
-        users_pub_data = list(map(self._users_entity_to_users_public_dto, results))
+        users_data = list(map(self._users_entity_to_users_public_dto, results))
 
-        return users_pub_data
+        return users_data
 
-    def _users_entity_to_users_public_dto(self, user: Users) -> UserPublicDto:
-        users_pub_dto: UserPublicDto = UserPublicDto()
+    def _users_entity_to_users_public_dto(self, user: Users) -> UserDto:
+        user_dto: UserDto = UserDto()
 
-        users_pub_dto.internalId = str(user.internal_id)
-        users_pub_dto.estatalId = str(user.estatal_id)
-        users_pub_dto.firstName = str(user.first_name)
-        users_pub_dto.lastName = str(user.last_name)
-        users_pub_dto.phoneNumber = int(user.phone_number)
-        users_pub_dto.email = str(user.email)
-        users_pub_dto.gender = str(user.gender)
-        users_pub_dto.birthday = str(user.birthday)
+        user_dto.internalId = str(user.internal_id)
+        user_dto.estatalId = str(user.estatal_id)
+        user_dto.firstName = str(user.first_name)
+        user_dto.lastName = str(user.last_name)
+        user_dto.phoneNumber = int(user.phone_number)
+        user_dto.email = str(user.email)
+        user_dto.gender = str(user.gender)
+        user_dto.birthday = str(user.birthday)
 
-        return users_pub_dto
+        return user_dto
 
 
 users_provider: UsersProvider = UsersProvider()
