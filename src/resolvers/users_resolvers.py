@@ -68,9 +68,7 @@ class UsersResolvers(metaclass=Singleton):
         return response
 
     @cache_provider.ttl_cache(ttl=120)
-    async def users_resolver(
-        self, limit: int, offset: int
-    ) -> List[UserDto]:
+    async def users_resolver(self, limit: int, offset: int) -> List[UserDto]:
         """users_resolver
 
         users root resolver
