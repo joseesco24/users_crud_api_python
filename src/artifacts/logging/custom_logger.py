@@ -99,6 +99,7 @@ class CustomLogger(metaclass=Singleton):
             "threadId": record["thread"].id,
             "filePath": record["file"].path,
             "fileName": record["file"].name,
+            "elapsedTime": datetime_provider.prettify_time_delta_obj(record["elapsed"]),
         }
 
         if record["extra"]:
