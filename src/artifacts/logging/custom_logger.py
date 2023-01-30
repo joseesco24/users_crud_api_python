@@ -22,7 +22,7 @@ __all__: list[str] = ["custom_logger"]
 
 
 class CustomLogger(metaclass=Singleton):
-    _extras: Dict[str, str] = {"requestId": "system"}
+    _extras: Dict[str, str] = {"requestId": "397d4343-2855-4c92-b64b-58ee82006e0b"}
 
     def __init__(self) -> None:
         pass

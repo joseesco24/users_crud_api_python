@@ -1,6 +1,7 @@
 # ** info: python imports
 import functools
 import hashlib
+import logging
 
 # ** info: typing imports
 from typing import Callable
@@ -37,6 +38,7 @@ class CacheProvider(metaclass=Singleton):
                 )
 
                 if cached_value is not None:
+                    logging.info("returning requested value from redis cache")
                     return cached_value
 
                 # ** info: executing the function
