@@ -17,7 +17,7 @@ __all__: list[str] = ["logger_contextualizer"]
 class LoggerContextualizer(metaclass=Singleton):
 
     """logger contextualizer
-    this class provides a custom error handler middleware for fastapi based applications
+    this class provides a custom loguru contextualizer middleware for fastapi based applications
     """
 
     def __init__(self):
