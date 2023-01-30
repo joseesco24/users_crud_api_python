@@ -37,6 +37,8 @@ from src.artifacts.env.configs import configs
 
 # ** info: middlewares imports
 from src.middlewares.error_handler import error_handler
+from src.middlewares.logger_setup import logger_setup
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: initializing app routers
@@ -65,9 +67,10 @@ else:
 # ** info: setting up app middlewares
 # ---------------------------------------------------------------------------------------------------------------------
 
-app.add_middleware(CORSMiddleware)
-
+app.add_middleware(BaseHTTPMiddleware, dispatch=logger_setup)
 app.add_middleware(BaseHTTPMiddleware, dispatch=error_handler)
+
+app.add_middleware(CORSMiddleware)
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: disabling uvicorn access and error logs on production mode
