@@ -1,18 +1,22 @@
+# ** info: loguru imports
+from loguru import logger
+
 # ** info: starlette imports
 from starlette.responses import StreamingResponse
 from starlette.requests import Request
 
 
 # ** info: artifacts imports
+from src.artifacts.uuid.uuid_provider import uuid_provider
 from src.artifacts.pattern.singleton import Singleton
 
 # pylint: disable=unused-variable
-__all__: list[str] = ["logger_setup"]
+__all__: list[str] = ["logger_contextualizer"]
 
 
-class LoggerSetup(metaclass=Singleton):
+class LoggerContextualizer(metaclass=Singleton):
 
-    """error handler
+    """logger contextualizer
     this class provides a custom error handler middleware for fastapi based applications
     """
 
@@ -32,9 +36,10 @@ class LoggerSetup(metaclass=Singleton):
         request: Request,
         call_next: callable,
     ) -> StreamingResponse:
-        response: StreamingResponse = await call_next(request)
+        with logger.contextualize(requestId=uuid_provider.get_str_uuid()):
+            response: StreamingResponse = await call_next(request)
 
         return response
 
 
-logger_setup: LoggerSetup = LoggerSetup()
+logger_contextualizer: LoggerContextualizer = LoggerContextualizer()

@@ -8,6 +8,7 @@ import sys
 from types import FrameType
 from typing import Optional
 from typing import Union
+from typing import Dict
 
 # ** info: loguru imports
 from loguru import logger
@@ -21,6 +22,8 @@ __all__: list[str] = ["custom_logger"]
 
 
 class CustomLogger(metaclass=Singleton):
+    _extras: Dict[str, str] = {"requestId": "system"}
+
     def __init__(self) -> None:
         pass
 
@@ -33,7 +36,7 @@ class CustomLogger(metaclass=Singleton):
         # ** info: optional add [{process.name}][{thread.name}] to fmt to see the thread and process names
 
         # pylint: disable=line-too-long
-        fmt: str = "[<fg #66a3ff>{time:YYYY-MM-DD HH:mm:ss.SSSSSS!UTC}</fg #66a3ff>] <level>{level}</level> ({module}:{function}:<bold>{line}</bold>): {message}"
+        fmt: str = "[<fg #66a3ff>{time:YYYY-MM-DD HH:mm:ss.SSSSSS!UTC}</fg #66a3ff>:<fg #fc03cf>{extra[requestId]}</fg #fc03cf>] <level>{level}</level> ({module}:{function}:<bold>{line}</bold>): {message}"
 
         # ** info: overwriting all the loggers configs with the new one
         logging.root.handlers = [self.__CustomInterceptHandler()]
@@ -51,6 +54,7 @@ class CustomLogger(metaclass=Singleton):
             "format": fmt,
         }
 
+        logger.configure(extra=self._extras)
         logger.configure(handlers=[loguru_configs])
 
     def setup_production_logging(self) -> None:
@@ -77,6 +81,7 @@ class CustomLogger(metaclass=Singleton):
             "format": fmt,
         }
 
+        logger.configure(extra=self._extras)
         logger.configure(handlers=[loguru_configs])
 
     def __custom_log_sink(self, message) -> None:
@@ -100,10 +105,8 @@ class CustomLogger(metaclass=Singleton):
             "filePath": record["file"].path,
             "fileName": record["file"].name,
             "elapsedTime": datetime_provider.prettify_time_delta_obj(record["elapsed"]),
+            "requestId": record["extra"]["requestId"],
         }
-
-        if record["extra"]:
-            subset["payload"] = record["extra"]
 
         if record["exception"] is not None:
             error: Exception = record["exception"]

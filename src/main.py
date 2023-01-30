@@ -36,8 +36,8 @@ from src.artifacts.logging.custom_logger import custom_logger
 from src.artifacts.env.configs import configs
 
 # ** info: middlewares imports
+from src.middlewares.logger_contextualizer import logger_contextualizer
 from src.middlewares.error_handler import error_handler
-from src.middlewares.logger_setup import logger_setup
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ else:
 # ** info: setting up app middlewares
 # ---------------------------------------------------------------------------------------------------------------------
 
-app.add_middleware(BaseHTTPMiddleware, dispatch=logger_setup)
+app.add_middleware(BaseHTTPMiddleware, dispatch=logger_contextualizer)
 app.add_middleware(BaseHTTPMiddleware, dispatch=error_handler)
 
 app.add_middleware(CORSMiddleware)
