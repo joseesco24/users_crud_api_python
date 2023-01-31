@@ -12,8 +12,8 @@ from src.entities.users_entity import Users
 from src.dtos.users_dtos import UserDto
 
 # ** info: users database connection manager import
+from src.database.users_database.connection_manager import CrudManagedSession
 from src.database.users_database.connection_manager import connection_manager
-from src.database.users_database.connection_manager import CrudSession
 
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
@@ -55,9 +55,8 @@ class UsersProvider(metaclass=Singleton):
 
         user_dto = self._users_entity_to_users_public_dto(user=new_user)
 
-        session: CrudSession = connection_manager.get_crud_session()
-        session.add(new_user)
-        session.commit_and_close()
+        with CrudManagedSession() as crud_session:
+            crud_session.add(new_user)
 
         return user_dto
 

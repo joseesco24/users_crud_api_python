@@ -28,7 +28,7 @@ from src.artifacts.pattern.singleton import Singleton
 from src.artifacts.env.configs import configs
 
 # pylint: disable=unused-variable
-__all__: list[str] = ["connection_manager", "CrudSession", "QuerySession"]
+__all__: list[str] = ["connection_manager", "CrudManagedSession"]
 
 
 class QuerySession(Session):
@@ -191,3 +191,14 @@ connection_manager: ConnectionManager = ConnectionManager(
     port=configs.database_port,
     logs=configs.database_logs,
 )
+
+
+class CrudManagedSession:
+    def __init__(self):
+        self.crud_session: CrudSession = connection_manager.get_crud_session()
+
+    def __enter__(self) -> CrudSession:
+        return self.crud_session
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.crud_session.commit_and_close()
