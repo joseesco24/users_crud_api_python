@@ -12,7 +12,9 @@ import logging
 import sys
 
 # ** info: typing imports
+from typing import Dict
 from typing import List
+from typing import Any
 
 # **info: appending src path to the system paths for absolute imports from src path
 sys.path.append(join(path.dirname(path.realpath(__file__)), "..", "."))
@@ -97,7 +99,7 @@ if __name__ != "__main__":
 # ---------------------------------------------------------------------------------------------------------------------
 
 
-uvicorn_server_configs: dict[str, any] = {
+uvicorn_server_configs: Dict[str, Any] = {
     "use_colors": False if configs.app_environment_mode == "production" else True,
     "app": app if configs.app_environment_mode == "production" else "main:app",
     "reload": False if configs.app_environment_mode == "production" else True,
