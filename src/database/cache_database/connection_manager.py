@@ -107,6 +107,7 @@ class DownloadConnection(metaclass=Singleton):
         self._start_connection()
 
     async def _check_connection_health(self) -> bool:
+        self._start_connection()
         try:
             await self._connection.ping()
             if self._logs:
@@ -165,6 +166,7 @@ class UploadConnection(metaclass=Singleton):
         self._start_connection()
 
     async def _check_connection_health(self) -> bool:
+        self._start_connection()
         try:
             await self._connection.ping()
             if self._logs:

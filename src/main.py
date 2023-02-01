@@ -38,6 +38,7 @@ from src.artifacts.logging.custom_logger import custom_logger
 from src.artifacts.env.configs import configs
 
 # ** info: middlewares imports
+from src.middlewares.database_health_check import database_health_check
 from src.middlewares.logger_contextualizer import logger_contextualizer
 from src.middlewares.error_handler import error_handler
 
@@ -69,6 +70,7 @@ else:
 # ** info: setting up app middlewares
 # ---------------------------------------------------------------------------------------------------------------------
 
+app.add_middleware(BaseHTTPMiddleware, dispatch=database_health_check)
 app.add_middleware(BaseHTTPMiddleware, dispatch=logger_contextualizer)
 app.add_middleware(BaseHTTPMiddleware, dispatch=error_handler)
 

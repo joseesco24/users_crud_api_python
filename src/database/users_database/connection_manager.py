@@ -142,6 +142,8 @@ class ConnectionManager(metaclass=Singleton):
         self._start_query_session()
 
     def _check_query_session_health(self) -> bool:
+        self._start_engine()
+        self._start_query_session()
         try:
             self._query_session.execute("select 1")
             if self._logs:
