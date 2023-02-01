@@ -1,5 +1,9 @@
 # ** info: python imports
+from asyncio import gather
 import logging
+
+# ** info: typing imports
+from typing import Tuple
 
 # ** info: starlette imports
 from starlette.responses import StreamingResponse
@@ -56,17 +60,19 @@ class DatabaseHealthCheck(metaclass=Singleton):
     ) -> StreamingResponse:
         are_databses_healty: bool = True
 
-        if (
-            await cache_connection_manager._download_connection._check_connection_health()
-            is False
-        ):
+        cache_connections_health: Tuple[bool, bool] = await gather(
+            cache_connection_manager._download_connection._check_connection_health(),
+            cache_connection_manager._upload_connection._check_connection_health(),
+        )
+
+        is_download_connection_healthy: bool = cache_connections_health[0]
+        is_upload_connection_healthy: bool = cache_connections_health[1]
+
+        if is_download_connection_healthy is False:
             logging.warning("cache download connection isn't healthy")
             are_databses_healty = False
 
-        if (
-            await cache_connection_manager._upload_connection._check_connection_health()
-            is False
-        ):
+        if is_upload_connection_healthy is False:
             logging.warning("cache upload connection isn't healthy")
             are_databses_healty = False
 

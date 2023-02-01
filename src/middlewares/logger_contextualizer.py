@@ -5,7 +5,6 @@ from loguru import logger
 from starlette.responses import StreamingResponse
 from starlette.requests import Request
 
-
 # ** info: artifacts imports
 from src.artifacts.uuid.uuid_provider import uuid_provider
 from src.artifacts.pattern.singleton import Singleton
