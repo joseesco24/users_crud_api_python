@@ -23,6 +23,9 @@ class EnvironmentMode(str, Enum):
 class Configs(BaseSettings):
     app_environment_mode: EnvironmentMode = Field(..., env="APP_ENVIRONMENT_MODE")
     app_server_port: int = Field(..., env="APP_SERVER_PORT")
+    app_use_database_health_check_middleware: bool = Field(
+        ..., env="APP_USE_DATABASE_HEALTH_CHECK_MIDDLEWARE"
+    )
 
     database_password: str = Field(..., env="DATABASE_PASSWORD")
     database_logs: bool = Field(..., env="DATABASE_LOGS")

@@ -70,7 +70,10 @@ else:
 # ** info: setting up app middlewares
 # ---------------------------------------------------------------------------------------------------------------------
 
-app.add_middleware(BaseHTTPMiddleware, dispatch=database_health_check)
+if configs.app_use_database_health_check_middleware is True:
+    logging.info("databases health check middleware active")
+    app.add_middleware(BaseHTTPMiddleware, dispatch=database_health_check)
+
 app.add_middleware(BaseHTTPMiddleware, dispatch=logger_contextualizer)
 app.add_middleware(BaseHTTPMiddleware, dispatch=error_handler)
 
