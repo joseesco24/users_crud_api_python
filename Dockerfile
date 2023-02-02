@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 # ** info: declaration of the testing image base version
-FROM python:3.10.6 as testing
+FROM python:3.11.1 as testing
 
 # ** info: declaration of the building image working directory
 ARG WORKDIR=/home/testing
@@ -44,7 +44,7 @@ RUN find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
 # ---------------------------------------------------------------------------------------------------------------------
 
 # ** info: declaration of the production image base version
-FROM python:3.10.6-slim-bullseye
+FROM python:3.11.1-slim-bullseye
 
 # ** info: declaration of the production working directory and username inside the production image
 ARG USERNAME=production
