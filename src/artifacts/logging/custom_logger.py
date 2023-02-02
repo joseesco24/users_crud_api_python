@@ -15,6 +15,7 @@ from loguru import logger
 
 # ** info: artifacts imports
 from src.artifacts.datetime.datetime_provider import datetime_provider
+from src.artifacts.uuid.uuid_provider import uuid_provider
 from src.artifacts.pattern.singleton import Singleton
 
 # pylint: disable=unused-variable
@@ -22,7 +23,10 @@ __all__: list[str] = ["custom_logger"]
 
 
 class CustomLogger(metaclass=Singleton):
-    _extras: Dict[str, str] = {"requestId": "397d4343-2855-4c92-b64b-58ee82006e0b"}
+    _extras: Dict[str, str] = {
+        "requestId": "397d4343-2855-4c92-b64b-58ee82006e0b",
+        "app": "users_crud_api_python",
+    }
 
     def __init__(self) -> None:
         pass
@@ -106,6 +110,7 @@ class CustomLogger(metaclass=Singleton):
             "fileName": record["file"].name,
             "elapsedTime": datetime_provider.prettify_time_delta_obj(record["elapsed"]),
             "requestId": record["extra"]["requestId"],
+            "loggId": uuid_provider.get_str_uuid(),
         }
 
         if record["exception"] is not None:
