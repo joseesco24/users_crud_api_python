@@ -1,3 +1,4 @@
+# ** info: ariadne imports
 from ariadne import ScalarType
 
 

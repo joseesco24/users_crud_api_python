@@ -8,7 +8,6 @@ from typing import Callable
 from typing import Union
 from typing import Any
 
-
 # ** info: databases imports
 from src.database.cache_database.connection_manager import connection_manager
 from src.database.cache_database.connection_manager import ConnectionManager
