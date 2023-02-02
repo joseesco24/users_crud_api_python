@@ -1,6 +1,9 @@
 # ** info: python imports
 from enum import Enum
 
+# ** info: typing imports
+from typing import Set
+
 # ** info: pydantic imports
 from pydantic import BaseSettings
 from pydantic import Field
@@ -23,6 +26,10 @@ class EnvironmentMode(str, Enum):
 class Configs(BaseSettings):
     app_environment_mode: EnvironmentMode = Field(..., env="APP_ENVIRONMENT_MODE")
     app_server_port: int = Field(..., env="APP_SERVER_PORT")
+
+    app_use_database_health_check_middleware_exclude: Set[str] = Field(
+        ..., env="APP_USE_DATABASE_HEALTH_CHECK_MIDDLEWARE_EXCLUDE"
+    )
     app_use_database_health_check_middleware: bool = Field(
         ..., env="APP_USE_DATABASE_HEALTH_CHECK_MIDDLEWARE"
     )

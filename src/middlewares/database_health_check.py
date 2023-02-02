@@ -24,6 +24,9 @@ from src.database.users_database.connection_manager import (
     connection_manager as users_connection_manager,
 )
 
+# ** info: artifacts imports
+from src.artifacts.env.configs import configs
+
 # pylint: disable=unused-variable
 __all__: list[str] = ["database_health_check"]
 
@@ -58,6 +61,18 @@ class DatabaseHealthCheck(metaclass=Singleton):
         request: Request,
         call_next: callable,
     ) -> StreamingResponse:
+        await self.__set_body__(request=request)
+
+        base_url: str = str(request.base_url)
+        full_url: str = str(request.url)
+
+        endpoint_url: str = full_url.replace(base_url, "").strip().lower()
+
+        if endpoint_url in configs.app_use_database_health_check_middleware_exclude:
+            logging.info("jumping databases health check middleware validations")
+            response: StreamingResponse = await call_next(request)
+            return response
+
         are_databses_healty: bool = True
 
         cache_connections_health: Tuple[bool, bool] = await gather(
