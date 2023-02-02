@@ -31,7 +31,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.routing import BaseRoute
 
 # ** info: rest based routers imports
-from src.controllers.health_check import health_check_router
+from src.rest_routers.health_check_router import health_check_router
 
 # ** info: graphql based routers imports
 from src.main_router import main_router
