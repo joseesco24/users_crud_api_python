@@ -30,7 +30,10 @@ from fastapi import FastAPI
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.routing import BaseRoute
 
-# ** info: routers imports
+# ** info: rest based routers imports
+from src.controllers.health_check import health_check_router
+
+# ** info: graphql based routers imports
 from src.main_router import main_router
 
 # ** info: artifacts imports
@@ -44,16 +47,22 @@ from src.middlewares.error_handler import error_handler
 
 
 # ---------------------------------------------------------------------------------------------------------------------
-# ** info: initializing app routers
+# ** info: initializing app graphql based routers
 # ---------------------------------------------------------------------------------------------------------------------
 
 routers: List[BaseRoute] = [main_router]
 
 # ---------------------------------------------------------------------------------------------------------------------
-# ** info: initializing app dependencies and mounting routes
+# ** info: initializing app dependencies and mounting graphql based routes
 # ---------------------------------------------------------------------------------------------------------------------
 
 app: FastAPI = FastAPI(routes=routers)
+
+# ---------------------------------------------------------------------------------------------------------------------
+# ** info: mounting rest based routes
+# ---------------------------------------------------------------------------------------------------------------------
+
+app.include_router(health_check_router)
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: setting up global app logging
