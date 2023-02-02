@@ -26,6 +26,8 @@ class CustomLogger(metaclass=Singleton):
     _extras: Dict[str, str] = {
         "requestId": "397d4343-2855-4c92-b64b-58ee82006e0b",
         "app": "users_crud_api_python",
+        "endpointUrl": "",
+        "fullUrl": "",
     }
 
     def __init__(self) -> None:
@@ -111,6 +113,8 @@ class CustomLogger(metaclass=Singleton):
             "elapsedTime": datetime_provider.prettify_time_delta_obj(record["elapsed"]),
             "requestId": record["extra"]["requestId"],
             "loggId": uuid_provider.get_str_uuid(),
+            "endpointUrl": record["extra"]["endpointUrl"],
+            "fullUrl": record["extra"]["fullUrl"],
         }
 
         if record["exception"] is not None:

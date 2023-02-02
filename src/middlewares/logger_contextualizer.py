@@ -35,7 +35,18 @@ class LoggerContextualizer(metaclass=Singleton):
         request: Request,
         call_next: callable,
     ) -> StreamingResponse:
-        with logger.contextualize(requestId=uuid_provider.get_str_uuid()):
+        await self.__set_body__(request=request)
+
+        base_url: str = str(request.base_url)
+        full_url: str = str(request.url)
+
+        endpoint_url: str = full_url.replace(base_url, "").strip().lower()
+
+        with logger.contextualize(
+            requestId=uuid_provider.get_str_uuid(),
+            endpointUrl=endpoint_url,
+            fullUrl=full_url,
+        ):
             response: StreamingResponse = await call_next(request)
 
         return response
