@@ -7,10 +7,51 @@
 	},
 	"item": [
 		{
-			"name": "users",
+			"name": "graphql",
 			"item": [
 				{
-					"name": "fetch users full example",
+					"name": "addUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"test response status\", function() {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test(\"test response time is less than 300s\", function() {",
+									"    pm.expect(pm.response.responseTime).to.be.below(300)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation {\n    nuevoUsuario: addUser (\n        estatalId: 1075313858,\n        firstName: \"jose\",\n        lastName: \"daniel\",\n        phoneNumber: 3188987488,\n        email: \"josed@outlook.com\",\n        gender: \"Male\",\n        birthday: \"1998-07-24\",\n        password: \"password\"\n    ) {\n        idSistema: internalId\n        nombre: firstName\n        apellido: lastName\n        cedula: estatalId\n        numeroTelefono: phoneNumber\n        genero: gender\n        fechaNacimiento: birthday\n        correo: email\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{hostPath}}/graphql",
+							"host": [
+								"{{hostPath}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users",
 					"event": [
 						{
 							"listen": "test",
@@ -53,48 +94,30 @@
 			]
 		},
 		{
-			"name": "addUser",
+			"name": "rest",
 			"item": [
 				{
-					"name": "add user alias example",
-					"event": [
+					"name": "health-check",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"test response status\", function() {",
-									"    pm.response.to.have.status(200)",
-									"})",
-									"",
-									"pm.test(\"test response time is less than 300s\", function() {",
-									"    pm.expect(pm.response.responseTime).to.be.below(300)",
-									"})"
-								],
-								"type": "text/javascript"
-							}
+							"name": "is-everything-ok",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{hostPath}}/health-check/is-everything-ok",
+									"host": [
+										"{{hostPath}}"
+									],
+									"path": [
+										"health-check",
+										"is-everything-ok"
+									]
+								}
+							},
+							"response": []
 						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation {\n    nuevoUsuario: addUser (\n        estatalId: 1075313858,\n        firstName: \"jose\",\n        lastName: \"daniel\",\n        phoneNumber: 3188987488,\n        email: \"josed@outlook.com\",\n        gender: \"Male\",\n        birthday: \"1998-07-24\",\n        password: \"password\"\n    ) {\n        idSistema: internalId\n        nombre: firstName\n        apellido: lastName\n        cedula: estatalId\n        numeroTelefono: phoneNumber\n        genero: gender\n        fechaNacimiento: birthday\n        correo: email\n    }\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{hostPath}}/graphql",
-							"host": [
-								"{{hostPath}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
