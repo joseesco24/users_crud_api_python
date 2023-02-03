@@ -25,9 +25,9 @@ __all__: list[str] = ["custom_logger"]
 class CustomLogger(metaclass=Singleton):
     _extras: Dict[str, str] = {
         "requestId": "397d4343-2855-4c92-b64b-58ee82006e0b",
-        "app": "users_crud_api_python",
-        "endpointUrl": "",
-        "fullUrl": "",
+        "appName": "users_crud_api_python",
+        "endpointUrl": "undefined",
+        "fullUrl": "undefined",
     }
 
     def __init__(self) -> None:
@@ -115,6 +115,7 @@ class CustomLogger(metaclass=Singleton):
             "loggId": uuid_provider.get_str_uuid(),
             "endpointUrl": record["extra"]["endpointUrl"],
             "fullUrl": record["extra"]["fullUrl"],
+            "appName": record["extra"]["appName"],
         }
 
         if record["exception"] is not None:
