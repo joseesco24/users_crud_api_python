@@ -16,27 +16,34 @@ A really simple CRUD GraphQL API based on Docker and Python.
 find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
 ```
 
-### Upgrade Python Venv Base Dependencies
+### Install Python Dependencies
 
 ```bash
-pip install --no-cache --upgrade pip wheel setuptools
+poetry install
 ```
 
-### Installing The Dev And App Dependencies
+### Change Poetry Venv Version To 3.11
 
 ```bash
-pip install --no-cache -r requirements.dev.txt
-pip install --no-cache -r requirements.app.txt
-
+poetry env use 3.11
 ```
 
-### Upgrade The Dependencies Using Pip Upgrader
+### Export The Dev And App Dependencies With Poetry
+
+```bash
+poetry export --without-hashes --format=requirements.txt > requirements.app.txt
+```
+
+```bash
+poetry export --without-hashes --only dev --format=requirements.txt > requirements.dev.txt
+```
+
+### Update The Depedencies With Poetry
 
 **Note:** Before running this command you need to install the dev dependencies.
 
 ```bash
-pip-upgrade requirements.dev.txt
-pip-upgrade requirements.app.txt
+poetry update
 ```
 
 ### Format The Code Using Black
