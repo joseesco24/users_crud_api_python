@@ -14,6 +14,7 @@ from sqlalchemy.engine import Engine
 
 # **info: sqlalchemy imports
 from sqlalchemy import create_engine
+from sqlalchemy import text
 
 # **info: sqlalchemy orm imports
 from sqlalchemy.orm import Session
@@ -145,7 +146,7 @@ class ConnectionManager(metaclass=Singleton):
         self._start_engine()
         self._start_query_session()
         try:
-            self._query_session.execute("select 1")
+            self._query_session.execute(text("select 1"))
             if self._logs:
                 logging.debug(
                     f"query session {self._query_session.session_id} is healthy"

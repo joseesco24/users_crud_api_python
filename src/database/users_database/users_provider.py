@@ -65,16 +65,14 @@ class UsersProvider(metaclass=Singleton):
 
         query: Any = (
             select(
-                [
-                    Users.internal_id,
-                    Users.estatal_id,
-                    Users.first_name,
-                    Users.last_name,
-                    Users.phone_number,
-                    Users.email,
-                    Users.gender,
-                    Users.birthday,
-                ]
+                Users.internal_id,
+                Users.estatal_id,
+                Users.first_name,
+                Users.last_name,
+                Users.phone_number,
+                Users.email,
+                Users.gender,
+                Users.birthday,
             )
             .select_from(Users)
             .order_by(Users.creation.desc())
