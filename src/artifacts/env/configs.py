@@ -23,8 +23,17 @@ class EnvironmentMode(str, Enum):
     testing: str = "testing"
 
 
+class LoggingMode(str, Enum):
+    # pylint: disable=invalid-name
+    structured: str = "structured"
+
+    # pylint: disable=invalid-name
+    pretty: str = "pretty"
+
+
 class Configs(BaseSettings):
     app_environment_mode: EnvironmentMode = Field(..., env="APP_ENVIRONMENT_MODE")
+    app_logging_mode: LoggingMode = Field(..., env="APP_LOGGING_MODE")
     app_server_port: int = Field(..., env="APP_SERVER_PORT")
 
     app_use_database_health_check_middleware_exclude: Set[str] = Field(

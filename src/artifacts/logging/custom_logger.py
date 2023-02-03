@@ -36,8 +36,8 @@ class CustomLogger(metaclass=Singleton):
     def __init__(self: Self) -> None:
         pass
 
-    def setup_development_logging(self: Self) -> None:
-        """setup development logging
+    def setup_pretty_logging(self: Self) -> None:
+        """setup pretty logging
         this function overwrites the python root logger with a custom logger, so all the logs are
         written with the new overwritten configuration
         """
@@ -66,8 +66,8 @@ class CustomLogger(metaclass=Singleton):
         logger.configure(extra=self._extras)
         logger.configure(handlers=[loguru_configs])
 
-    def setup_production_logging(self: Self) -> None:
-        """setup production logging
+    def setup_structured_logging(self: Self) -> None:
+        """setup structured logging
         this function overwrites the python root logger with a custom logger, so all the logs are
         written with the new overwritten configuration
         """

@@ -68,12 +68,12 @@ app.include_router(health_check_router)
 # ** info: setting up global app logging
 # ---------------------------------------------------------------------------------------------------------------------
 
-if configs.app_environment_mode == "production":
-    custom_logger.setup_production_logging()
-    logging.info(f"logger setup on {configs.app_environment_mode} mode")
+if configs.app_logging_mode == "structured":
+    custom_logger.setup_structured_logging()
+    logging.info(f"logger setup on {configs.app_logging_mode.lower()} mode")
 else:
-    custom_logger.setup_development_logging()
-    logging.info(f"logger setup on {configs.app_environment_mode} mode")
+    custom_logger.setup_pretty_logging()
+    logging.info(f"logger setup on {configs.app_logging_mode.lower()} mode")
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: setting up app middlewares
@@ -103,10 +103,10 @@ else:
     uvicorn_error.disabled = False
 
 if __name__ == "__main__":
-    logging.info(f"application started in {configs.app_environment_mode} mode")
+    logging.info(f"application started in {configs.app_environment_mode.lower()} mode")
 
 if __name__ != "__main__":
-    logging.info(f"application reloaded in {configs.app_environment_mode} mode")
+    logging.info(f"application reloaded in {configs.app_environment_mode.lower()} mode")
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: setting up uvicorn asgi server with fast api app

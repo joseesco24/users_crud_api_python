@@ -4,5 +4,23 @@
       "path": "."
     }
   ],
-  "settings": {}
+  "settings": {},
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "users_crud_api_python",
+        "type": "python",
+        "request": "launch",
+        "program": "src/main.py",
+        "console": "integratedTerminal",
+        "justMyCode": true,
+        "jinja": true,
+        "env": {
+          "APP_ENVIRONMENT_MODE": "production",
+          "APP_LOGGING_MODE": "pretty"
+        }
+      }
+    ]
+  }
 }
