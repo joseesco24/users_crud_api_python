@@ -4,6 +4,7 @@ import logging
 
 # ** info: typing imports
 from typing import Tuple
+from typing import Self
 
 # ** info: starlette imports
 from starlette.responses import StreamingResponse
@@ -37,10 +38,10 @@ class DatabaseHealthCheck(metaclass=Singleton):
     this class provides a databases health check middleware for fastapi based applications
     """
 
-    def __init__(self):
+    def __init__(self: Self):
         pass
 
-    async def _get_internal_server_error_stream(self) -> ContentStream:
+    async def _get_internal_server_error_stream(self: Self) -> ContentStream:
         response_stream: ContentStream = iter(["Internal Server Error"])
         response: StreamingResponse = StreamingResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -48,7 +49,7 @@ class DatabaseHealthCheck(metaclass=Singleton):
         )
         return response
 
-    async def __set_body__(self, request: Request):
+    async def __set_body__(self: Self, request: Request):
         receive_ = await request._receive()
 
         async def receive():
@@ -57,7 +58,7 @@ class DatabaseHealthCheck(metaclass=Singleton):
         request._receive = receive
 
     async def __call__(
-        self,
+        self: Self,
         request: Request,
         call_next: callable,
     ) -> StreamingResponse:

@@ -1,6 +1,9 @@
 # ** info: python imports
 import posixpath
 
+# ** info: typing imports
+from typing import Self
+
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
 
@@ -9,7 +12,7 @@ __all__: list[str] = ["generator"]
 
 
 class Generator(metaclass=Singleton):
-    def build_posix_path(self, *args: list[str]) -> str:
+    def build_posix_path(self: Self, *args: list[str]) -> str:
         """build posix path
         this function takes all the received string arguments and concatenate each one of the
         arguments into a posix path

@@ -2,6 +2,9 @@
 from datetime import timedelta
 from datetime import datetime
 
+# ** info: typing imports
+from typing import Self
+
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
 
@@ -10,19 +13,19 @@ __all__: list[str] = ["datetime_provider"]
 
 
 class DatetimeProvider(metaclass=Singleton):
-    def get_utc_time(self) -> datetime:
+    def get_utc_time(self: Self) -> datetime:
         return datetime.utcnow()
 
-    def get_utc_pretty_string(self) -> str:
+    def get_utc_pretty_string(self: Self) -> str:
         return self.prettify_date_time_obj(date_time_obj=self.get_utc_time())
 
-    def get_utc_iso_string(self) -> str:
+    def get_utc_iso_string(self: Self) -> str:
         return self.get_utc_time().isoformat()
 
-    def prettify_date_time_obj(self, date_time_obj: datetime) -> str:
+    def prettify_date_time_obj(self: Self, date_time_obj: datetime) -> str:
         return date_time_obj.strftime("%Y-%m-%d %H:%M:%S.%f")
 
-    def prettify_time_delta_obj(self, time_delta_obj: timedelta) -> str:
+    def prettify_time_delta_obj(self: Self, time_delta_obj: timedelta) -> str:
         delta_days: int = time_delta_obj.days
         delta_houres: int = time_delta_obj.seconds // 3600
         delta_minutes: int = time_delta_obj.seconds % 3600 // 60

@@ -3,6 +3,7 @@ import logging
 
 # ** info: typing imports
 from typing import List
+from typing import Self
 
 # ** info: users dtos imports
 from src.dtos.users_dtos import UserDto
@@ -24,7 +25,7 @@ __all__: list[str] = ["users_resolvers"]
 
 class UsersResolvers(metaclass=Singleton):
     async def add_user_resolver(
-        self,
+        self: Self,
         estatal_id: int,
         first_name: str,
         last_name: str,
@@ -68,7 +69,7 @@ class UsersResolvers(metaclass=Singleton):
         return response
 
     @cache_provider.ttl_cache(ttl=120)
-    async def users_resolver(self, limit: int, offset: int) -> List[UserDto]:
+    async def users_resolver(self: Self, limit: int, offset: int) -> List[UserDto]:
         """users_resolver
 
         users root resolver

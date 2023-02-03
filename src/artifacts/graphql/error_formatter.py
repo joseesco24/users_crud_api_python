@@ -1,6 +1,9 @@
 # ** info: python imports
 import logging
 
+# ** info: typing imports
+from typing import Self
+
 # ** info: ariadne imports
 from ariadne import format_error
 
@@ -16,7 +19,7 @@ __all__: list[str] = ["error_formatter"]
 
 
 class ErrorFormatter(metaclass=Singleton):
-    def __init__(self) -> None:
+    def __init__(self: Self) -> None:
         pass
 
     @staticmethod

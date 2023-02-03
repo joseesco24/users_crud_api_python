@@ -6,6 +6,7 @@ import logging
 # ** info: typing imports
 from typing import Callable
 from typing import Union
+from typing import Self
 from typing import Any
 
 # ** info: databases imports
@@ -20,10 +21,10 @@ __all__: list[str] = ["cache_provider"]
 
 
 class CacheProvider(metaclass=Singleton):
-    def __init__(self, cache_connection_manager: ConnectionManager):
+    def __init__(self: Self, cache_connection_manager: ConnectionManager):
         self._connection_manager: ConnectionManager = cache_connection_manager
 
-    def ttl_cache(self, ttl: Union[int, None] = None) -> Any:
+    def ttl_cache(self: Self, ttl: Union[int, None] = None) -> Any:
         def decorator(func: Callable) -> Callable:
             async def cache_wrapper(*args, **kwargs) -> Any:
                 # ** info: generation function key

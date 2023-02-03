@@ -11,9 +11,10 @@ import logging
 import time
 import uuid
 
-# ** info: types imports
+# ** info: typing imports
 from typing import Callable
 from typing import Union
+from typing import Self
 
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
@@ -34,7 +35,7 @@ class ManagedDaemonTask:
     timestamp: Union[datetime, None] = field(compare=True, default=None)
     taskuuid: Union[str, None] = field(compare=False, default=None)
 
-    def __post_init__(self):
+    def __post_init__(self: Self):
         if self.taskuuid is None:
             self.taskuuid = uuid.uuid4()
         if self.timestamp is None:
@@ -42,18 +43,18 @@ class ManagedDaemonTask:
 
 
 class ManagedDaemonTaskQueue(metaclass=Singleton):
-    def __init__(self) -> None:
+    def __init__(self: Self) -> None:
         self.tasks_queue: PriorityQueue[ManagedDaemonTask] = PriorityQueue()
         self.lock: Lock = Lock()
 
-    def add_task(self, task: ManagedDaemonTask) -> None:
+    def add_task(self: Self, task: ManagedDaemonTask) -> None:
         self.lock.acquire()
         self.tasks_queue.put_nowait(task)
         logging.info(f"adding task {task.taskuuid}")
         self.lock.release()
         return
 
-    def get_task(self) -> ManagedDaemonTask:
+    def get_task(self: Self) -> ManagedDaemonTask:
         self.lock.acquire()
         self.tasks_queue.task_done()
         task: ManagedDaemonTask = self.tasks_queue.get_nowait()
@@ -61,13 +62,13 @@ class ManagedDaemonTaskQueue(metaclass=Singleton):
         self.lock.release()
         return task
 
-    def is_empty(self) -> bool:
+    def is_empty(self: Self) -> bool:
         self.lock.acquire()
         is_empty: bool = self.tasks_queue.empty()
         self.lock.release()
         return is_empty
 
-    def get_tasks_count(self) -> int:
+    def get_tasks_count(self: Self) -> int:
         self.lock.acquire()
         unfinished_tasks: int = self.tasks_queue.unfinished_tasks
         self.lock.release()
@@ -78,13 +79,13 @@ managed_daemon_task_queue: ManagedDaemonTaskQueue = ManagedDaemonTaskQueue()
 
 
 class ManagedDaemon(metaclass=Singleton):
-    def __init__(self) -> None:
+    def __init__(self: Self) -> None:
         self.loading_thread: Thread = Thread(target=self.__managed_daemon__)
         self.loading_thread.daemon = True
         self.stop_event: bool = False
         self.lock: Lock = Lock()
 
-    def start_managed_daemon(self) -> None:
+    def start_managed_daemon(self: Self) -> None:
         logging.info("starting large process thread")
         self.lock.acquire()
         self.stop_event = False
@@ -95,7 +96,7 @@ class ManagedDaemon(metaclass=Singleton):
             self.loading_thread.run()
         return
 
-    def end_managed_daemon(self) -> None:
+    def end_managed_daemon(self: Self) -> None:
         logging.info("joining large process thread")
         self.lock.acquire()
         self.stop_event = True
@@ -104,7 +105,7 @@ class ManagedDaemon(metaclass=Singleton):
             self.loading_thread.join()
         return
 
-    def __managed_daemon__(self) -> None:
+    def __managed_daemon__(self: Self) -> None:
         while True:
             self.lock.acquire()
             if self.stop_event is True:

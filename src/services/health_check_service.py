@@ -4,6 +4,7 @@ import logging
 
 # ** info: typing imports
 from typing import Tuple
+from typing import Self
 
 # ** info: python imports
 import psutil
@@ -27,9 +28,7 @@ __all__: list[str] = ["health_check_service"]
 
 
 class HealthCheckService(metaclass=Singleton):
-    async def get_health_check_metrics(
-        self,
-    ) -> HealthCheckResponseDto:
+    async def get_health_check_metrics(self: Self) -> HealthCheckResponseDto:
         health_check_response: HealthCheckResponseDto = HealthCheckResponseDto()
 
         are_databses_healty: bool = True

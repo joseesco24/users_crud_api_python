@@ -7,6 +7,7 @@ import gc
 # ** info: typing imports
 from typing import Optional
 from typing import Union
+from typing import Self
 from typing import Any
 
 # ** info: fastapi imports
@@ -31,7 +32,9 @@ __all__: list[str] = ["connection_manager"]
 
 # pylint: disable=W0223
 class AsyncDownloadConnection(AsyncRedis):
-    def __init__(self, password: str, host: str, port: int, database: str, logs: bool):
+    def __init__(
+        self: Self, password: str, host: str, port: int, database: str, logs: bool
+    ):
         self._connection_creation: str = datetime_provider.get_utc_iso_string()
         self._connection_id: str = uuid_provider.get_str_uuid()
         self._logs: bool = logs
@@ -40,13 +43,13 @@ class AsyncDownloadConnection(AsyncRedis):
 
         self._post_init()
 
-    def _post_init(self) -> None:
+    def _post_init(self: Self) -> None:
         if self._logs:
             logging.info(
                 f"cache download connection started with id: {self._connection_id}"
             )
 
-    async def close(self, close_connection_pool: Optional[bool] = None) -> None:
+    async def close(self: Self, close_connection_pool: Optional[bool] = None) -> None:
         logging.info(
             f"closing cache download connection with id: {self._connection_id}"
         )
@@ -55,7 +58,9 @@ class AsyncDownloadConnection(AsyncRedis):
 
 # pylint: disable=W0223
 class AsyncUploadConnection(AsyncRedis):
-    def __init__(self, password: str, host: str, port: int, database: str, logs: bool):
+    def __init__(
+        self: Self, password: str, host: str, port: int, database: str, logs: bool
+    ):
         self._connection_creation: str = datetime_provider.get_utc_iso_string()
         self._connection_id: str = uuid_provider.get_str_uuid()
         self._logs: bool = logs
@@ -64,19 +69,21 @@ class AsyncUploadConnection(AsyncRedis):
 
         self._post_init()
 
-    def _post_init(self) -> None:
+    def _post_init(self: Self) -> None:
         if self._logs:
             logging.info(
                 f"cache upload connection started with id: {self._connection_id}"
             )
 
-    async def close(self, close_connection_pool: Optional[bool] = None) -> None:
+    async def close(self: Self, close_connection_pool: Optional[bool] = None) -> None:
         logging.info(f"closing cache upload connection with id: {self._connection_id}")
         await super().close(close_connection_pool=close_connection_pool)
 
 
 class DownloadConnection(metaclass=Singleton):
-    def __init__(self, password: str, host: str, port: int, database: str, logs: bool):
+    def __init__(
+        self: Self, password: str, host: str, port: int, database: str, logs: bool
+    ):
         self._database: str = database
         self._password: str = password
         self._logs: bool = logs
@@ -85,7 +92,7 @@ class DownloadConnection(metaclass=Singleton):
 
         self._connection: Union[AsyncUploadConnection, None] = None
 
-    def _start_connection(self) -> None:
+    def _start_connection(self: Self) -> None:
         if self._connection is None:
             self._connection = AsyncUploadConnection(
                 password=self._password,
@@ -95,18 +102,18 @@ class DownloadConnection(metaclass=Singleton):
                 port=self._port,
             )
 
-    async def _close_connection(self) -> None:
+    async def _close_connection(self: Self) -> None:
         if self._connection is not None:
             await self._connection.close()
             del self._connection
             gc.collect()
             self._connection = None
 
-    async def _reset_connection(self) -> None:
+    async def _reset_connection(self: Self) -> None:
         await self._close_connection()
         self._start_connection()
 
-    async def _check_connection_health(self) -> bool:
+    async def _check_connection_health(self: Self) -> bool:
         self._start_connection()
         try:
             await self._connection.ping()
@@ -127,7 +134,7 @@ class DownloadConnection(metaclass=Singleton):
             await self._reset_connection()
             return False
 
-    async def _get(self, key: str) -> Union[None, Any]:
+    async def _get(self: Self, key: str) -> Union[None, Any]:
         self._start_connection()
         if await self._check_connection_health() is False:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -135,7 +142,9 @@ class DownloadConnection(metaclass=Singleton):
 
 
 class UploadConnection(metaclass=Singleton):
-    def __init__(self, password: str, host: str, port: int, database: str, logs: bool):
+    def __init__(
+        self: Self, password: str, host: str, port: int, database: str, logs: bool
+    ):
         self._database: str = database
         self._password: str = password
         self._logs: bool = logs
@@ -144,7 +153,7 @@ class UploadConnection(metaclass=Singleton):
 
         self._connection: Union[AsyncUploadConnection, None] = None
 
-    def _start_connection(self) -> None:
+    def _start_connection(self: Self) -> None:
         if self._connection is None:
             self._connection = AsyncUploadConnection(
                 password=self._password,
@@ -154,18 +163,18 @@ class UploadConnection(metaclass=Singleton):
                 port=self._port,
             )
 
-    async def _close_connection(self) -> None:
+    async def _close_connection(self: Self) -> None:
         if self._connection is not None:
             await self._connection.close()
             del self._connection
             gc.collect()
             self._connection = None
 
-    async def _reset_connection(self) -> None:
+    async def _reset_connection(self: Self) -> None:
         await self._close_connection()
         self._start_connection()
 
-    async def _check_connection_health(self) -> bool:
+    async def _check_connection_health(self: Self) -> bool:
         self._start_connection()
         try:
             await self._connection.ping()
@@ -186,13 +195,13 @@ class UploadConnection(metaclass=Singleton):
             await self._reset_connection()
             return False
 
-    async def _expire(self, key: str, time: int) -> None:
+    async def _expire(self: Self, key: str, time: int) -> None:
         self._start_connection()
         if await self._check_connection_health() is False:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
         await self._connection.expire(name=key, time=timedelta(seconds=time))
 
-    async def _set_with_ttl(self, key: str, value: Any, time: int) -> None:
+    async def _set_with_ttl(self: Self, key: str, value: Any, time: int) -> None:
         self._start_connection()
         if await self._check_connection_health() is False:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -201,7 +210,9 @@ class UploadConnection(metaclass=Singleton):
 
 
 class ConnectionManager(metaclass=Singleton):
-    def __init__(self, password: str, host: str, port: int, database: str, logs: bool):
+    def __init__(
+        self: Self, password: str, host: str, port: int, database: str, logs: bool
+    ):
         self._download_connection: DownloadConnection = DownloadConnection(
             password=password, host=host, port=port, database=database, logs=logs
         )
@@ -209,7 +220,7 @@ class ConnectionManager(metaclass=Singleton):
             password=password, host=host, port=port, database=database, logs=logs
         )
 
-    async def get(self, key: str) -> Union[None, Any]:
+    async def get(self: Self, key: str) -> Union[None, Any]:
         cache_response: Union[bytes, Any] = await self._download_connection._get(
             key=key
         )

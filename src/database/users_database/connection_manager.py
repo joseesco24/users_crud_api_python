@@ -4,6 +4,7 @@ import gc
 
 # ** info: typing imports
 from typing import Union
+from typing import Self
 
 # ** info: fastapi imports
 from fastapi import HTTPException
@@ -33,7 +34,7 @@ __all__: list[str] = ["connection_manager", "CrudManagedSession"]
 
 
 class QuerySession(Session):
-    def __init__(self, logs: bool, *args, **kwargs):
+    def __init__(self: Self, logs: bool, *args, **kwargs):
         self.session_creation: str = datetime_provider.get_utc_iso_string()
         self.session_id: str = uuid_provider.get_str_uuid()
         self._logs: bool = logs
@@ -42,11 +43,11 @@ class QuerySession(Session):
 
         self._post_init()
 
-    def _post_init(self) -> None:
+    def _post_init(self: Self) -> None:
         if self._logs:
             logging.info(f"query session started with id: {self.session_id}")
 
-    def commit_and_close(self) -> None:
+    def commit_and_close(self: Self) -> None:
         if self._logs:
             logging.info(
                 f"committing and closing query session with id: {self.session_id}"
@@ -54,19 +55,19 @@ class QuerySession(Session):
         super().commit()
         super().close()
 
-    def commit(self) -> None:
+    def commit(self: Self) -> None:
         if self._logs:
             logging.info(f"committing query session with id: {self.session_id}")
         super().commit()
 
-    def close(self) -> None:
+    def close(self: Self) -> None:
         if self._logs:
             logging.info(f"closing query session with id: {self.session_id}")
         super().close()
 
 
 class CrudSession(Session):
-    def __init__(self, logs: bool, *args, **kwargs):
+    def __init__(self: Self, logs: bool, *args, **kwargs):
         self.session_creation: str = datetime_provider.get_utc_iso_string()
         self.session_id: str = uuid_provider.get_str_uuid()
         self._logs: bool = logs
@@ -75,11 +76,11 @@ class CrudSession(Session):
 
         self._post_init()
 
-    def _post_init(self) -> None:
+    def _post_init(self: Self) -> None:
         if self._logs:
             logging.info(f"crud session started with id: {self.session_id}")
 
-    def commit_and_close(self) -> None:
+    def commit_and_close(self: Self) -> None:
         if self._logs:
             logging.info(
                 f"committing and closing crud session with id: {self.session_id}"
@@ -87,12 +88,12 @@ class CrudSession(Session):
         super().commit()
         super().close()
 
-    def commit(self) -> None:
+    def commit(self: Self) -> None:
         if self._logs:
             logging.info(f"committing crud session with id: {self.session_id}")
         super().commit()
 
-    def close(self) -> None:
+    def close(self: Self) -> None:
         if self._logs:
             logging.info(f"closing crud session with id: {self.session_id}")
         super().close()
@@ -112,13 +113,13 @@ class ConnectionManager(metaclass=Singleton):
         self._query_session: Union[QuerySession, None] = None
         self._engine: Union[Engine, None] = None
 
-    def _start_engine(self) -> None:
+    def _start_engine(self: Self) -> None:
         if self._engine is None:
             self._engine = create_engine(
                 f"postgresql://{self._user}:{self._password}@{self._host}:{self._port}/{self._database}"
             )
 
-    def _end_engine(self) -> None:
+    def _end_engine(self: Self) -> None:
         if self._query_session is not None:
             self._end_query_session()
         if self._engine is not None:
@@ -127,22 +128,22 @@ class ConnectionManager(metaclass=Singleton):
             gc.collect()
             self._engine = None
 
-    def _start_query_session(self) -> None:
+    def _start_query_session(self: Self) -> None:
         if self._query_session is None:
             self._query_session = QuerySession(logs=self._logs, bind=self._engine)
 
-    def _end_query_session(self) -> None:
+    def _end_query_session(self: Self) -> None:
         if self._query_session is not None:
             self._query_session.close()
             del self._query_session
             gc.collect()
             self._query_session = None
 
-    def _reset_query_session(self) -> None:
+    def _reset_query_session(self: Self) -> None:
         self._end_query_session()
         self._start_query_session()
 
-    def _check_query_session_health(self) -> bool:
+    def _check_query_session_health(self: Self) -> bool:
         self._start_engine()
         self._start_query_session()
         try:
@@ -162,7 +163,7 @@ class ConnectionManager(metaclass=Singleton):
             self._reset_query_session()
             return False
 
-    def get_crud_session(self) -> CrudSession:
+    def get_crud_session(self: Self) -> CrudSession:
         self._start_engine()
         crud_session: CrudSession = CrudSession(logs=self._logs, bind=self._engine)
         if self._logs:
@@ -171,7 +172,7 @@ class ConnectionManager(metaclass=Singleton):
             logging.info(f"session healthy since: {crud_session.session_creation}")
         return crud_session
 
-    def get_query_session(self) -> QuerySession:
+    def get_query_session(self: Self) -> QuerySession:
         self._start_engine()
         self._start_query_session()
         if self._check_query_session_health() is False:
@@ -197,11 +198,11 @@ connection_manager: ConnectionManager = ConnectionManager(
 
 
 class CrudManagedSession:
-    def __init__(self):
+    def __init__(self: Self):
         self.crud_session: CrudSession = connection_manager.get_crud_session()
 
-    def __enter__(self) -> CrudSession:
+    def __enter__(self: Self) -> CrudSession:
         return self.crud_session
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self: Self, exc_type, exc_val, exc_tb):
         self.crud_session.commit_and_close()

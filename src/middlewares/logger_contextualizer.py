@@ -1,3 +1,6 @@
+# ** info: typing imports
+from typing import Self
+
 # ** info: loguru imports
 from loguru import logger
 
@@ -19,10 +22,10 @@ class LoggerContextualizer(metaclass=Singleton):
     this class provides a custom loguru contextualizer middleware for fastapi based applications
     """
 
-    def __init__(self):
+    def __init__(self: Self):
         pass
 
-    async def __set_body__(self, request: Request):
+    async def __set_body__(self: Self, request: Request):
         receive_ = await request._receive()
 
         async def receive():
@@ -31,7 +34,7 @@ class LoggerContextualizer(metaclass=Singleton):
         request._receive = receive
 
     async def __call__(
-        self,
+        self: Self,
         request: Request,
         call_next: callable,
     ) -> StreamingResponse:

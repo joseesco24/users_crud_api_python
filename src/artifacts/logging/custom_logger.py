@@ -4,11 +4,14 @@ import logging
 import json
 import sys
 
-# ** info: types imports
-from types import FrameType
+# ** info: typing imports
 from typing import Optional
 from typing import Union
 from typing import Dict
+from typing import Self
+
+# ** info: types imports
+from types import FrameType
 
 # ** info: loguru imports
 from loguru import logger
@@ -30,10 +33,10 @@ class CustomLogger(metaclass=Singleton):
         "fullUrl": "undefined",
     }
 
-    def __init__(self) -> None:
+    def __init__(self: Self) -> None:
         pass
 
-    def setup_development_logging(self) -> None:
+    def setup_development_logging(self: Self) -> None:
         """setup development logging
         this function overwrites the python root logger with a custom logger, so all the logs are
         written with the new overwritten configuration
@@ -63,7 +66,7 @@ class CustomLogger(metaclass=Singleton):
         logger.configure(extra=self._extras)
         logger.configure(handlers=[loguru_configs])
 
-    def setup_production_logging(self) -> None:
+    def setup_production_logging(self: Self) -> None:
         """setup production logging
         this function overwrites the python root logger with a custom logger, so all the logs are
         written with the new overwritten configuration
@@ -90,13 +93,13 @@ class CustomLogger(metaclass=Singleton):
         logger.configure(extra=self._extras)
         logger.configure(handlers=[loguru_configs])
 
-    def __custom_log_sink(self, message) -> None:
+    def __custom_log_sink(self: Self, message) -> None:
         serialized = self.__custom_serializer(message.record)
         sys.stdout.write(serialized)
         sys.stdout.write("\n")
         sys.stdout.flush()
 
-    def __custom_serializer(self, record) -> str:
+    def __custom_serializer(self: Self, record) -> str:
         subset: dict[str, any] = {
             "severity": record["level"].name,
             "timestamp": datetime_provider.get_utc_pretty_string(),
@@ -138,7 +141,7 @@ class CustomLogger(metaclass=Singleton):
 
     # pylint: disable=invalid-name
     class __CustomInterceptHandler(logging.Handler):
-        def emit(self, record: logging.LogRecord):
+        def emit(self: Self, record: logging.LogRecord):
             try:
                 level: Union[str, int] = logger.level(record.levelname).name
             except ValueError:

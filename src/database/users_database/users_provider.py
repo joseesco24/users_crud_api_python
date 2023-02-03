@@ -1,5 +1,6 @@
 # ** info: typing imports
 from typing import List
+from typing import Self
 from typing import Any
 
 # **info: sqlalchemy imports
@@ -24,7 +25,7 @@ __all__: list[str] = ["users_provider"]
 
 class UsersProvider(metaclass=Singleton):
     def add_user(
-        self,
+        self: Self,
         internal_id: str,
         estatal_id: int,
         first_name: str,
@@ -53,14 +54,14 @@ class UsersProvider(metaclass=Singleton):
             password=password,
         )
 
-        user_dto = self._users_entity_to_users_public_dto(user=new_user)
+        user_dto: UserDto = self._users_entity_to_users_public_dto(user=new_user)
 
         with CrudManagedSession() as crud_session:
             crud_session.add(new_user)
 
         return user_dto
 
-    def fetch_users_data(self, limit: int, offset: int) -> List[UserDto]:
+    def fetch_users_data(self: Self, limit: int, offset: int) -> List[UserDto]:
         users_data: List[UserDto] = list()
 
         query: Any = (
@@ -88,7 +89,7 @@ class UsersProvider(metaclass=Singleton):
 
         return users_data
 
-    def _users_entity_to_users_public_dto(self, user: Users) -> UserDto:
+    def _users_entity_to_users_public_dto(self: Self, user: Users) -> UserDto:
         user_dto: UserDto = UserDto()
 
         user_dto.internalId = str(user.internal_id)
