@@ -19,6 +19,9 @@ class DatetimeProvider(metaclass=Singleton):
     def get_utc_pretty_string(self: Self) -> str:
         return self.prettify_date_time_obj(date_time_obj=self.get_utc_time())
 
+    def iso_string_to_datetime(self: Self, iso_string: str) -> datetime:
+        return datetime.strptime(iso_string, "%Y-%m-%d %H:%M:%S.%f")
+
     def get_utc_iso_string(self: Self) -> str:
         return self.get_utc_time().isoformat()
 

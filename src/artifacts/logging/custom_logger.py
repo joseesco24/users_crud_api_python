@@ -30,16 +30,19 @@ __all__: list[str] = ["custom_logger"]
 
 
 class CustomLogger(metaclass=Singleton):
-    _extras: Dict[str, str] = {
-        "requestId": "397d4343-2855-4c92-b64b-58ee82006e0b",
-        "appInstanceId": uuid_provider.get_str_uuid(),
-        "appName": "users_crud_api_python",
-        "endpointUrl": "undefined",
-        "fullUrl": "undefined",
-    }
-
     def __init__(self: Self) -> None:
-        pass
+        self._extras: Dict[str, str] = {
+            "startTime": datetime_provider.get_utc_pretty_string(),
+            "internalId": "397d4343-2855-4c92-b64b-58ee82006e0b",
+            "externalId": "397d4343-2855-4c92-b64b-58ee82006e0b",
+            "appInstanceId": uuid_provider.get_str_uuid(),
+            "appName": "users_crud_api_python",
+            "requestHeaders": "undefined",
+            "requestBody": "undefined",
+            "endpointUrl": "undefined",
+            "fullUrl": "undefined",
+            "group": "undefined",
+        }
 
     def setup_pretty_logging(self: Self) -> None:
         """setup pretty logging
@@ -106,25 +109,38 @@ class CustomLogger(metaclass=Singleton):
 
     def __custom_serializer(self: Self, record) -> str:
         subset: Dict[str, Any] = {
-            "appInstanceId": record["extra"]["appInstanceId"],
-            "requestId": record["extra"]["requestId"],
             "loggId": uuid_provider.get_str_uuid(),
-            "appName": record["extra"]["appName"],
             "severity": record["level"].name,
             "timestamp": datetime_provider.get_utc_pretty_string(),
             "message": record["message"],
-            "function": record["function"],
-            "module": record["module"],
-            "line": record["line"],
-            "processName": record["process"].name,
-            "processId": record["process"].id,
-            "threadName": record["thread"].name,
-            "threadId": record["thread"].id,
-            "filePath": record["file"].path,
-            "fileName": record["file"].name,
-            "elapsedTime": datetime_provider.prettify_time_delta_obj(record["elapsed"]),
-            "endpointUrl": record["extra"]["endpointUrl"],
-            "fullUrl": record["extra"]["fullUrl"],
+            "execution": {
+                "group": record["extra"]["group"],
+                "function": record["function"],
+                "module": record["module"],
+                "line": record["line"],
+                "processName": record["process"].name,
+                "processId": record["process"].id,
+                "threadName": record["thread"].name,
+                "threadId": record["thread"].id,
+                "filePath": record["file"].path,
+                "fileName": record["file"].name,
+            },
+            "request": {
+                "externalId": record["extra"]["externalId"],
+                "internalId": record["extra"]["internalId"],
+                "body": record["extra"]["requestBody"],
+                "headers": record["extra"]["requestHeaders"],
+                "endpointUrl": record["extra"]["endpointUrl"],
+                "fullUrl": record["extra"]["fullUrl"],
+                "startTime": record["extra"]["startTime"],
+            },
+            "app": {
+                "name": record["extra"]["appName"],
+                "id": record["extra"]["appInstanceId"],
+                "aliveTime": datetime_provider.prettify_time_delta_obj(
+                    record["elapsed"]
+                ),
+            },
         }
 
         if record["exception"] is not None:
@@ -137,10 +153,10 @@ class CustomLogger(metaclass=Singleton):
 
             string_traceback = "".join(traceback.format_tb(error_traceback))
 
-            subset["errorDetails"] = {
-                "errorType": error_type,
-                "errorMessage": error_message,
-                "errorTraceback": string_traceback,
+            subset["error"] = {
+                "type": error_type,
+                "message": error_message,
+                "traceback": string_traceback,
             }
 
         return json.dumps(subset)
