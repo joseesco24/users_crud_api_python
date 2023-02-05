@@ -3,6 +3,7 @@ from asyncio import gather
 import logging
 
 # ** info: typing imports
+from typing import Callable
 from typing import Tuple
 from typing import Self
 
@@ -41,7 +42,7 @@ class DatabaseHealthCheck(metaclass=Singleton):
     def __init__(self: Self):
         pass
 
-    async def _get_internal_server_error_stream(self: Self) -> ContentStream:
+    async def _get_internal_server_error_stream(self: Self) -> StreamingResponse:
         response_stream: ContentStream = iter(["Internal Server Error"])
         response: StreamingResponse = StreamingResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -60,7 +61,7 @@ class DatabaseHealthCheck(metaclass=Singleton):
     async def __call__(
         self: Self,
         request: Request,
-        call_next: callable,
+        call_next: Callable,
     ) -> StreamingResponse:
         await self.__set_body__(request=request)
 
@@ -97,7 +98,7 @@ class DatabaseHealthCheck(metaclass=Singleton):
             are_databses_healty = False
 
         if are_databses_healty is False:
-            return self._get_internal_server_error_stream()
+            return await self._get_internal_server_error_stream()
 
         logging.info("all databases are healthy")
 

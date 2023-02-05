@@ -1,4 +1,5 @@
 # ** info: python imports
+from typing import Callable
 import logging
 
 # ** info: typing imports
@@ -39,7 +40,7 @@ class ErrorHandler(metaclass=Singleton):
     async def __call__(
         self: Self,
         request: Request,
-        call_next: callable,
+        call_next: Callable,
     ) -> StreamingResponse:
         try:
             response: StreamingResponse = await call_next(request)

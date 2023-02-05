@@ -1,4 +1,5 @@
 # ** info: typing imports
+from typing import Callable
 from typing import Self
 
 # ** info: loguru imports
@@ -36,7 +37,7 @@ class LoggerContextualizer(metaclass=Singleton):
     async def __call__(
         self: Self,
         request: Request,
-        call_next: callable,
+        call_next: Callable,
     ) -> StreamingResponse:
         await self.__set_body__(request=request)
 
