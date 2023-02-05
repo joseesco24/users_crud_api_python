@@ -32,14 +32,18 @@ __all__: list[str] = ["custom_logger"]
 class CustomLogger(metaclass=Singleton):
     def __init__(self: Self) -> None:
         self._extras: Dict[str, str] = {
-            "startTime": datetime_provider.get_utc_pretty_string(),
             "internalId": "397d4343-2855-4c92-b64b-58ee82006e0b",
             "externalId": "397d4343-2855-4c92-b64b-58ee82006e0b",
             "appInstanceId": uuid_provider.get_str_uuid(),
             "appName": "users_crud_api_python",
+            "responseHeaders": "undefined",
             "requestHeaders": "undefined",
+            "responseBody": "undefined",
+            "responseCode": "undefined",
             "requestBody": "undefined",
             "endpointUrl": "undefined",
+            "startTime": "undefined",
+            "endTime": "undefined",
             "fullUrl": "undefined",
             "group": "undefined",
         }
@@ -53,7 +57,7 @@ class CustomLogger(metaclass=Singleton):
         # ** info: optional add [{process.name}][{thread.name}] to fmt to see the thread and process names
 
         # pylint: disable=line-too-long
-        fmt: str = "[<fg #66a3ff>{time:YYYY-MM-DD HH:mm:ss.SSSSSS!UTC}</fg #66a3ff>:<fg #fc03cf>{extra[requestId]}</fg #fc03cf>] <level>{level}</level> ({module}:{function}:<bold>{line}</bold>): {message}"
+        fmt: str = "[<fg #66a3ff>{time:YYYY-MM-DD HH:mm:ss.SSSSSS!UTC}</fg #66a3ff>:<fg #fc03cf>{extra[internalId]}</fg #fc03cf>] <level>{level}</level> ({module}:{function}:<bold>{line}</bold>): {message}"
 
         # ** info: overwriting all the loggers configs with the new one
         logging.root.handlers = [self._CustomInterceptHandler()]
@@ -133,6 +137,12 @@ class CustomLogger(metaclass=Singleton):
                 "endpointUrl": record["extra"]["endpointUrl"],
                 "fullUrl": record["extra"]["fullUrl"],
                 "startTime": record["extra"]["startTime"],
+            },
+            "response": {
+                "body": record["extra"]["responseBody"],
+                "headers": record["extra"]["responseHeaders"],
+                "status": record["extra"]["responseCode"],
+                "endTime": record["extra"]["endTime"],
             },
             "app": {
                 "name": record["extra"]["appName"],
