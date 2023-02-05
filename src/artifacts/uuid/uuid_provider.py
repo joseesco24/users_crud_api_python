@@ -1,5 +1,4 @@
 # ** info: python imports
-from uuid import UUID
 import uuid
 
 # ** info: typing imports
@@ -13,7 +12,7 @@ __all__: list[str] = ["uuid_provider"]
 
 
 class UuidProvider(metaclass=Singleton):
-    def get_str_uuid(self: Self) -> UUID:
+    def get_str_uuid(self: Self) -> str:
         return str(uuid.uuid4())
 
 

@@ -5,16 +5,20 @@ import json
 import sys
 
 # ** info: typing imports
-from typing import Optional
 from typing import Union
 from typing import Dict
 from typing import Self
+from typing import Any
 
 # ** info: types imports
+from types import TracebackType
 from types import FrameType
 
 # ** info: loguru imports
 from loguru import logger
+
+# ** info: loguru _recattrs imports
+from loguru._recattrs import RecordException
 
 # ** info: artifacts imports
 from src.artifacts.datetime.datetime_provider import datetime_provider
@@ -28,6 +32,7 @@ __all__: list[str] = ["custom_logger"]
 class CustomLogger(metaclass=Singleton):
     _extras: Dict[str, str] = {
         "requestId": "397d4343-2855-4c92-b64b-58ee82006e0b",
+        "appInstanceId": uuid_provider.get_str_uuid(),
         "appName": "users_crud_api_python",
         "endpointUrl": "undefined",
         "fullUrl": "undefined",
@@ -48,7 +53,7 @@ class CustomLogger(metaclass=Singleton):
         fmt: str = "[<fg #66a3ff>{time:YYYY-MM-DD HH:mm:ss.SSSSSS!UTC}</fg #66a3ff>:<fg #fc03cf>{extra[requestId]}</fg #fc03cf>] <level>{level}</level> ({module}:{function}:<bold>{line}</bold>): {message}"
 
         # ** info: overwriting all the loggers configs with the new one
-        logging.root.handlers = [self.__CustomInterceptHandler()]
+        logging.root.handlers = [self._CustomInterceptHandler()]
         logging.root.setLevel(logging.DEBUG)
 
         for name in logging.root.manager.loggerDict.keys():
@@ -75,7 +80,7 @@ class CustomLogger(metaclass=Singleton):
         fmt: str = "{message}"
 
         # ** info: overwriting all the loggers configs with the new one
-        logging.root.handlers = [self.__CustomInterceptHandler()]
+        logging.root.handlers = [self._CustomInterceptHandler()]
         logging.root.setLevel(logging.DEBUG)
 
         for name in logging.root.manager.loggerDict.keys():
@@ -100,7 +105,11 @@ class CustomLogger(metaclass=Singleton):
         sys.stdout.flush()
 
     def __custom_serializer(self: Self, record) -> str:
-        subset: dict[str, any] = {
+        subset: Dict[str, Any] = {
+            "appInstanceId": record["extra"]["appInstanceId"],
+            "requestId": record["extra"]["requestId"],
+            "loggId": uuid_provider.get_str_uuid(),
+            "appName": record["extra"]["appName"],
             "severity": record["level"].name,
             "timestamp": datetime_provider.get_utc_pretty_string(),
             "message": record["message"],
@@ -114,17 +123,14 @@ class CustomLogger(metaclass=Singleton):
             "filePath": record["file"].path,
             "fileName": record["file"].name,
             "elapsedTime": datetime_provider.prettify_time_delta_obj(record["elapsed"]),
-            "requestId": record["extra"]["requestId"],
-            "loggId": uuid_provider.get_str_uuid(),
             "endpointUrl": record["extra"]["endpointUrl"],
             "fullUrl": record["extra"]["fullUrl"],
-            "appName": record["extra"]["appName"],
         }
 
         if record["exception"] is not None:
-            error: Exception = record["exception"]
+            error: RecordException = record["exception"]
 
-            error_traceback: traceback = error.traceback
+            error_traceback: TracebackType = error.traceback
             error_message: str = error.value.args[0]
             error_type: str = error.type.__name__
             string_traceback: str
@@ -132,22 +138,23 @@ class CustomLogger(metaclass=Singleton):
             string_traceback = "".join(traceback.format_tb(error_traceback))
 
             subset["errorDetails"] = {
-                "exceptionType": error_type,
+                "errorType": error_type,
                 "errorMessage": error_message,
                 "errorTraceback": string_traceback,
             }
 
         return json.dumps(subset)
 
-    # pylint: disable=invalid-name
-    class __CustomInterceptHandler(logging.Handler):
+    class _CustomInterceptHandler(logging.Handler):
         def emit(self: Self, record: logging.LogRecord):
+            level: Union[str, int]
+
             try:
-                level: Union[str, int] = logger.level(record.levelname).name
+                level = logger.level(record.levelname).name
             except ValueError:
                 level = record.levelno
 
-            frame: Optional[FrameType] = logging.currentframe()
+            frame: FrameType = logging.currentframe()
             depth: int = 2
 
             while frame.f_code.co_filename == logging.__file__:
