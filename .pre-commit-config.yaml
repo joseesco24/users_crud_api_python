@@ -2,25 +2,6 @@ default_stages: [commit]
 default_language_version:
   python: python3.11
 repos:
-  - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: "v2.1.1"
-    hooks:
-      - id: conventional-pre-commit
-        stages: [prepare-commit-msg, commit-msg]
-        args:
-          [
-            "build",
-            "ci",
-            "docs",
-            "feat",
-            "fix",
-            "perf",
-            "refactor",
-            "revert",
-            "test",
-            "style",
-          ]
-
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v4.4.0"
     hooks:
@@ -75,11 +56,30 @@ repos:
         args: [--max-line-length=120]
         files: "^src/"
         types: ["python"]
-#
-#  - repo: https://github.com/pre-commit/mirrors-mypy
-#    rev: "0.991"
-#    hooks:
-#      - id: mypy
-#        args: [--no-strict-optional, --ignore-missing-imports]
-#        files: "^src/"
-#        types: ["python"]
+  #
+  #  - repo: https://github.com/pre-commit/mirrors-mypy
+  #    rev: "0.991"
+  #    hooks:
+  #      - id: mypy
+  #        args: [--no-strict-optional, --ignore-missing-imports]
+  #        files: "^src/"
+  #        types: ["python"]
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: "v2.1.1"
+    hooks:
+      - id: conventional-pre-commit
+        stages: [prepare-commit-msg, commit-msg]
+        args:
+          [
+            "build",
+            "ci",
+            "docs",
+            "feat",
+            "fix",
+            "perf",
+            "refactor",
+            "revert",
+            "test",
+            "style",
+          ]
