@@ -20,6 +20,7 @@ redis = "^4.4.2"
 psutil = "^5.9.4"
 pydantic = { extras = ["dotenv"], version = "^1.10.4" }
 uvicorn = "^0.20.0"
+conventional-pre-commit = "^2.1.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.1a1"

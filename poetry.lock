@@ -154,6 +154,18 @@ files = [
 ]
 
 [[package]]
+name = "conventional-pre-commit"
+version = "2.1.1"
+description = "A pre-commit hook that checks commit messages for Conventional Commits formatting."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "conventional_pre_commit-2.1.1-py3-none-any.whl", hash = "sha256:a5d7ccc2a7556903119911a89b0b30a102b89c0001b22582978c00600252b4a5"},
+    {file = "conventional_pre_commit-2.1.1.tar.gz", hash = "sha256:fcd21246afe8db9892a90cf1440639d2bae948b9cc99d5f92b5589b845185863"},
+]
+
+[[package]]
 name = "dill"
 version = "0.3.6"
 description = "serialize all of python"
@@ -1097,4 +1109,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "e584c2ea1b2d07c4fe332dcac48e33350753cf202df07c5c7ec68e3afd448673"
+content-hash = "254e4ca3e58fb72a18a434b94e722a727b3681fe1837a406cfe109305a475e54"
