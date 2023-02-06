@@ -7,7 +7,19 @@ repos:
     hooks:
       - id: conventional-pre-commit
         stages: [prepare-commit-msg, commit-msg]
-        args: []
+        args:
+          [
+            "build",
+            "ci",
+            "docs",
+            "feat",
+            "fix",
+            "perf",
+            "refactor",
+            "revert",
+            "test",
+            "style",
+          ]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v4.4.0"
