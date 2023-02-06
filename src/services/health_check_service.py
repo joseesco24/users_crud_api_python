@@ -23,7 +23,6 @@ from src.database.users_database.connection_manager import (
 # ** info: health check dtos imports
 from src.dtos.health_check_dtos import HealthCheckResponseDto
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["health_check_service"]
 
 

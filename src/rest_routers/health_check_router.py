@@ -10,7 +10,6 @@ from src.dtos.health_check_dtos import HealthCheckResponseDto
 
 from src.services.health_check_service import health_check_service
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["health_check_router"]
 
 health_check_router: APIRouter = APIRouter(prefix=generator.build_posix_path("health-check"))

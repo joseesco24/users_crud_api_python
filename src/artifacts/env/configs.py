@@ -8,26 +8,20 @@ from typing import Set
 from pydantic import BaseSettings
 from pydantic import Field
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["configs"]
 
 
 class EnvironmentMode(str, Enum):
-    # pylint: disable=invalid-name
     development: str = "development"
 
-    # pylint: disable=invalid-name
     production: str = "production"
 
-    # pylint: disable=invalid-name
     testing: str = "testing"
 
 
 class LoggingMode(str, Enum):
-    # pylint: disable=invalid-name
     structured: str = "structured"
 
-    # pylint: disable=invalid-name
     pretty: str = "pretty"
 
 

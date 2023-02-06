@@ -25,7 +25,6 @@ from src.artifacts.datetime.datetime_provider import datetime_provider
 from src.artifacts.uuid.uuid_provider import uuid_provider
 from src.artifacts.pattern.singleton import Singleton
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["custom_logger"]
 
 
@@ -56,7 +55,6 @@ class CustomLogger(metaclass=Singleton):
 
         # ** info: optional add [{process.name}][{thread.name}] to fmt to see the thread and process names
 
-        # pylint: disable=line-too-long
         fmt: str = "[<fg #66a3ff>{time:YYYY-MM-DD HH:mm:ss.SSSSSS!UTC}</fg #66a3ff>:<fg #fc03cf>{extra[internalId]}</fg #fc03cf>] <level>{level}</level> ({module}:{function}:<bold>{line}</bold>): {message}"  # noqa: E501
 
         # ** info: overwriting all the loggers configs with the new one

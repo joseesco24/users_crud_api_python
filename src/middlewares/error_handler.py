@@ -16,7 +16,6 @@ from fastapi import status
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["error_handler"]
 
 
@@ -46,7 +45,6 @@ class ErrorHandler(metaclass=Singleton):
             response: StreamingResponse = await call_next(request)
 
         # ! warning: super general exception handling here
-        # pylint: disable=broad-except
         except Exception as exception:
             logging.exception(f"a not handled error has occurred on the api server: {exception.args[0]}")
 

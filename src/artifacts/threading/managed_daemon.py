@@ -1,5 +1,3 @@
-# pylint: disable=unused-variable
-
 # ** info: python imports
 from dataclasses import dataclass
 from queue import PriorityQueue
@@ -19,7 +17,6 @@ from typing import Self
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
 
-# pylint: disable=unused-variable
 __all__: list[str] = [
     "managed_daemon_task_queue",
     "managed_daemon",
@@ -124,7 +121,6 @@ class ManagedDaemon(metaclass=Singleton):
                     task.function(**task.kwargs)
 
                 # ! warning: super general exception handling here
-                # pylint: disable=broad-except
                 except Exception as exception:
                     logging.exception(msg=f"error while executing task {task.taskuuid}: {exception.args[0]}")
 

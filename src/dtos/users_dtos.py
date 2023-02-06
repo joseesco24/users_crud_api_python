@@ -1,4 +1,3 @@
-# pylint: disable=unused-variable
 __all__: list[str] = ["UserDto"]
 
 

@@ -4,7 +4,6 @@ from typing import Optional
 # ** info: pydantic imports
 from pydantic import BaseModel
 
-# pylint: disable=unused-variable
 __all__ = ["HealthCheckResponseDto"]
 
 

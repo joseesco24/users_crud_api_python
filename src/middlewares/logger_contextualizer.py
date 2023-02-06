@@ -24,7 +24,6 @@ from src.artifacts.datetime.datetime_provider import datetime_provider
 from src.artifacts.uuid.uuid_provider import uuid_provider
 from src.artifacts.pattern.singleton import Singleton
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["logger_contextualizer"]
 
 

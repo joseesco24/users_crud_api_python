@@ -19,7 +19,6 @@ from src.database.users_database.connection_manager import connection_manager
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["users_provider"]
 
 

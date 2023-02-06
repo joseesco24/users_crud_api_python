@@ -29,7 +29,6 @@ from src.database.users_database.connection_manager import (
 # ** info: artifacts imports
 from src.artifacts.env.configs import configs
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["database_health_check"]
 
 

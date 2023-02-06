@@ -2,7 +2,6 @@
 from ariadne import ScalarType
 
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["integer_scalar"]
 
 integer_scalar: ScalarType = ScalarType("Integer")

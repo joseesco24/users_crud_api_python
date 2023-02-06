@@ -8,7 +8,6 @@ from typing import Self
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["datetime_provider"]
 
 

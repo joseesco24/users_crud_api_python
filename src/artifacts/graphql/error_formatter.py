@@ -14,7 +14,6 @@ from graphql import GraphQLError
 # ** info: common artifacts imports
 from src.artifacts.pattern.singleton import Singleton
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["error_formatter"]
 
 

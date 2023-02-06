@@ -1,7 +1,6 @@
 # ** info: typing imports
 from typing import Dict
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["Singleton"]
 
 

@@ -29,7 +29,6 @@ from src.artifacts.uuid.uuid_provider import uuid_provider
 from src.artifacts.pattern.singleton import Singleton
 from src.artifacts.env.configs import configs
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["connection_manager", "CrudManagedSession"]
 
 
