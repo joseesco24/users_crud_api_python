@@ -50,4 +50,5 @@ repos:
 #    rev: "0.991"
 #    hooks:
 #      - id: mypy
+#        files: ".*/src/.*\\.py"
 #        args: [--no-strict-optional, --ignore-missing-imports]
