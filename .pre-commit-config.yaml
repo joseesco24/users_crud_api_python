@@ -2,19 +2,52 @@ default_stages: [commit]
 default_language_version:
   python: python3.11
 repos:
+  - repo: https://github.com/python-poetry/poetry
+    rev: "1.3.2"
+    hooks:
+      - id: poetry-export
+        args:
+          [
+            "--without-hashes",
+            "--only",
+            "dev",
+            "--format",
+            "requirements.txt",
+            "--output",
+            "requirements.dev.txt",
+          ]
+
+  - repo: https://github.com/python-poetry/poetry
+    rev: "1.3.2"
+    hooks:
+      - id: poetry-export
+        args:
+          [
+            "--without-hashes",
+            "--format",
+            "requirements.txt",
+            "--output",
+            "requirements.app.txt",
+          ]
+
   - repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: "23.1a1"
     hooks:
       - id: black
-        name: black code formatting
-        description: This hook checks if requirements-dev.txt is up to date.
-        language: system
-        entry: black ./src --line-length=120
+        args: [--line-length=120]
+        files: "src/.*\\..*"
+        types: ["python"]
+
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
+    rev: "6.0.0"
     hooks:
       - id: flake8
-        name: flake8 code linting
-        description: This hook checks if requirements-dev.txt is up to date.
-        language: system
-        entry: flake8 ./src --max-line-length=120
+        args: [--max-line-length=120]
+        files: "src/.*\\..*"
+        types: ["python"]
+#
+#  - repo: https://github.com/pre-commit/mirrors-mypy
+#    rev: "0.991"
+#    hooks:
+#      - id: mypy
+#        args: [--no-strict-optional, --ignore-missing-imports]
