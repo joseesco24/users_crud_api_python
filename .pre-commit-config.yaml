@@ -6,6 +6,7 @@ repos:
     rev: "1.3.2"
     hooks:
       - id: poetry-export
+        files: "poetry.lock"
         args:
           [
             "--without-hashes",
@@ -21,6 +22,7 @@ repos:
     rev: "1.3.2"
     hooks:
       - id: poetry-export
+        files: "poetry.lock"
         args:
           [
             "--without-hashes",
