@@ -10,3 +10,11 @@ repos:
         description: This hook checks if requirements-dev.txt is up to date.
         language: system
         entry: black ./src --line-length=120
+  - repo: https://github.com/PyCQA/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+        name: flake8 code linting
+        description: This hook checks if requirements-dev.txt is up to date.
+        language: system
+        entry: flake8 ./src --max-line-length=120
