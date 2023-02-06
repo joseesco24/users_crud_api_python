@@ -39,9 +39,7 @@ class Configs(BaseSettings):
     app_use_database_health_check_middleware_exclude: Set[str] = Field(
         ..., env="APP_USE_DATABASE_HEALTH_CHECK_MIDDLEWARE_EXCLUDE"
     )
-    app_use_database_health_check_middleware: bool = Field(
-        ..., env="APP_USE_DATABASE_HEALTH_CHECK_MIDDLEWARE"
-    )
+    app_use_database_health_check_middleware: bool = Field(..., env="APP_USE_DATABASE_HEALTH_CHECK_MIDDLEWARE")
 
     database_password: str = Field(..., env="DATABASE_PASSWORD")
     database_logs: bool = Field(..., env="DATABASE_LOGS")

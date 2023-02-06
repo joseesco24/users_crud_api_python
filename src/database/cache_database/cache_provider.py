@@ -28,14 +28,10 @@ class CacheProvider(metaclass=Singleton):
         def decorator(func: Callable) -> Callable:
             async def cache_wrapper(*args, **kwargs) -> Any:
                 # ** info: generation function key
-                key: str = hashlib.sha256(
-                    (func.__name__ + str(args) + str(kwargs)).encode()
-                ).hexdigest()
+                key: str = hashlib.sha256((func.__name__ + str(args) + str(kwargs)).encode()).hexdigest()
 
                 # ** info: searching key in the cache database
-                cached_value: Union[None, Any] = await self._connection_manager.get(
-                    key=key
-                )
+                cached_value: Union[None, Any] = await self._connection_manager.get(key=key)
 
                 if cached_value is not None:
                     logging.info("returning requested value from redis cache")
@@ -48,9 +44,7 @@ class CacheProvider(metaclass=Singleton):
                 if ttl is None:
                     await self._connection_manager.set_with_ttl(key=key, value=value)
                 else:
-                    await self._connection_manager.set_with_ttl(
-                        key=key, value=value, time=ttl
-                    )
+                    await self._connection_manager.set_with_ttl(key=key, value=value, time=ttl)
 
                 # ** info: returning
                 return value
@@ -60,6 +54,4 @@ class CacheProvider(metaclass=Singleton):
         return decorator
 
 
-cache_provider: CacheProvider = CacheProvider(
-    cache_connection_manager=connection_manager
-)
+cache_provider: CacheProvider = CacheProvider(cache_connection_manager=connection_manager)

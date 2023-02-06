@@ -126,9 +126,7 @@ class ManagedDaemon(metaclass=Singleton):
                 # ! warning: super general exception handling here
                 # pylint: disable=broad-except
                 except Exception as exception:
-                    logging.exception(
-                        msg=f"error while executing task {task.taskuuid}: {exception.args[0]}"
-                    )
+                    logging.exception(msg=f"error while executing task {task.taskuuid}: {exception.args[0]}")
 
             time.sleep(20)
 

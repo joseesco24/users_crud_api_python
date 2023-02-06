@@ -51,15 +51,15 @@ poetry update
 **Note:** Before running this command you need to install the dev dependencies.
 
 ```bash
-black ./src
+black ./src --line-length=120
 ```
 
-### Lint The Code Using Pylint
+### Lint The Code Using Flake8
 
 **Note:** Before running this command you need to install the dev dependencies.
 
 ```bash
-pylint --fail-under=10 --rcfile=.pylintrc ./src
+flake8 ./src --max-line-length=120
 ```
 
 ### Check Static Types Using Mypy

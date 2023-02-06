@@ -81,9 +81,7 @@ class UsersProvider(metaclass=Singleton):
             .offset(offset)
         )
 
-        results: List[Users] = connection_manager.get_query_session().execute(
-            statement=query
-        )
+        results: List[Users] = connection_manager.get_query_session().execute(statement=query)
 
         users_data = list(map(self._users_entity_to_users_public_dto, results))
 

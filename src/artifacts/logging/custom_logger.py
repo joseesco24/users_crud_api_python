@@ -57,7 +57,7 @@ class CustomLogger(metaclass=Singleton):
         # ** info: optional add [{process.name}][{thread.name}] to fmt to see the thread and process names
 
         # pylint: disable=line-too-long
-        fmt: str = "[<fg #66a3ff>{time:YYYY-MM-DD HH:mm:ss.SSSSSS!UTC}</fg #66a3ff>:<fg #fc03cf>{extra[internalId]}</fg #fc03cf>] <level>{level}</level> ({module}:{function}:<bold>{line}</bold>): {message}"
+        fmt: str = "[<fg #66a3ff>{time:YYYY-MM-DD HH:mm:ss.SSSSSS!UTC}</fg #66a3ff>:<fg #fc03cf>{extra[internalId]}</fg #fc03cf>] <level>{level}</level> ({module}:{function}:<bold>{line}</bold>): {message}"  # noqa: E501
 
         # ** info: overwriting all the loggers configs with the new one
         logging.root.handlers = [self._CustomInterceptHandler()]
@@ -147,9 +147,7 @@ class CustomLogger(metaclass=Singleton):
             "app": {
                 "name": record["extra"]["appName"],
                 "id": record["extra"]["appInstanceId"],
-                "aliveTime": datetime_provider.prettify_time_delta_obj(
-                    record["elapsed"]
-                ),
+                "aliveTime": datetime_provider.prettify_time_delta_obj(record["elapsed"]),
             },
         }
 
@@ -187,9 +185,7 @@ class CustomLogger(metaclass=Singleton):
                 frame = frame.f_back
                 depth += 1
 
-            logger.opt(depth=depth, exception=record.exc_info).log(
-                level, record.getMessage()
-            )
+            logger.opt(depth=depth, exception=record.exc_info).log(level, record.getMessage())
 
 
 custom_logger: CustomLogger = CustomLogger()

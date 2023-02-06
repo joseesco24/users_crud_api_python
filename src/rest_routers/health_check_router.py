@@ -13,9 +13,7 @@ from src.services.health_check_service import health_check_service
 # pylint: disable=unused-variable
 __all__: list[str] = ["health_check_router"]
 
-health_check_router: APIRouter = APIRouter(
-    prefix=generator.build_posix_path("health-check")
-)
+health_check_router: APIRouter = APIRouter(prefix=generator.build_posix_path("health-check"))
 
 
 @health_check_router.get(
@@ -24,7 +22,5 @@ health_check_router: APIRouter = APIRouter(
     status_code=status.HTTP_200_OK,
 )
 async def load_configuration_file() -> HealthCheckResponseDto:
-    health_check_response: HealthCheckResponseDto = (
-        await health_check_service.get_health_check_metrics()
-    )
+    health_check_response: HealthCheckResponseDto = await health_check_service.get_health_check_metrics()
     return health_check_response

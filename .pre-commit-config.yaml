@@ -1,0 +1,12 @@
+default_stages: [commit]
+default_language_version:
+  python: python3.11
+repos:
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black
+        name: black code formatting
+        description: This hook checks if requirements-dev.txt is up to date.
+        language: system
+        entry: black ./src --line-length=120

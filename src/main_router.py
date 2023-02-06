@@ -1,6 +1,7 @@
 """main_router.py
 
-this module is the incharge of assemble, make executable and expose the paths of the main.schema.graphql file in a single route
+this module is the incharge of assemble, make executable and expose the paths of the main.schema.graphql file in a
+single route
 
 """
 
@@ -48,7 +49,7 @@ __all__: list[str] = ["main_router"]
 current_file_path: Path = Path(__file__).parent.resolve()
 schema_path: Path = Path(current_file_path, "main.schema.graphql")
 
-schema_literal: str = load_schema_from_path(schema_path)
+schema_literal: str = load_schema_from_path(path=str(schema_path))
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: assembling querie facades with resolvers
@@ -104,9 +105,7 @@ async def users_public_data_facade(*_: Any, limit: int, offset: int) -> List[Use
 
     logging.debug("starting users resolver facade")
 
-    response: List[UserDto] = await users_resolvers.users_resolver(
-        limit=limit, offset=offset
-    )
+    response: List[UserDto] = await users_resolvers.users_resolver(limit=limit, offset=offset)
 
     logging.debug("ending users resolver facade")
 
@@ -117,9 +116,7 @@ async def users_public_data_facade(*_: Any, limit: int, offset: int) -> List[Use
 # ** info: assembling schema literal with schema executable
 # ---------------------------------------------------------------------------------------------------------------------
 
-schema_executable: GraphQLSchema = make_executable_schema(
-    schema_literal, query, mutation, integer_scalar
-)
+schema_executable: GraphQLSchema = make_executable_schema(schema_literal, query, mutation, integer_scalar)
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: assembling schema executable with graphql endpoint

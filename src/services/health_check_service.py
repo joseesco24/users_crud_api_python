@@ -41,9 +41,7 @@ class HealthCheckService(metaclass=Singleton):
         is_download_connection_healthy: bool = cache_connections_health[0]
         is_upload_connection_healthy: bool = cache_connections_health[1]
 
-        is_query_session_healthy: bool = (
-            users_connection_manager._check_query_session_health()
-        )
+        is_query_session_healthy: bool = users_connection_manager._check_query_session_health()
 
         if is_download_connection_healthy is False:
             logging.warning("cache download connection isn't healthy")

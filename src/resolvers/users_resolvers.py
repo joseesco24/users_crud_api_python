@@ -78,9 +78,7 @@ class UsersResolvers(metaclass=Singleton):
 
         logging.debug("starting users resolver method")
 
-        response: List[UserDto] = users_provider.fetch_users_data(
-            limit=limit, offset=offset
-        )
+        response: List[UserDto] = users_provider.fetch_users_data(limit=limit, offset=offset)
 
         logging.debug("ending users resolver method")
 

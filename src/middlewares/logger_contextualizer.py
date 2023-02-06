@@ -103,9 +103,7 @@ class LoggerContextualizer(metaclass=Singleton):
                 if isinstance(chunk, bytes):
                     response_content += chunk
 
-            response_body_rep: Dict[str, str] = dict(
-                json.loads(response_content.decode())
-            )
+            response_body_rep: Dict[str, str] = dict(json.loads(response_content.decode()))
 
             response_status: int = router_response.status_code
 

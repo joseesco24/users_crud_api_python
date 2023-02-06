@@ -49,9 +49,7 @@ class QuerySession(Session):
 
     def commit_and_close(self: Self) -> None:
         if self._logs:
-            logging.info(
-                f"committing and closing query session with id: {self.session_id}"
-            )
+            logging.info(f"committing and closing query session with id: {self.session_id}")
         super().commit()
         super().close()
 
@@ -82,9 +80,7 @@ class CrudSession(Session):
 
     def commit_and_close(self: Self) -> None:
         if self._logs:
-            logging.info(
-                f"committing and closing crud session with id: {self.session_id}"
-            )
+            logging.info(f"committing and closing crud session with id: {self.session_id}")
         super().commit()
         super().close()
 
@@ -100,9 +96,7 @@ class CrudSession(Session):
 
 
 class ConnectionManager(metaclass=Singleton):
-    def __init__(
-        self, user: str, password: str, host: str, port: int, database: str, logs: bool
-    ):
+    def __init__(self, user: str, password: str, host: str, port: int, database: str, logs: bool):
         self._database: str = database
         self._password: str = password
         self._logs: bool = logs
@@ -149,16 +143,12 @@ class ConnectionManager(metaclass=Singleton):
         try:
             self._query_session.execute(text("select 1"))
             if self._logs:
-                logging.debug(
-                    f"query session {self._query_session.session_id} is healthy"
-                )
+                logging.debug(f"query session {self._query_session.session_id} is healthy")
             return True
 
         except SQLAlchemyError:
             if self._logs:
-                logging.exception(
-                    f"query session {self._query_session.session_id} isn't healthy"
-                )
+                logging.exception(f"query session {self._query_session.session_id} isn't healthy")
                 logging.warning("creating a new query session")
             self._reset_query_session()
             return False
@@ -178,12 +168,8 @@ class ConnectionManager(metaclass=Singleton):
         if self._check_query_session_health() is False:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
         if self._logs:
-            logging.info(
-                f"using query session with id: {self._query_session.session_id}"
-            )
-            logging.info(
-                f"session healthy since: {self._query_session.session_creation}"
-            )
+            logging.info(f"using query session with id: {self._query_session.session_id}")
+            logging.info(f"session healthy since: {self._query_session.session_creation}")
         return self._query_session
 
 

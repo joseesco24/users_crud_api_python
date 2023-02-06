@@ -12,7 +12,7 @@ __all__: list[str] = ["generator"]
 
 
 class Generator(metaclass=Singleton):
-    def build_posix_path(self: Self, *args: list[str]) -> str:
+    def build_posix_path(self: Self, *args: str) -> str:
         """build posix path
         this function takes all the received string arguments and concatenate each one of the
         arguments into a posix path

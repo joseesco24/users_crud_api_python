@@ -48,9 +48,7 @@ class ErrorHandler(metaclass=Singleton):
         # ! warning: super general exception handling here
         # pylint: disable=broad-except
         except Exception as exception:
-            logging.exception(
-                f"a not handled error has occurred on the api server: {exception.args[0]}"
-            )
+            logging.exception(f"a not handled error has occurred on the api server: {exception.args[0]}")
 
             response_stream: ContentStream = iter(["Internal Server Error"])
 

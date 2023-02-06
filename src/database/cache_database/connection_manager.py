@@ -26,15 +26,11 @@ from src.artifacts.uuid.uuid_provider import uuid_provider
 from src.artifacts.pattern.singleton import Singleton
 from src.artifacts.env.configs import configs
 
-# pylint: disable=unused-variable
 __all__: list[str] = ["connection_manager"]
 
 
-# pylint: disable=W0223
 class AsyncDownloadConnection(AsyncRedis):
-    def __init__(
-        self: Self, password: str, host: str, port: int, database: str, logs: bool
-    ):
+    def __init__(self: Self, password: str, host: str, port: int, database: str, logs: bool):
         self._connection_creation: str = datetime_provider.get_utc_iso_string()
         self._connection_id: str = uuid_provider.get_str_uuid()
         self._logs: bool = logs
@@ -45,22 +41,15 @@ class AsyncDownloadConnection(AsyncRedis):
 
     def _post_init(self: Self) -> None:
         if self._logs:
-            logging.info(
-                f"cache download connection started with id: {self._connection_id}"
-            )
+            logging.info(f"cache download connection started with id: {self._connection_id}")
 
     async def close(self: Self, close_connection_pool: Optional[bool] = None) -> None:
-        logging.info(
-            f"closing cache download connection with id: {self._connection_id}"
-        )
+        logging.info(f"closing cache download connection with id: {self._connection_id}")
         await super().close(close_connection_pool=close_connection_pool)
 
 
-# pylint: disable=W0223
 class AsyncUploadConnection(AsyncRedis):
-    def __init__(
-        self: Self, password: str, host: str, port: int, database: str, logs: bool
-    ):
+    def __init__(self: Self, password: str, host: str, port: int, database: str, logs: bool):
         self._connection_creation: str = datetime_provider.get_utc_iso_string()
         self._connection_id: str = uuid_provider.get_str_uuid()
         self._logs: bool = logs
@@ -71,9 +60,7 @@ class AsyncUploadConnection(AsyncRedis):
 
     def _post_init(self: Self) -> None:
         if self._logs:
-            logging.info(
-                f"cache upload connection started with id: {self._connection_id}"
-            )
+            logging.info(f"cache upload connection started with id: {self._connection_id}")
 
     async def close(self: Self, close_connection_pool: Optional[bool] = None) -> None:
         logging.info(f"closing cache upload connection with id: {self._connection_id}")
@@ -81,9 +68,7 @@ class AsyncUploadConnection(AsyncRedis):
 
 
 class DownloadConnection(metaclass=Singleton):
-    def __init__(
-        self: Self, password: str, host: str, port: int, database: str, logs: bool
-    ):
+    def __init__(self: Self, password: str, host: str, port: int, database: str, logs: bool):
         self._database: str = database
         self._password: str = password
         self._logs: bool = logs
@@ -118,18 +103,14 @@ class DownloadConnection(metaclass=Singleton):
         try:
             await self._connection.ping()
             if self._logs:
+                logging.debug(f"cache download connection {self._connection._connection_id} is healthy")
                 logging.debug(
-                    f"cache download connection {self._connection._connection_id} is healthy"
-                )
-                logging.debug(
-                    f"using cache download connection {self._connection._connection_id} since {self._connection._connection_creation}"
+                    f"using cache download connection {self._connection._connection_id} since {self._connection._connection_creation}"  # noqa: E501
                 )
             return True
         except AsyncConnectionError:
             if self._logs:
-                logging.exception(
-                    f"cache download connection {self._connection._connection_id} isn't healthy"
-                )
+                logging.exception(f"cache download connection {self._connection._connection_id} isn't healthy")
                 logging.warning("creating a new cache download connection")
             await self._reset_connection()
             return False
@@ -142,9 +123,7 @@ class DownloadConnection(metaclass=Singleton):
 
 
 class UploadConnection(metaclass=Singleton):
-    def __init__(
-        self: Self, password: str, host: str, port: int, database: str, logs: bool
-    ):
+    def __init__(self: Self, password: str, host: str, port: int, database: str, logs: bool):
         self._database: str = database
         self._password: str = password
         self._logs: bool = logs
@@ -179,18 +158,14 @@ class UploadConnection(metaclass=Singleton):
         try:
             await self._connection.ping()
             if self._logs:
+                logging.debug(f"cache upload connection {self._connection._connection_id} is healthy")
                 logging.debug(
-                    f"cache upload connection {self._connection._connection_id} is healthy"
-                )
-                logging.debug(
-                    f"using cache upload connection {self._connection._connection_id} since {self._connection._connection_creation}"
+                    f"using cache upload connection {self._connection._connection_id} since {self._connection._connection_creation}"  # noqa: E501
                 )
             return True
         except AsyncConnectionError:
             if self._logs:
-                logging.exception(
-                    f"cache upload connection {self._connection._connection_id} isn't healthy"
-                )
+                logging.exception(f"cache upload connection {self._connection._connection_id} isn't healthy")
                 logging.warning("creating a new cache upload connection")
             await self._reset_connection()
             return False
@@ -210,9 +185,7 @@ class UploadConnection(metaclass=Singleton):
 
 
 class ConnectionManager(metaclass=Singleton):
-    def __init__(
-        self: Self, password: str, host: str, port: int, database: str, logs: bool
-    ):
+    def __init__(self: Self, password: str, host: str, port: int, database: str, logs: bool):
         self._download_connection: DownloadConnection = DownloadConnection(
             password=password, host=host, port=port, database=database, logs=logs
         )
@@ -221,19 +194,13 @@ class ConnectionManager(metaclass=Singleton):
         )
 
     async def get(self: Self, key: str) -> Union[None, Any]:
-        cache_response: Union[bytes, Any] = await self._download_connection._get(
-            key=key
-        )
+        cache_response: Union[bytes, Any] = await self._download_connection._get(key=key)
         if cache_response is not None:
             return pickle.loads(cache_response)
         return None
 
-    async def set_with_ttl(
-        self, key: str, value: Any, time: int = configs.cache_database_default_ttl
-    ) -> None:
-        await self._upload_connection._set_with_ttl(
-            key=key, value=pickle.dumps(value), time=time
-        )
+    async def set_with_ttl(self, key: str, value: Any, time: int = configs.cache_database_default_ttl) -> None:
+        await self._upload_connection._set_with_ttl(key=key, value=pickle.dumps(value), time=time)
 
 
 connection_manager: ConnectionManager = ConnectionManager(
