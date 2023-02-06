@@ -6,12 +6,13 @@ repos:
     rev: "v2.1.1"
     hooks:
       - id: conventional-pre-commit
-        stages: [commit-msg]
+        stages: [prepare-commit-msg, commit-msg]
         args: []
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v4.4.0"
     hooks:
+      - id: check-merge-conflict
       - id: trailing-whitespace
       - id: detect-private-key
       - id: mixed-line-ending
