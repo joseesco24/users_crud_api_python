@@ -54,8 +54,8 @@ repos:
 
   - repo: local
     hooks:
-      - id: add
-        name: pylint-error-count
+      - id: add-to-stage-exported-requirements-files
+        name: add to stage exported requirements files
         entry: bash -c 'git add requirements.app.txt && git add requirements.dev.txt'
         language: system
         files: "(^requirements.app.txt$)|(^requirements.dev.txt$)"
