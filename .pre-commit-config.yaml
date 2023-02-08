@@ -22,21 +22,11 @@ repos:
             "wip",
           ]
 
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: "v4.4.0"
-    hooks:
-      - id: check-merge-conflict
-      - id: trailing-whitespace
-      - id: detect-private-key
-      - id: mixed-line-ending
-      - id: end-of-file-fixer
-
   - repo: https://github.com/python-poetry/poetry
     rev: "1.3.2"
     hooks:
       - id: poetry-export
         files: "poetry.lock"
-        stages: ["post-commit"]
         args:
           [
             "--without-hashes",
@@ -53,7 +43,6 @@ repos:
     hooks:
       - id: poetry-export
         files: "poetry.lock"
-        stages: ["post-commit"]
         args:
           [
             "--without-hashes",
@@ -62,6 +51,24 @@ repos:
             "--output",
             "requirements.app.txt",
           ]
+
+  - repo: local
+    hooks:
+      - id: add
+        name: pylint-error-count
+        entry: bash -c 'git add requirements.app.txt && git add requirements.dev.txt'
+        language: system
+        files: "(^requirements.app.txt$)|(^requirements.dev.txt$)"
+        types: ["text"]
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: "v4.4.0"
+    hooks:
+      - id: check-merge-conflict
+      - id: trailing-whitespace
+      - id: detect-private-key
+      - id: mixed-line-ending
+      - id: end-of-file-fixer
 
   - repo: https://github.com/psf/black
     rev: "23.1a1"
