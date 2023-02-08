@@ -46,6 +46,18 @@ poetry export --without-hashes --only dev --format=requirements.txt > requiremen
 poetry update
 ```
 
+### Check The Depedencies With Poetry
+
+**Note:** Before running this command you need to install the dev dependencies.
+
+```bash
+poetry show
+```
+
+```bash
+poetry show -l
+```
+
 ### Format The Code Using Black
 
 **Note:** Before running this command you need to install the dev dependencies.
