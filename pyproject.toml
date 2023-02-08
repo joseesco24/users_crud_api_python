@@ -13,7 +13,7 @@ commit_msg = "pre-commit install --hook-type commit-msg"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.89.1"
+fastapi = "^0.90.0"
 psycopg2-binary = "^2.9.5"
 SQLAlchemy = "^2.0.1"
 loguru = "^0.6.0"
@@ -27,7 +27,7 @@ conventional-pre-commit = "^2.1.1"
 [tool.poetry.group.dev.dependencies]
 black = "^23.1a1"
 commit-linter = "^1.0.2"
-mypy = "^0.991"
+mypy = "^1.0.0"
 watchfiles = "^0.18.1"
 pre-commit = "^3.0.3"
 wrapt = "^1.14.1"
