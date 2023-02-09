@@ -100,3 +100,12 @@ repos:
         entry: bash -c 'pytest'
         language: system
         stages: [push]
+
+  - repo: local
+    hooks:
+      - id: clean-python-cache-files
+        name: clean python cache files
+        entry: bash -c 'find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf'
+        language: system
+        always_run: true
+        stages: [push, commit]
