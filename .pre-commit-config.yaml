@@ -28,13 +28,13 @@ repos:
     hooks:
       - id: poetry-check
         name: check poetry .toml file
-        files: "poetry.lock"
+        files: "pyproject.toml"
       - id: poetry-lock
         name: lock dependencies info poetry lockfile
-        files: "poetry.lock"
+        files: "pyproject.toml"
       - id: poetry-export
         name: export dev requirements
-        files: "poetry.lock"
+        files: "pyproject.toml"
         args:
           [
             "--without-hashes",
@@ -47,7 +47,7 @@ repos:
           ]
       - id: poetry-export
         name: export app requirements
-        files: "poetry.lock"
+        files: "pyproject.toml"
         args:
           [
             "--without-hashes",
