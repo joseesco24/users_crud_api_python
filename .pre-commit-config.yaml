@@ -26,6 +26,12 @@ repos:
   - repo: https://github.com/python-poetry/poetry
     rev: "1.3.2"
     hooks:
+      - id: poetry-check
+        name: check poetry .toml file
+        files: "poetry.lock"
+      - id: poetry-lock
+        name: lock dependencies info poetry lockfile
+        files: "poetry.lock"
       - id: poetry-export
         name: export dev requirements
         files: "poetry.lock"
@@ -39,10 +45,6 @@ repos:
             "--output",
             "requirements.dev.txt",
           ]
-
-  - repo: https://github.com/python-poetry/poetry
-    rev: "1.3.2"
-    hooks:
       - id: poetry-export
         name: export app requirements
         files: "poetry.lock"
@@ -54,15 +56,6 @@ repos:
             "--output",
             "requirements.app.txt",
           ]
-
-  - repo: local
-    hooks:
-      - id: add-to-stage-exported-requirement-files
-        name: add to stage exported requirement files
-        entry: bash -c 'git add requirements.app.txt && git add requirements.dev.txt'
-        language: system
-        files: "(^requirements.app.txt$)|(^requirements.dev.txt$)"
-        types: ["text"]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v4.4.0"
