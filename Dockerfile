@@ -28,16 +28,17 @@ RUN pip install --no-cache -r $WORKDIR/requirements.dev.txt
 # ** info: validating dependencies integrity
 RUN pip check
 
+# ** info: copying the testing code of the application from the building context to the working directory
+COPY ["test", "$WORKDIR/test"]
+
 # ** info: copying the source code of the application from the building context to the working directory
 COPY ["src", "$WORKDIR/src"]
 
+# ** info: running the application tests
+RUN python -m pytest
+
 # ** info: cleaning the python __pycache__ files
 RUN find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
-
-# ** info: running the application tests
-# ! warning: test unabled
-# todo: Restore testing in this stage
-# RUN python -m unittest -v $WORKDIR/src/testing/*.py
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** stage 2: production image
