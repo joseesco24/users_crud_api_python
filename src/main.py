@@ -45,6 +45,14 @@ from src.middlewares.database_health_check import database_health_check
 from src.middlewares.logger_contextualizer import logger_contextualizer
 from src.middlewares.error_handler import error_handler
 
+# ** info: databases connection managers imports
+from src.database.cache_database.connection_manager import (
+    connection_manager as cache_connection_manager,
+)
+from src.database.users_database.connection_manager import (
+    connection_manager as users_connection_manager,
+)
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: initializing app graphql based routers
@@ -107,6 +115,15 @@ if __name__ == "__main__":
 
 if __name__ != "__main__":
     logging.info(f"application reloaded in {configs.app_environment_mode.lower()} mode")
+
+# ---------------------------------------------------------------------------------------------------------------------
+# ** info: warming database modules
+# ---------------------------------------------------------------------------------------------------------------------
+
+cache_connection_manager._download_connection._start_connection()
+cache_connection_manager._upload_connection._start_connection()
+users_connection_manager._start_engine()
+users_connection_manager._start_query_session()
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: setting up uvicorn asgi server with fast api app
