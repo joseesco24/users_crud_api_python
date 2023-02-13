@@ -34,7 +34,7 @@ from starlette.routing import BaseRoute
 from src.rest_routers.health_check_router import health_check_router
 
 # ** info: graphql based routers imports
-from src.main_router import main_router
+from src.graphql_routers.users_router import users_router
 
 # ** info: artifacts imports
 from src.artifacts.logging.custom_logger import custom_logger
@@ -59,7 +59,7 @@ from src.database.users_database.connection_manager import (
 # ** info: initializing app graphql based routers
 # ---------------------------------------------------------------------------------------------------------------------
 
-routers: List[BaseRoute] = [main_router]
+routers: List[BaseRoute] = [users_router]
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: initializing app dependencies and mounting graphql based routes
