@@ -59,8 +59,8 @@ class HealthCheckService(metaclass=Singleton):
         health_check_response.postgresQuerySession = is_query_session_healthy
         health_check_response.allConnectionsOk = are_databses_healty
 
-        health_check_response.memoryUsage = psutil.virtual_memory().percent
-        health_check_response.cpuUsage = psutil.cpu_percent()
+        health_check_response.memoryUsage = int(psutil.virtual_memory().percent)
+        health_check_response.cpuUsage = int(psutil.cpu_percent())
 
         logging.info("all databases are healthy")
 
