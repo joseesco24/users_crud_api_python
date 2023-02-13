@@ -37,7 +37,7 @@ from src.artifacts.env.configs import configs
 from src.dtos.users_dtos import UserDto
 
 # ** info: resolvers imports
-from src.resolvers.users_resolvers import users_resolvers
+from src.graphql_resolvers.users_resolvers import users_resolvers
 
 __all__: list[str] = ["main_router"]
 
