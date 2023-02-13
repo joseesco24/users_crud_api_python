@@ -91,10 +91,14 @@ else:
 if configs.app_use_database_health_check_middleware is True:
     logging.info("databases health check middleware active")
     app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=database_health_check)
+else:
+    logging.warn("databases health check middleware inactive")
 
 if configs.app_use_database_health_check_middleware is True:
     logging.info("authentication middleware active")
     app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=authentication_handler)
+else:
+    logging.warn("authentication middleware inactive")
 
 app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=error_handler)
 
