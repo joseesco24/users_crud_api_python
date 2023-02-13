@@ -24,6 +24,7 @@ import uvicorn
 
 # ** info: fastapi imports
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import APIRouter
 from fastapi import FastAPI
 
 # ** info: starlette imports
@@ -38,6 +39,7 @@ from src.graphql_routers.users_router import users_router
 
 # ** info: artifacts imports
 from src.artifacts.logging.custom_logger import custom_logger
+from src.artifacts.path.generator import generator
 from src.artifacts.env.configs import configs
 
 # ** info: middlewares imports
@@ -71,7 +73,11 @@ app: FastAPI = FastAPI(routes=routers)
 # ** info: mounting rest based routes
 # ---------------------------------------------------------------------------------------------------------------------
 
-app.include_router(health_check_router)
+rest_router: APIRouter = APIRouter(prefix=generator.build_posix_path("rest"))
+
+rest_router.include_router(health_check_router)
+
+app.include_router(rest_router)
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: setting up global app logging
