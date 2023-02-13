@@ -8,7 +8,7 @@ from src.artifacts.path.generator import generator
 # ** info: health check dtos imports
 from src.dtos.health_check_dtos import HealthCheckResponseDto
 
-from src.services.health_check_service import health_check_service
+from src.rest_controllers.health_check_controller import health_check_controller
 
 __all__: list[str] = ["health_check_router"]
 
@@ -21,5 +21,5 @@ health_check_router: APIRouter = APIRouter(prefix=generator.build_posix_path("he
     status_code=status.HTTP_200_OK,
 )
 async def load_configuration_file() -> HealthCheckResponseDto:
-    health_check_response: HealthCheckResponseDto = await health_check_service.get_health_check_metrics()
+    health_check_response: HealthCheckResponseDto = await health_check_controller.get_health_check_metrics()
     return health_check_response

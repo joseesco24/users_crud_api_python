@@ -23,10 +23,10 @@ from src.database.users_database.connection_manager import (
 # ** info: health check dtos imports
 from src.dtos.health_check_dtos import HealthCheckResponseDto
 
-__all__: list[str] = ["health_check_service"]
+__all__: list[str] = ["health_check_controller"]
 
 
-class HealthCheckService(metaclass=Singleton):
+class HealthCheckController(metaclass=Singleton):
     async def get_health_check_metrics(self: Self) -> HealthCheckResponseDto:
         health_check_response: HealthCheckResponseDto = HealthCheckResponseDto()
 
@@ -67,4 +67,4 @@ class HealthCheckService(metaclass=Singleton):
         return health_check_response
 
 
-health_check_service: HealthCheckService = HealthCheckService()
+health_check_controller: HealthCheckController = HealthCheckController()
