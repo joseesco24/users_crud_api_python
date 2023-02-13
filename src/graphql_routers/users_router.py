@@ -126,6 +126,6 @@ graphql_endpoint_definition: GraphQL = GraphQL(
 # ---------------------------------------------------------------------------------------------------------------------
 
 users_router: Route = Route(
-    path=generator.build_posix_path("graphql"),
+    path=generator.build_posix_path("users"),
     endpoint=graphql_endpoint_definition,
 )

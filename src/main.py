@@ -30,6 +30,7 @@ from fastapi import FastAPI
 # ** info: starlette imports
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.routing import BaseRoute
+from starlette.routing import Mount
 
 # ** info: rest based routers imports
 from src.rest_routers.health_check_router import health_check_router
@@ -61,7 +62,7 @@ from src.database.users_database.connection_manager import (
 # ** info: initializing app graphql based routers
 # ---------------------------------------------------------------------------------------------------------------------
 
-routers: List[BaseRoute] = [users_router]
+routers: List[BaseRoute] = [Mount(path=generator.build_posix_path("graphql"), routes=[users_router])]
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: initializing app dependencies and mounting graphql based routes
