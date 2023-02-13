@@ -56,10 +56,12 @@ class LoggerContextualizer(metaclass=Singleton):
         base_url: str = str(request.base_url)
         full_url: str = str(request.url)
 
+        endpoint_url: str = full_url.replace(base_url, "").strip().lower()
+
         request_headers: Headers = request.headers
         headers_rep: Dict[str, Any] = dict()
         for key in request_headers.keys():
-            headers_rep[key.lower()] = str(request_headers[key.lower()])
+            headers_rep[key] = str(request_headers[key])
 
         request_body: Dict[str, str]
 
@@ -68,12 +70,10 @@ class LoggerContextualizer(metaclass=Singleton):
         else:
             request_body = dict()
 
-        endpoint_url: str = full_url.replace(base_url, "").strip().lower()
-
         internal_id: str = uuid_provider.get_str_uuid()
 
-        if "requestid" in headers_rep:
-            external_id: str = headers_rep["requestid"]
+        if "requestId" in headers_rep:
+            external_id: str = headers_rep["requestId"]
         else:
             external_id: str = internal_id
 

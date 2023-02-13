@@ -69,7 +69,7 @@ class DatabaseHealthCheck(metaclass=Singleton):
 
         endpoint_url: str = full_url.replace(base_url, "").strip().lower()
 
-        if endpoint_url in configs.app_use_database_health_check_middleware_exclude:
+        if endpoint_url in configs.app_database_health_check_middleware_exclude:
             logging.info("jumping databases health check middleware validations")
             response: StreamingResponse = await call_next(request)
             return response

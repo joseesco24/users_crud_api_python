@@ -41,6 +41,7 @@ from src.artifacts.logging.custom_logger import custom_logger
 from src.artifacts.env.configs import configs
 
 # ** info: middlewares imports
+from src.middlewares.authentication_handler import authentication_handler
 from src.middlewares.database_health_check import database_health_check
 from src.middlewares.logger_contextualizer import logger_contextualizer
 from src.middlewares.error_handler import error_handler
@@ -89,10 +90,15 @@ else:
 
 if configs.app_use_database_health_check_middleware is True:
     logging.info("databases health check middleware active")
-    app.add_middleware(BaseHTTPMiddleware, dispatch=database_health_check)
+    app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=database_health_check)
 
-app.add_middleware(BaseHTTPMiddleware, dispatch=logger_contextualizer)
-app.add_middleware(BaseHTTPMiddleware, dispatch=error_handler)
+if configs.app_use_database_health_check_middleware is True:
+    logging.info("authentication middleware active")
+    app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=authentication_handler)
+
+app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=error_handler)
+
+app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=logger_contextualizer)
 
 app.add_middleware(CORSMiddleware)
 

@@ -18,14 +18,15 @@ from fastapi import status
 
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
+from src.artifacts.env.configs import configs
 
-__all__: list[str] = ["error_handler"]
+__all__: list[str] = ["authentication_handler"]
 
 
-class ErrorHandler(metaclass=Singleton):
+class AuthenticationHandler(metaclass=Singleton):
 
-    """error handler
-    this class provides a custom error handler middleware for fastapi based applications
+    """authentication handler
+    this class provides a custom authentication middleware for fastapi based applications
     """
 
     def __init__(self: Self):
@@ -44,6 +45,23 @@ class ErrorHandler(metaclass=Singleton):
         request: Request,
         call_next: Callable,
     ) -> StreamingResponse:
+        await self.__set_body__(request=request)
+
+        base_url: str = str(request.base_url)
+        full_url: str = str(request.url)
+
+        endpoint_url: str = full_url.replace(base_url, "").strip().lower()
+
+        is_authenticated: bool = False
+
+        if endpoint_url in configs.app_database_health_check_middleware_exclude:
+            logging.info("jumping authentication middleware validations")
+            is_authenticated = True
+
+        else:
+            # todo: create a real authentication logic here
+            is_authenticated = True
+
         request_context: Context = contextvars.copy_context()
         logger_kwargs: Dict = dict()
 
@@ -54,29 +72,20 @@ class ErrorHandler(metaclass=Singleton):
 
         internal_id: str = logger_kwargs["internalId"]
 
-        try:
+        if is_authenticated:
+            logging.info(f"the request with id {internal_id} was successfully authorized")
             response: StreamingResponse = await call_next(request)
-            logging.info(f"request with id {internal_id} successfully processed")
 
-        except Exception as exception:
-            if str(exception.args[0]).strip() == "":
-                logging.exception(
-                    f"a handled error has occurred on the api while processing the request with id {internal_id}"
-                )
-
-            else:
-                logging.exception(
-                    f"a not handled error has occurred on the api while processing the request with id {internal_id}: {exception.args[0]}"  # noqa: E501
-                )
-
-            response_stream: ContentStream = iter(["Internal Server Error"])
+        else:
+            logging.error(f"the request with id {internal_id} was not successfully authorized")
+            response_stream: ContentStream = iter(["Not Authorized"])
 
             response: StreamingResponse = StreamingResponse(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 content=response_stream,
             )
 
         return response
 
 
-error_handler: ErrorHandler = ErrorHandler()
+authentication_handler: AuthenticationHandler = AuthenticationHandler()
