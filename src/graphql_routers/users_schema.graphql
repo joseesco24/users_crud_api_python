@@ -3,7 +3,7 @@
 scalar Integer
 
 type Query {
-  users(limit: Int!, offset: Int!): [User!]!
+  listUsers(limit: Int!, offset: Int!): [User!]!
 }
 
 type Mutation {

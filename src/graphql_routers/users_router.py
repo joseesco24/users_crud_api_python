@@ -87,7 +87,7 @@ async def add_user_facade(
     return response
 
 
-@query.field("users")
+@query.field("listUsers")
 async def users_public_data_facade(*_: Any, limit: int, offset: int) -> List[UserDto]:
     """users_facade
 
