@@ -47,7 +47,7 @@ repos:
           ]
       - id: poetry-export
         name: export app requirements
-        files: "pyproject.toml"
+        files: "poetry.lock"
         args:
           [
             "--without-hashes",
