@@ -19,9 +19,6 @@ COPY ["requirements.app.txt" ,"$WORKDIR/"]
 COPY ["requirements.dev.txt" ,"$WORKDIR/"]
 
 # ** info: installing the dependencies and upgrading pip, wheel and setuptools
-RUN pip install --no-cache --upgrade pip
-RUN pip install --no-cache --upgrade wheel
-RUN pip install --no-cache --upgrade setuptools
 RUN pip install --no-cache -r $WORKDIR/requirements.app.txt
 RUN pip install --no-cache -r $WORKDIR/requirements.dev.txt
 
@@ -69,10 +66,10 @@ RUN chmod 755 $WORKDIR
 WORKDIR $WORKDIR
 
 # ** info: installing the dependencies and upgrading pip, wheel and setuptools
-RUN pip install --no-cache --upgrade pip
-RUN pip install --no-cache --upgrade wheel
-RUN pip install --no-cache --upgrade setuptools
 RUN pip install --no-cache -r $WORKDIR/requirements.app.txt
+
+# ** info: validating dependencies integrity
+RUN pip check
 
 # ** info: copying source code of the application from the testing image
 COPY --from=testing ["/home/testing/src", "$WORKDIR/src"]
