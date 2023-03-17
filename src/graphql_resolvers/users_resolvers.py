@@ -2,6 +2,7 @@
 import logging
 
 # ** info: typing imports
+from typing import Union
 from typing import List
 from typing import Self
 
@@ -68,7 +69,19 @@ class UsersResolvers(metaclass=Singleton):
         return response
 
     @cache_provider.ttl_cache(ttl=120)
-    async def users_resolver(self: Self, limit: int, offset: int) -> List[UserDto]:
+    async def users_resolver(
+        self: Self,
+        limit: int,
+        offset: int,
+        internal_id: Union[None, str],
+        estatal_id: Union[None, int],
+        first_name: Union[None, str],
+        last_name: Union[None, str],
+        phone_number: Union[None, int],
+        email: Union[None, str],
+        gender: Union[None, str],
+        birthday: Union[None, str],
+    ) -> List[UserDto]:
         """users_resolver
 
         users root resolver
@@ -77,7 +90,18 @@ class UsersResolvers(metaclass=Singleton):
 
         logging.debug("starting users resolver method")
 
-        response: List[UserDto] = users_provider.fetch_users_data(limit=limit, offset=offset)
+        response: List[UserDto] = users_provider.fetch_users_data(
+            limit=limit,
+            offset=offset,
+            internal_id=internal_id,
+            estatal_id=estatal_id,
+            first_name=first_name,
+            last_name=last_name,
+            phone_number=phone_number,
+            email=email,
+            gender=gender,
+            birthday=birthday,
+        )
 
         logging.debug("ending users resolver method")
 

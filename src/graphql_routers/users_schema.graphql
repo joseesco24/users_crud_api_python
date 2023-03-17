@@ -3,7 +3,18 @@
 scalar Integer
 
 type Query {
-  listUsers(limit: Int!, offset: Int!): [User!]!
+  listUsers(
+    limit: Int!
+    offset: Int!
+    internalId: ID
+    estatalId: Integer
+    firstName: String
+    lastName: String
+    phoneNumber: Integer
+    email: String
+    gender: String
+    birthday: String
+  ): [User!]!
 }
 
 type Mutation {

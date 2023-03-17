@@ -1,4 +1,5 @@
 # ** info: typing imports
+from typing import Union
 from typing import List
 from typing import Self
 from typing import Any
@@ -60,25 +61,57 @@ class UsersProvider(metaclass=Singleton):
 
         return user_dto
 
-    def fetch_users_data(self: Self, limit: int, offset: int) -> List[UserDto]:
+    def fetch_users_data(
+        self: Self,
+        limit: int,
+        offset: int,
+        internal_id: Union[None, str],
+        estatal_id: Union[None, int],
+        first_name: Union[None, str],
+        last_name: Union[None, str],
+        phone_number: Union[None, int],
+        email: Union[None, str],
+        gender: Union[None, str],
+        birthday: Union[None, str],
+    ) -> List[UserDto]:
         users_data: List[UserDto] = list()
 
-        query: Any = (
-            select(
-                Users.internal_id,
-                Users.estatal_id,
-                Users.first_name,
-                Users.last_name,
-                Users.phone_number,
-                Users.email,
-                Users.gender,
-                Users.birthday,
-            )
-            .select_from(Users)
-            .order_by(Users.creation.desc())
-            .limit(limit)
-            .offset(offset)
+        query: Any = select(
+            Users.internal_id,
+            Users.estatal_id,
+            Users.first_name,
+            Users.last_name,
+            Users.phone_number,
+            Users.email,
+            Users.gender,
+            Users.birthday,
         )
+
+        if internal_id is not None:
+            query = query.where(Users.internal_id.like(f"{internal_id}%"))
+
+        if estatal_id is not None:
+            query = query.where(Users.estatal_id == estatal_id)
+
+        if first_name is not None:
+            query = query.where(Users.first_name.like(f"{first_name}%"))
+
+        if last_name is not None:
+            query = query.where(Users.last_name.like(f"{last_name}%"))
+
+        if phone_number is not None:
+            query = query.where(Users.phone_number == phone_number)
+
+        if email is not None:
+            query = query.where(Users.email.like(f"{email}%"))
+
+        if gender is not None:
+            query = query.where(Users.gender == gender)
+
+        if birthday is not None:
+            query = query.where(Users.birthday == birthday)
+
+        query = query.order_by(Users.creation.desc()).limit(limit).offset(offset)
 
         results: List[Users] = connection_manager.get_query_session().execute(statement=query)
 

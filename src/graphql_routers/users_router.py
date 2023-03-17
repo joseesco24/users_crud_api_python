@@ -3,6 +3,7 @@ from pathlib import Path
 import logging
 
 # ** info: typing imports
+from typing import Union
 from typing import List
 from typing import Any
 
@@ -61,7 +62,7 @@ async def add_user_facade(
     email: str,
     gender: str,
     birthday: str,
-    password: str
+    password: str,
 ) -> UserDto:
     """add_user_facade
 
@@ -88,7 +89,19 @@ async def add_user_facade(
 
 
 @query.field("listUsers")
-async def users_public_data_facade(*_: Any, limit: int, offset: int) -> List[UserDto]:
+async def users_public_data_facade(
+    *_: Any,
+    limit: int,
+    offset: int,
+    internalId: Union[None, str] = None,
+    estatalId: Union[None, int] = None,
+    firstName: Union[None, str] = None,
+    lastName: Union[None, str] = None,
+    phoneNumber: Union[None, int] = None,
+    email: Union[None, str] = None,
+    gender: Union[None, str] = None,
+    birthday: Union[None, str] = None,
+) -> List[UserDto]:
     """users_facade
 
     users resolver facade
@@ -97,7 +110,18 @@ async def users_public_data_facade(*_: Any, limit: int, offset: int) -> List[Use
 
     logging.debug("starting users resolver facade")
 
-    response: List[UserDto] = await users_resolvers.users_resolver(limit=limit, offset=offset)
+    response: List[UserDto] = await users_resolvers.users_resolver(
+        limit=limit,
+        offset=offset,
+        internal_id=internalId,
+        estatal_id=estatalId,
+        first_name=firstName,
+        last_name=lastName,
+        phone_number=phoneNumber,
+        email=email,
+        gender=gender,
+        birthday=birthday,
+    )
 
     logging.debug("ending users resolver facade")
 
