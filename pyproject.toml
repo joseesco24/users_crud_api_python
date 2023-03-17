@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "users_crud_api_python"
-version = "1.12.0"
+version = "1.13.0"
 description = "A really simple CRUD GraphQL API based on Docker and Python."
 authors = ["joseesco24 <josed.escobar@outlook.com>"]
 readme = "readme.md"
