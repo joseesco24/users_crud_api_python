@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "users_crud_api_python"
-version = "1.13.0"
+version = "1.14.0"
 description = "A really simple CRUD GraphQL API based on Docker and Python."
 authors = ["joseesco24 <josed.escobar@outlook.com>"]
 readme = "readme.md"
@@ -13,7 +13,7 @@ post_commit = "pre-commit install --hook-type pre-push"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.94.0"
+fastapi = "^0.95.0"
 psycopg2-binary = "^2.9.5"
 SQLAlchemy = "^2.0.1"
 loguru = "^0.6.0"
