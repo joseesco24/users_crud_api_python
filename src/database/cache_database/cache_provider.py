@@ -3,6 +3,12 @@ import functools
 import hashlib
 import logging
 
+# ** info: fastapi imports
+from fastapi import HTTPException
+
+# ** info: graphql imports
+from graphql import GraphQLError
+
 # ** info: typing imports
 from typing import Callable
 from typing import Union
@@ -37,16 +43,23 @@ class CacheProvider(metaclass=Singleton):
                     return cached_value
 
                 # ** info: executing the function
-                value: Any = await func(*args, **kwargs)
+                try:
+                    value: Any = await func(*args, **kwargs)
 
-                # ** info: storing the value in the cache database
-                if ttl is None:
-                    await self._connection_manager.set_with_ttl(key=key, value=value)
-                else:
-                    await self._connection_manager.set_with_ttl(key=key, value=value, time=ttl)
+                    # ** info: storing the value in the cache database
+                    if ttl is None:
+                        await self._connection_manager.set_with_ttl(key=key, value=value)
+                    else:
+                        await self._connection_manager.set_with_ttl(key=key, value=value, time=ttl)
 
-                # ** info: returning
-                return value
+                    # ** info: returning
+                    return value
+
+                except HTTPException as error:
+                    raise HTTPException(status_code=error.status_code, detail=error.detail)
+
+                except GraphQLError as error:
+                    raise GraphQLError(message=error.message, extensions=error.extensions)
 
             return functools.wraps(func)(cache_wrapper)
 

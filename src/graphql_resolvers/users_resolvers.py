@@ -1,6 +1,12 @@
 # ** info: python imports
 import logging
 
+# ** info: graphql imports
+# from graphql import GraphQLErrorExtensions
+# from graphql import GraphQLError
+# extensions: GraphQLErrorExtensions = {"code": "E001", "confirmation": "G"}
+# raise GraphQLError(message="aaaa", extensions=extensions)
+
 # ** info: typing imports
 from typing import Union
 from typing import List

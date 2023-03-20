@@ -8,7 +8,6 @@ from typing import Self
 from ariadne import format_error
 
 # ** info: graphql imports
-from graphql import GraphQLFormattedError
 from graphql import GraphQLError
 
 # ** info: common artifacts imports
@@ -23,15 +22,23 @@ class ErrorFormatter(metaclass=Singleton):
 
     @staticmethod
     def formatter(error: GraphQLError, debug: bool) -> dict:
-        logging.error(f"a not handled graphql error has occurred on the api server, error message: {error.message}")
+        if error.extensions == {}:
+            logging.error(f"a not handled graphql error has occurred on the api server, error message: {error.message}")
 
         if debug is True:
-            formatted: dict = format_error(error=error, debug=True)
+            formatted: dict = format_error(error=error, debug=True)  # type: ignore
             return formatted
 
-        formatted: GraphQLFormattedError = error.formatted
-        formatted["message"] = "Internal Server Error"
+        formatted: dict = error.formatted  # type: ignore
+
+        if error.extensions == {}:
+            formatted["message"] = "Internal Server Error"
+        else:
+            formatted["message"] = error.message
+
         del formatted["locations"]
+        del formatted["path"]
+
         return formatted
 
 
