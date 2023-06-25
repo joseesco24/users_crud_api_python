@@ -63,7 +63,7 @@ poetry show -l
 **Note:** Before running this command you need to install the dev dependencies.
 
 ```bash
-black ./src --line-length=120
+black ./src --line-length=150
 ```
 
 ### Lint The Code Using Flake8
@@ -71,7 +71,7 @@ black ./src --line-length=120
 **Note:** Before running this command you need to install the dev dependencies.
 
 ```bash
-flake8 ./src --max-line-length=120
+flake8 ./src --max-line-length=150
 ```
 
 ### Check Static Types Using Mypy
