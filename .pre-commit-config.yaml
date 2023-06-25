@@ -14,5 +14,4 @@ repos:
         entry: hooks/commit-msg.sh
         language: script
         stages: [commit]
-        types: [python]
         pass_filenames: false
