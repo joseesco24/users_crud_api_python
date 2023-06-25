@@ -108,9 +108,7 @@ class ConnectionManager(metaclass=Singleton):
 
     def _start_engine(self: Self) -> None:
         if self._engine is None:
-            self._engine = create_engine(
-                f"postgresql://{self._user}:{self._password}@{self._host}:{self._port}/{self._database}"
-            )
+            self._engine = create_engine(f"postgresql://{self._user}:{self._password}@{self._host}:{self._port}/{self._database}")
 
     def _end_engine(self: Self) -> None:
         if self._query_session is not None:

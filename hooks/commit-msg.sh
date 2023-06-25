@@ -13,5 +13,4 @@ print_title() {
 }
 
 print_title "Linting Commit"
-
-npx commitlint --edit
+conventional-pre-commit build ci docs feat fix perf refactor revert test style wip .git/COMMIT_EDITMSG

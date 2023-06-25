@@ -30,13 +30,9 @@ class Configs(BaseSettings):
     app_environment_mode: EnvironmentMode = Field(..., env="APP_ENVIRONMENT_MODE")
     app_logging_mode: LoggingMode = Field(..., env="APP_LOGGING_MODE")
     app_server_port: int = Field(..., env="APP_SERVER_PORT")
-    app_database_health_check_middleware_exclude: Set[str] = Field(
-        ..., env="APP_DATABASE_HEALTH_CHECK_MIDDLEWARE_EXCLUDE"
-    )
+    app_database_health_check_middleware_exclude: Set[str] = Field(..., env="APP_DATABASE_HEALTH_CHECK_MIDDLEWARE_EXCLUDE")
     app_use_database_health_check_middleware: bool = Field(..., env="APP_USE_DATABASE_HEALTH_CHECK_MIDDLEWARE")
-    app_authentication_handler_middleware_exclude: Set[str] = Field(
-        ..., env="APP_AUTHENTICATION_HANDLER_MIDDLEWARE_EXCLUDE"
-    )
+    app_authentication_handler_middleware_exclude: Set[str] = Field(..., env="APP_AUTHENTICATION_HANDLER_MIDDLEWARE_EXCLUDE")
     app_use_authentication_handler_middleware: bool = Field(..., env="APP_USE_AUTHENTICATION_HANDLER_MIDDLEWARE")
 
     # ** info: users database credentials

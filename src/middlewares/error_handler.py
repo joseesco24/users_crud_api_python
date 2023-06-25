@@ -60,9 +60,7 @@ class ErrorHandler(metaclass=Singleton):
 
         except Exception as exception:
             if str(exception.args[0]).strip() == "":
-                logging.exception(
-                    f"a handled error has occurred on the api while processing the request with id {internal_id}"
-                )
+                logging.exception(f"a handled error has occurred on the api while processing the request with id {internal_id}")
 
             else:
                 logging.exception(

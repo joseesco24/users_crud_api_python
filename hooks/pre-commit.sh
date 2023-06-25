@@ -30,9 +30,24 @@ else
     print_title "There Are Not Changed Files On This Commit"
 fi
 
+# ** info: executing tests
+print_title "Executing Tests"
+pytest --quiet
+
+# ** info: cleaning cache
+print_title "Cleaning Cache"
+find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
+
 # ** info: formatting files
 print_title "Formatting Files"
-npm run format
+black ./src --line-length=150
+
+# ** info: exporting dependencies if needed
+if [[ " ${staged_files[@]} " =~ " pyproject.toml " ]]; then
+    print_title "Exporting Dependencies"
+    poetry export --without-hashes --format=requirements.txt > requirements.app.txt
+    poetry export --without-hashes --only dev --format=requirements.txt > requirements.dev.txt
+fi
 
 # ** info: updating staged files
 if ([ $changed_files_count != 0 ] && [ "$cero_element" != "" ]); then
@@ -45,7 +60,12 @@ fi
 
 # ** info: linting files
 print_title "Linting Files"
-npm run lint
+flake8 ./src --max-line-length=150 --verbose
+
+# ** info: validating typos
+# todo: enable typo validation
+# print_title "Validating Typos"
+# mypy --explicit-package-bases ./src
 
 # ** info: linting files
 print_title "Commit Sucessfully"

@@ -186,12 +186,8 @@ class UploadConnection(metaclass=Singleton):
 
 class ConnectionManager(metaclass=Singleton):
     def __init__(self: Self, password: str, host: str, port: int, database: str, logs: bool):
-        self._download_connection: DownloadConnection = DownloadConnection(
-            password=password, host=host, port=port, database=database, logs=logs
-        )
-        self._upload_connection: UploadConnection = UploadConnection(
-            password=password, host=host, port=port, database=database, logs=logs
-        )
+        self._download_connection: DownloadConnection = DownloadConnection(password=password, host=host, port=port, database=database, logs=logs)
+        self._upload_connection: UploadConnection = UploadConnection(password=password, host=host, port=port, database=database, logs=logs)
 
     async def get(self: Self, key: str) -> Union[None, Any]:
         cache_response: Union[bytes, Any] = await self._download_connection._get(key=key)
