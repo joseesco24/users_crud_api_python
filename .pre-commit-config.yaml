@@ -8,7 +8,6 @@ repos:
         entry: hooks/pre-commit.sh
         language: script
         stages: [commit]
-        types: [python]
         pass_filenames: false
       - id: commit-msg
         name: run commit-msg.sh script

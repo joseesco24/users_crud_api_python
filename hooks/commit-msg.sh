@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 print_title() {
-    TIT='\033[1;33m'
+    TIT='\033[1m'
     NCL='\033[0m'
     title=$1
 
