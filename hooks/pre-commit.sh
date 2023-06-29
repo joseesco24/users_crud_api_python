@@ -43,7 +43,7 @@ print_title "Formatting Files"
 black ./src --line-length=150
 
 # ** info: exporting dependencies if needed
-if [[ " ${staged_files[@]} " =~ " pyproject.toml " ]]; then
+if [[ " ${staged_files[@]} " =~ " poetry.lock " ]]; then
     print_title "Exporting Dependencies"
     poetry export --without-hashes --format=requirements.txt > requirements.app.txt
     poetry export --without-hashes --only dev --format=requirements.txt > requirements.dev.txt
