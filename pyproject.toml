@@ -13,14 +13,14 @@ post_commit = "pre-commit install --hook-type pre-push"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.98.0"
+fastapi = "^0.99.0"
 psycopg2-binary = "^2.9.5"
 SQLAlchemy = "^2.0.1"
 loguru = "^0.7.0"
 ariadne = "^0.20.0"
 redis = "^4.4.2"
 psutil = "^5.9.4"
-pydantic = { extras = ["dotenv"], version = "^1.10.4" }
+pydantic = { extras = ["dotenv"], version = "^1.10.10" }
 uvicorn = "^0.22.0"
 
 [tool.poetry.group.dev.dependencies]
