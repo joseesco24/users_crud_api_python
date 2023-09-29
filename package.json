@@ -8,12 +8,18 @@
 	},
 	"readme": "readme.md",
 	"scripts": {
+		"lint": "flake8 ./src --max-line-length=150 --verbose && mypy --explicit-package-bases ./src",
+		"clean-cache": "find . | grep -E \"(/__pycache__$|\\.pyc$|\\.pyo$)\" | xargs rm -rf",
+		"start-dev": "APP_ENVIRONMENT_MODE=development python src/main.py",
+		"start-app": "APP_ENVIRONMENT_MODE=production python src/main.py",
+		"format": "black ./src --line-length=150",
 		"commitmsg": "bash hooks/commit-msg.sh",
 		"precommit": "bash hooks/pre-commit.sh",
-		"postinstall": "npx husky install"
+		"postinstall": "npx husky install",
+		"test": "pytest"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^17.7.1",
+		"@commitlint/cli": "^17.7.2",
 		"@commitlint/config-conventional": "^17.7.0",
 		"husky": "^8.0.3"
 	}

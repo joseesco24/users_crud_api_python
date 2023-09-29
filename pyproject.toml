@@ -21,7 +21,6 @@ pydantic-settings = "^2.0.3"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.1a1"
-commit-linter = "^1.0.2"
 mypy = "^1.0.0"
 watchfiles = "^0.20.0"
 wrapt = "^1.14.1"

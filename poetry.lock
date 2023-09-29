@@ -142,18 +142,6 @@ files = [
 ]
 
 [[package]]
-name = "commit-linter"
-version = "1.0.3"
-description = "simple git hooks scripts for a better git experience that enforces you to use the known commit messages conventions"
-category = "dev"
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "commit-linter-1.0.3.tar.gz", hash = "sha256:e380cac6d9010dab4559380e8d153b71743526bf042d3828dacd6efe544d8aba"},
-    {file = "commit_linter-1.0.3-py3-none-any.whl", hash = "sha256:404fc2adb7ad49fddc27b1fa4424c17bf41556dbaed8dc4c274ca1e104825fbb"},
-]
-
-[[package]]
 name = "dill"
 version = "0.3.7"
 description = "serialize all of Python"
@@ -1082,4 +1070,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "77a0abc73269e99d50a50334e1c4c6b7acac819c32314e4ce5acd3cebcfcb018"
+content-hash = "7fe7b9a3b95747684faee409fa939571039578f40441c8409e4120dfe1242639"
