@@ -1,3 +1,6 @@
+# !/usr/bin/python3
+# type: ignore
+
 # ** info: python imports
 from asyncio import gather
 import logging

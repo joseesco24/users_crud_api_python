@@ -1,8 +1,5 @@
-"""main.py
-
-this module is the incharge of assemble and execute the app
-
-"""
+# !/usr/bin/python3
+# type: ignore
 
 # ** info: python imports
 from logging import Logger

@@ -1,3 +1,6 @@
+# !/usr/bin/python3
+# type: ignore
+
 # ** info: python imports
 from dataclasses import dataclass
 from queue import PriorityQueue

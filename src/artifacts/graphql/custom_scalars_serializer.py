@@ -1,3 +1,6 @@
+# !/usr/bin/python3
+# type: ignore
+
 # ** info: ariadne imports
 from ariadne import ScalarType
 

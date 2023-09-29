@@ -1,3 +1,6 @@
+# !/usr/bin/python3
+# type: ignore
+
 # ** info: python imports
 from enum import Enum
 
@@ -5,7 +8,7 @@ from enum import Enum
 from typing import Set
 
 # ** info: pydantic imports
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from pydantic import Field
 
 __all__: list[str] = ["configs"]
@@ -13,15 +16,12 @@ __all__: list[str] = ["configs"]
 
 class EnvironmentMode(str, Enum):
     development: str = "development"
-
     production: str = "production"
-
     testing: str = "testing"
 
 
 class LoggingMode(str, Enum):
     structured: str = "structured"
-
     pretty: str = "pretty"
 
 

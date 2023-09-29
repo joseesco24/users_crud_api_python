@@ -1,3 +1,6 @@
+# !/usr/bin/python3
+# type: ignore
+
 # ** info: fastapi imports
 from fastapi import APIRouter
 from fastapi import status

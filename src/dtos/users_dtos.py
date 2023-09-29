@@ -1,3 +1,6 @@
+# !/usr/bin/python3
+# type: ignore
+
 __all__: list[str] = ["UserDto"]
 
 

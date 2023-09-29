@@ -1,3 +1,6 @@
+# !/usr/bin/python3
+# type: ignore
+
 # ** info: python imports
 from contextvars import Context
 from typing import Callable

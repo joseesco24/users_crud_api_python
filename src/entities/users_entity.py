@@ -1,3 +1,6 @@
+# !/usr/bin/python3
+# type: ignore
+
 # ** info: sqlalchemy imports
 from sqlalchemy import DateTime
 from sqlalchemy import Integer
