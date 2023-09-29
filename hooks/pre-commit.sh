@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 print_title() {
-    TIT='\033[1m'
+    TIT='\033[1;33m'
     NCL='\033[0m'
     title=$1
 
@@ -45,8 +45,10 @@ black ./src --line-length=150
 # ** info: exporting dependencies if needed
 if [[ " ${staged_files[@]} " =~ " poetry.lock " ]]; then
     print_title "Exporting Dependencies"
-    poetry export --without-hashes --format=requirements.txt > requirements.app.txt
-    poetry export --without-hashes --only dev --format=requirements.txt > requirements.dev.txt
+    poetry export --without-hashes --format=requirements.txt > ./raw_requirements/requirements.app.txt
+    poetry export --without-hashes --only dev --format=requirements.txt > ./raw_requirements/requirements.dev.txt
+    git add ./raw_requirements/requirements.app.txt
+    git add ./raw_requirements/requirements.dev.txt
 fi
 
 # ** info: updating staged files

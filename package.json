@@ -1,0 +1,20 @@
+{
+	"name": "users_crud_api_python",
+	"version": "1.14.0",
+	"description": "A really simple CRUD GraphQL API based on Docker and Python.",
+	"author": {
+		"email": "josed.escobar@outlook.com",
+		"name": "joseesco24"
+	},
+	"readme": "readme.md",
+	"scripts": {
+		"commitmsg": "bash hooks/commit-msg.sh",
+		"precommit": "bash hooks/pre-commit.sh",
+		"postinstall": "npx husky install"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^17.7.1",
+		"@commitlint/config-conventional": "^17.7.0",
+		"husky": "^8.0.3"
+	}
+}

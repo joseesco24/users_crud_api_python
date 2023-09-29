@@ -7,6 +7,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Node Dependency directories
+node_modules/
+jspm_packages/
+
 # Poetry venv
 .venv
 

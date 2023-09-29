@@ -6,11 +6,6 @@ authors = ["joseesco24 <josed.escobar@outlook.com>"]
 readme = "readme.md"
 packages = [{ include = "users_crud_api_python" }]
 
-[tool.poetry.scripts]
-pre_commit = "pre-commit install --hook-type pre-commit"
-commit_msg = "pre-commit install --hook-type commit-msg"
-post_commit = "pre-commit install --hook-type pre-push"
-
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.103.1"
@@ -28,12 +23,10 @@ black = "^23.1a1"
 commit-linter = "^1.0.2"
 mypy = "^1.0.0"
 watchfiles = "^0.20.0"
-pre-commit = "^3.1.1"
 wrapt = "^1.14.1"
 dill = "^0.3.6"
 flake8 = "^6.0.0"
 pytest = "^7.2.1"
-conventional-pre-commit = "^2.1.1"
 
 
 [build-system]

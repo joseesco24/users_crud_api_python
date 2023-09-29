@@ -15,8 +15,8 @@ RUN mkdir -p $WORKDIR
 WORKDIR $WORKDIR
 
 # ** info: copying the requirements files from the building context to the working directory
-COPY ["requirements.app.txt" ,"$WORKDIR/"]
-COPY ["requirements.dev.txt" ,"$WORKDIR/"]
+COPY ["raw_requirements/requirements.app.txt" ,"$WORKDIR/"]
+COPY ["raw_requirements/requirements.dev.txt" ,"$WORKDIR/"]
 
 # ** info: installing the dependencies and upgrading pip, wheel and setuptools
 RUN pip install --no-cache -r $WORKDIR/requirements.app.txt
