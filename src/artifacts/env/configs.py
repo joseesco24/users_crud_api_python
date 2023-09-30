@@ -43,6 +43,14 @@ class Configs(BaseSettings):
     database_user: str = Field(..., env="DATABASE_USER")
     database_port: int = Field(..., env="DATABASE_PORT")
 
+    # ** info: tv database credentials
+    tv_database_password: str = Field(..., env="TV_DATABASE_PASSWORD")
+    tv_database_logs: bool = Field(..., env="TV_DATABASE_LOGS")
+    tv_database_host: str = Field(..., env="TV_DATABASE_HOST")
+    tv_database_name: str = Field(..., env="TV_DATABASE_NAME")
+    tv_database_user: str = Field(..., env="TV_DATABASE_USER")
+    tv_database_port: int = Field(..., env="TV_DATABASE_PORT")
+
     # ** info: cache database credentials
     cache_database_default_ttl: int = Field(..., env="CACHE_DATABASE_DEFAULT_TTL")
     cache_database_password: str = Field(..., env="CACHE_DATABASE_PASSWORD")

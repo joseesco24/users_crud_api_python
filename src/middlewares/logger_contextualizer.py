@@ -105,7 +105,11 @@ class LoggerContextualizer(metaclass=Singleton):
                 if isinstance(chunk, bytes):
                     response_content += chunk
 
-            response_body_rep: Dict[str, str] = dict(json.loads(response_content.decode()))
+            try:
+                response_body_rep: Dict[str, str] = dict(json.loads(response_content.decode()))
+            except Exception:
+                logging.error("unable to fetch response body in logging contextualizer, setting default one")
+                response_body_rep: Dict[str, str] = {"default": "dictionary"}
 
             response_status: int = router_response.status_code
 

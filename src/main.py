@@ -30,7 +30,7 @@ from starlette.routing import BaseRoute
 from starlette.routing import Mount
 
 # ** info: rest based routers imports
-from src.rest_routers.health_check_router import health_check_router
+from src.rest_routers.tv_channel_router import tv_channel_router
 
 # ** info: graphql based routers imports
 from src.graphql_routers.users_router import users_router
@@ -49,9 +49,6 @@ from src.middlewares.error_handler import error_handler
 # ** info: databases connection managers imports
 from src.database.cache_database.connection_manager import (
     connection_manager as cache_connection_manager,
-)
-from src.database.users_database.connection_manager import (
-    connection_manager as users_connection_manager,
 )
 
 
@@ -73,7 +70,7 @@ app: FastAPI = FastAPI(routes=routers)
 
 rest_router: APIRouter = APIRouter(prefix=generator.build_posix_path("rest"))
 
-rest_router.include_router(health_check_router)
+rest_router.include_router(tv_channel_router)
 
 app.include_router(rest_router)
 
@@ -136,8 +133,6 @@ if __name__ != "__main__":
 
 cache_connection_manager._download_connection._start_connection()
 cache_connection_manager._upload_connection._start_connection()
-users_connection_manager._start_engine()
-users_connection_manager._start_query_session()
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: setting up uvicorn asgi server with fast api app

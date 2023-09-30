@@ -29,10 +29,8 @@ from sqlalchemy.exc import SQLAlchemyError
 # ** info: artifacts imports
 from src.artifacts.datetime.datetime_provider import datetime_provider
 from src.artifacts.uuid.uuid_provider import uuid_provider
-from src.artifacts.pattern.singleton import Singleton
-from src.artifacts.env.configs import configs
 
-__all__: list[str] = ["connection_manager", "CrudManagedSession"]
+__all__: list[str] = ["CrudManagedSession"]
 
 
 class QuerySession(Session):
@@ -97,7 +95,7 @@ class CrudSession(Session):
         super().close()
 
 
-class ConnectionManager(metaclass=Singleton):
+class ConnectionManager:
     def __init__(self, user: str, password: str, host: str, port: int, database: str, logs: bool):
         self._database: str = database
         self._password: str = password
@@ -173,19 +171,19 @@ class ConnectionManager(metaclass=Singleton):
         return self._query_session
 
 
-connection_manager: ConnectionManager = ConnectionManager(
-    password=configs.database_password,
-    database=configs.database_name,
-    user=configs.database_user,
-    host=configs.database_host,
-    port=configs.database_port,
-    logs=configs.database_logs,
-)
-
-
 class CrudManagedSession:
-    def __init__(self: Self):
-        self.crud_session: CrudSession = connection_manager.get_crud_session()
+    def __init__(self: Self, password: str, database: str, user: str, host: str, port: int, logs: bool):
+        self.connection_manager: ConnectionManager = ConnectionManager(
+            password=password,
+            database=database,
+            user=user,
+            host=host,
+            port=port,
+            logs=logs,
+        )
+
+        self.query_session: QuerySession = self.connection_manager.get_query_session()
+        self.crud_session: CrudSession = self.connection_manager.get_crud_session()
 
     def __enter__(self: Self) -> CrudSession:
         return self.crud_session

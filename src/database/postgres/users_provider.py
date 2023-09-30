@@ -17,16 +17,26 @@ from src.entities.users_entity import Users
 from src.dtos.users_dtos import UserDto
 
 # ** info: users database connection manager import
-from src.database.users_database.connection_manager import CrudManagedSession
-from src.database.users_database.connection_manager import connection_manager
+from src.database.postgres.connection_manager import CrudManagedSession
 
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
+from src.artifacts.env.configs import configs
 
 __all__: list[str] = ["users_provider"]
 
 
 class UsersProvider(metaclass=Singleton):
+    def __init__(self: Self):
+        self.connection_manager: CrudManagedSession = CrudManagedSession(
+            password=configs.database_password,
+            database=configs.database_name,
+            user=configs.database_user,
+            host=configs.database_host,
+            port=configs.database_port,
+            logs=configs.database_logs,
+        )
+
     def add_user(
         self: Self,
         internal_id: str,
@@ -59,7 +69,7 @@ class UsersProvider(metaclass=Singleton):
 
         user_dto: UserDto = self._users_entity_to_users_public_dto(user=new_user)
 
-        with CrudManagedSession() as crud_session:
+        with self.connection_manager as crud_session:
             crud_session.add(new_user)
 
         return user_dto
@@ -116,7 +126,7 @@ class UsersProvider(metaclass=Singleton):
 
         query = query.order_by(Users.creation.desc()).limit(limit).offset(offset)
 
-        results: List[Users] = connection_manager.get_query_session().execute(statement=query)
+        results: List[Users] = self.connection_manager.query_session.execute(statement=query)
 
         users_data = list(map(self._users_entity_to_users_public_dto, results))
 

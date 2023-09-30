@@ -20,17 +20,12 @@ from fastapi import status
 
 # ** info: artifacts imports
 from src.artifacts.pattern.singleton import Singleton
+from src.artifacts.env.configs import configs
 
 # ** info: databases connection managers imports
 from src.database.cache_database.connection_manager import (
     connection_manager as cache_connection_manager,
 )
-from src.database.users_database.connection_manager import (
-    connection_manager as users_connection_manager,
-)
-
-# ** info: artifacts imports
-from src.artifacts.env.configs import configs
 
 __all__: list[str] = ["database_health_check"]
 
@@ -93,10 +88,6 @@ class DatabaseHealthCheck(metaclass=Singleton):
 
         if is_upload_connection_healthy is False:
             logging.warning("cache upload connection isn't healthy")
-            are_databses_healty = False
-
-        if users_connection_manager._check_query_session_health() is False:
-            logging.warning("users query session isn't healthy")
             are_databses_healty = False
 
         if are_databses_healty is False:

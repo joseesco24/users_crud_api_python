@@ -19,7 +19,7 @@ from typing import Self
 from src.dtos.users_dtos import UserDto
 
 # ** info: users provider import
-from src.database.users_database.users_provider import users_provider
+from src.database.postgres.users_provider import users_provider
 
 # ** info: resolvers cache
 from src.database.cache_database.cache_provider import cache_provider
