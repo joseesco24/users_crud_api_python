@@ -37,14 +37,14 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation {\n    nuevoUsuario: addUser (\n        estatalId: 1075313858,\n        firstName: \"jose\",\n        lastName: \"daniel\",\n        phoneNumber: 3188987488,\n        email: \"josed@outlook.com\",\n        gender: \"Male\",\n        birthday: \"1998-07-24\",\n        password: \"password\"\n    ) {\n        idSistema: internalId\n        nombre: firstName\n        apellido: lastName\n        cedula: estatalId\n        numeroTelefono: phoneNumber\n        genero: gender\n        fechaNacimiento: birthday\n        correo: email\n    }\n}",
+										"query": "mutation {\n    nuevoUsuario: addUser (\n        estatalId: 1075313854,\n        firstName: \"jose\",\n        lastName: \"daniel\",\n        phoneNumber: 3188987488,\n        email: \"josed@outlook.com\",\n        gender: \"Male\",\n        birthday: \"1998-07-24\",\n        password: \"password\"\n    ) {\n        idSistema: internalId\n        nombre: firstName\n        apellido: lastName\n        cedula: estatalId\n        numeroTelefono: phoneNumber\n        genero: gender\n        fechaNacimiento: birthday\n        correo: email\n    }\n}",
 										"variables": ""
 									}
 								},
 								"url": {
-									"raw": "{{hostPath}}/graphql/users",
+									"raw": "{{HOST}}/graphql/users",
 									"host": [
-										"{{hostPath}}"
+										"{{HOST}}"
 									],
 									"path": [
 										"graphql",
@@ -79,14 +79,14 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query {\n    usuarios: listUsers (limit: 4, offset: 0) {\n        idSistema: internalId\n        nombre: firstName\n        apellido: lastName\n        cedula: estatalId\n        numeroTelefono: phoneNumber\n        genero: gender\n        fechaNacimiento: birthday\n        correo: email\n    }\n}",
+										"query": "query {\n    usuarios: listUsers (\n        limit: 4, \n        offset: 0,\n        ) {\n        idSistema: internalId\n        nombre: firstName\n        apellido: lastName\n        cedula: estatalId\n        numeroTelefono: phoneNumber\n        genero: gender\n        fechaNacimiento: birthday\n        correo: email\n    }\n}",
 										"variables": ""
 									}
 								},
 								"url": {
-									"raw": "{{hostPath}}/graphql/users",
+									"raw": "{{HOST}}/graphql/users",
 									"host": [
-										"{{hostPath}}"
+										"{{HOST}}"
 									],
 									"path": [
 										"graphql",
@@ -104,26 +104,71 @@
 			"name": "rest",
 			"item": [
 				{
-					"name": "health-check",
+					"name": "tv-channel",
 					"item": [
 						{
-							"name": "is-everything-ok",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{hostPath}}/rest/health-check/is-everything-ok",
-									"host": [
-										"{{hostPath}}"
-									],
-									"path": [
-										"rest",
-										"health-check",
-										"is-everything-ok"
-									]
+							"name": "programmation",
+							"item": [
+								{
+									"name": "root",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"channelId\": 1,\n    \"channelName\": \"concierto\",\n    \"channelContentType\": \"novela\",\n    \"startHoure\": \"14:00:00\",\n    \"endHoure\": \"15:00:00\",\n    \"weeks\": [\n        17,\n        18,\n        19,\n        20\n    ],\n    \"days\": [\n        1,\n        2,\n        3,\n        4,\n        5\n    ],\n    \"year\": 2023\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}/rest/tv-channel/programmation",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"rest",
+												"tv-channel",
+												"programmation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "root",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"channelContentType\": \"novela\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}/rest/tv-channel/programmation",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"rest",
+												"tv-channel",
+												"programmation"
+											]
+										}
+									},
+									"response": []
 								}
-							},
-							"response": []
+							]
 						}
 					]
 				}
@@ -152,8 +197,18 @@
 	],
 	"variable": [
 		{
-			"key": "hostPath",
+			"key": "HOST",
+			"value": "{{LOCAL_HOST}}",
+			"type": "string"
+		},
+		{
+			"key": "LOCAL_HOST",
 			"value": "localhost:10048",
+			"type": "string"
+		},
+		{
+			"key": "CLOUD_HOST",
+			"value": "http://13.92.28.33:8080",
 			"type": "string"
 		}
 	]
