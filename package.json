@@ -1,6 +1,6 @@
 {
 	"name": "users_crud_api_python",
-	"version": "1.14.0",
+	"version": "1.15.0",
 	"description": "A really simple CRUD GraphQL API based on Docker and Python.",
 	"author": {
 		"email": "josed.escobar@outlook.com",
