@@ -105,7 +105,7 @@ app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=error_handler)
 
 app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=logger_contextualizer)
 
-app.add_middleware(CORSMiddleware)
+app.add_middleware(CORSMiddleware, allow_credentials=True, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ** info: disabling uvicorn access and error logs on production mode
