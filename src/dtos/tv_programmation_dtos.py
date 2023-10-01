@@ -48,6 +48,7 @@ class TvProgrammationResponseDto(BaseModel):
     weeks: Optional[List[int]] = None
     days: Optional[List[int]] = None
     year: Optional[int] = None
+    duration: Optional[int] = None
 
 
 class TvProgrammationSearchResponsePrettyReturnDto(BaseModel):

@@ -110,13 +110,13 @@
 							"name": "programmation",
 							"item": [
 								{
-									"name": "root",
+									"name": "add-programmation",
 									"request": {
 										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"channelId\": 1,\n    \"channelName\": \"concierto\",\n    \"channelContentType\": \"novela\",\n    \"startHoure\": \"14:00:00\",\n    \"endHoure\": \"15:00:00\",\n    \"weeks\": [\n        17,\n        18,\n        19,\n        20\n    ],\n    \"days\": [\n        1,\n        2,\n        3,\n        4,\n        5\n    ],\n    \"year\": 2023\n}",
+											"raw": "{\n    \"channelId\": 1,\n    \"channelName\": \"palpito\",\n    \"channelContentType\": \"novela\",\n    \"startHoure\": \"14:00:00\",\n    \"endHoure\": \"15:00:00\",\n    \"weeks\": [\n        17,\n        18,\n        19,\n        20\n    ],\n    \"days\": [\n        1,\n        2,\n        3,\n        4,\n        5\n    ],\n    \"year\": 2023\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -124,30 +124,28 @@
 											}
 										},
 										"url": {
-											"raw": "{{HOST}}/rest/tv-channel/programmation",
+											"raw": "{{HOST}}/rest/tv-channel/programmation/add-programmation",
 											"host": [
 												"{{HOST}}"
 											],
 											"path": [
 												"rest",
 												"tv-channel",
-												"programmation"
+												"programmation",
+												"add-programmation"
 											]
 										}
 									},
 									"response": []
 								},
 								{
-									"name": "root",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
+									"name": "search-programmation-raw-return",
 									"request": {
-										"method": "GET",
+										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"channelContentType\": \"novela\"\n}",
+											"raw": "{\n    \"weeks\": [\n        18\n    ]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -155,14 +153,44 @@
 											}
 										},
 										"url": {
-											"raw": "{{HOST}}/rest/tv-channel/programmation",
+											"raw": "{{HOST}}/rest/tv-channel/programmation/search-programmation-raw-return",
 											"host": [
 												"{{HOST}}"
 											],
 											"path": [
 												"rest",
 												"tv-channel",
-												"programmation"
+												"programmation",
+												"search-programmation-raw-return"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "search-programmation-pretty-return",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"weeks\": [\n        18\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}/rest/tv-channel/programmation/search-programmation-pretty-return",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"rest",
+												"tv-channel",
+												"programmation",
+												"search-programmation-pretty-return"
 											]
 										}
 									},
@@ -198,7 +226,7 @@
 	"variable": [
 		{
 			"key": "HOST",
-			"value": "{{LOCAL_HOST}}",
+			"value": "{{CLOUD_HOST}}",
 			"type": "string"
 		},
 		{
@@ -208,7 +236,7 @@
 		},
 		{
 			"key": "CLOUD_HOST",
-			"value": "http://13.92.28.33:8080",
+			"value": "http://13.92.28.33:10048",
 			"type": "string"
 		}
 	]

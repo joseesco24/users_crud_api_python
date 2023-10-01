@@ -36,6 +36,8 @@ async def search_tv_programattion_raw_return(
     tv_programmation_search_request: TvProgrammationSearchRequestDto = Body(...),
 ) -> List[TvProgrammationResponseDto]:
     tv_programmation_response: List[TvProgrammationResponseDto] = await tv_channel_controller.search_tv_programattion(tv_programmation_search_request)
+    for program in tv_programmation_response:
+        program.duration = _minutos_entre_horas(program.startHoure, program.endHoure)
     return {"data": tv_programmation_response}
 
 
@@ -59,4 +61,14 @@ async def search_tv_programattion_pretty_return(
 )
 async def add_tv_programattion(tv_programmation_add_request: TvProgrammationAddRequestDto = Body(...)) -> TvProgrammationResponseDto:
     tv_programmation_response: TvProgrammationResponseDto = await tv_channel_controller.add_tv_programattion(tv_programmation_add_request)
+    tv_programmation_response.duration = _minutos_entre_horas(tv_programmation_response.startHoure, tv_programmation_response.endHoure)
     return tv_programmation_response
+
+
+def _minutos_entre_horas(hora1, hora2):
+    hh1, mm1, ss1 = map(int, hora1.split(":"))
+    hh2, mm2, ss2 = map(int, hora2.split(":"))
+    minutos1 = hh1 * 60 + mm1 + ss1 / 60
+    minutos2 = hh2 * 60 + mm2 + ss2 / 60
+    diferencia = abs(minutos1 - minutos2)
+    return int(diferencia)
