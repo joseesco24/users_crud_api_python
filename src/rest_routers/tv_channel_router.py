@@ -25,8 +25,8 @@ __all__: list[str] = ["tv_channel_router"]
 tv_channel_router: APIRouter = APIRouter(prefix=generator.build_posix_path("tv-channel", "programmation"))
 
 
-@tv_channel_router.get(
-    path=generator.build_posix_path(""),
+@tv_channel_router.post(
+    path=generator.build_posix_path("search-programmation"),
     response_model=List[TvProgrammationResponseDto],
     status_code=status.HTTP_200_OK,
 )
@@ -36,7 +36,7 @@ async def search_tv_programattion(tv_programmation_search_request: TvProgrammati
 
 
 @tv_channel_router.post(
-    path=generator.build_posix_path(""),
+    path=generator.build_posix_path("add-programmation"),
     response_model=TvProgrammationResponseDto,
     status_code=status.HTTP_200_OK,
 )

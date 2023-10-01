@@ -25,7 +25,7 @@ __all__: list[str] = ["tv_channel_controller"]
 
 
 class HealthCheckController(metaclass=Singleton):
-    @cache_provider.ttl_cache(ttl=120)
+    @cache_provider.ttl_cache(ttl=30)
     async def search_tv_programattion(
         self: Self, tv_programmation_search_request: TvProgrammationSearchRequestDto
     ) -> List[TvProgrammationResponseDto]:
