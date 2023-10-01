@@ -9,7 +9,12 @@ from pydantic import Field
 from typing import Optional
 from typing import List
 
-__all__: list[str] = ["TvProgrammationSearchRequestDto", "TvProgrammationAddRequestDto", "TvProgrammationResponseDto"]
+__all__: list[str] = [
+    "TvProgrammationSearchResponseRawReturnDto",
+    "TvProgrammationSearchRequestDto",
+    "TvProgrammationAddRequestDto",
+    "TvProgrammationResponseDto",
+]
 
 
 class TvProgrammationSearchRequestDto(BaseModel):
@@ -43,3 +48,11 @@ class TvProgrammationResponseDto(BaseModel):
     weeks: Optional[List[int]] = None
     days: Optional[List[int]] = None
     year: Optional[int] = None
+
+
+class TvProgrammationSearchResponsePrettyReturnDto(BaseModel):
+    data: Optional[List[str]] = None
+
+
+class TvProgrammationSearchResponseRawReturnDto(BaseModel):
+    data: Optional[List[TvProgrammationResponseDto]] = None

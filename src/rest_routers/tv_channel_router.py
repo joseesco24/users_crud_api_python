@@ -13,6 +13,8 @@ from fastapi import Body
 from src.artifacts.path.generator import generator
 
 # ** info: health check dtos imports
+from src.dtos.tv_programmation_dtos import TvProgrammationSearchResponsePrettyReturnDto
+from src.dtos.tv_programmation_dtos import TvProgrammationSearchResponseRawReturnDto
 from src.dtos.tv_programmation_dtos import TvProgrammationSearchRequestDto
 from src.dtos.tv_programmation_dtos import TvProgrammationAddRequestDto
 from src.dtos.tv_programmation_dtos import TvProgrammationResponseDto
@@ -26,13 +28,28 @@ tv_channel_router: APIRouter = APIRouter(prefix=generator.build_posix_path("tv-c
 
 
 @tv_channel_router.post(
-    path=generator.build_posix_path("search-programmation"),
-    response_model=List[TvProgrammationResponseDto],
+    path=generator.build_posix_path("search-programmation-raw-return"),
+    response_model=TvProgrammationSearchResponseRawReturnDto,
     status_code=status.HTTP_200_OK,
 )
-async def search_tv_programattion(tv_programmation_search_request: TvProgrammationSearchRequestDto = Body(...)) -> List[TvProgrammationResponseDto]:
+async def search_tv_programattion_raw_return(
+    tv_programmation_search_request: TvProgrammationSearchRequestDto = Body(...),
+) -> List[TvProgrammationResponseDto]:
     tv_programmation_response: List[TvProgrammationResponseDto] = await tv_channel_controller.search_tv_programattion(tv_programmation_search_request)
-    return tv_programmation_response
+    return {"data": tv_programmation_response}
+
+
+@tv_channel_router.post(
+    path=generator.build_posix_path("search-programmation-pretty-return"),
+    response_model=TvProgrammationSearchResponsePrettyReturnDto,
+    status_code=status.HTTP_200_OK,
+)
+async def search_tv_programattion_pretty_return(
+    tv_programmation_search_request: TvProgrammationSearchRequestDto = Body(...),
+) -> List[TvProgrammationResponseDto]:
+    tv_programmation_response: List[TvProgrammationResponseDto] = await tv_channel_controller.search_tv_programattion(tv_programmation_search_request)
+    pretty_response: List[str] = list(map(lambda data: f"{data.channelName} de {data.startHoure} a de {data.endHoure}", tv_programmation_response))
+    return {"data": pretty_response}
 
 
 @tv_channel_router.post(
