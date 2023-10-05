@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 # ** info: declaration of the testing image base version
-FROM python:3.11.1 as testing
+FROM python:3.12.0 as testing
 
 # ** info: declaration of the building image working directory
 ARG WORKDIR=/home/testing
@@ -15,8 +15,8 @@ RUN mkdir -p $WORKDIR
 WORKDIR $WORKDIR
 
 # ** info: copying the requirements files from the building context to the working directory
-COPY ["raw_requirements/requirements.app.txt" ,"$WORKDIR/"]
-COPY ["raw_requirements/requirements.dev.txt" ,"$WORKDIR/"]
+COPY ["requirements/app.txt" ,"$WORKDIR/"]
+COPY ["requirements/dev.txt" ,"$WORKDIR/"]
 
 # ** info: installing the dependencies and upgrading pip, wheel and setuptools
 RUN pip install --no-cache -r $WORKDIR/requirements.app.txt
@@ -42,7 +42,7 @@ RUN find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
 # ---------------------------------------------------------------------------------------------------------------------
 
 # ** info: declaration of the production image base version
-FROM python:3.11.1-slim-bullseye
+FROM python:3.12.0-slim-bullseye
 
 # ** info: declaration of the production working directory and username inside the production image
 ARG USERNAME=production
