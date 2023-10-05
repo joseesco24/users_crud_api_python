@@ -45,10 +45,10 @@ black ./src --line-length=150
 # ** info: exporting dependencies if needed
 if [[ " ${staged_files[@]} " =~ " poetry.lock " ]]; then
     print_title "Exporting Dependencies"
-    poetry export --without-hashes --format=requirements.txt > ./raw_requirements/requirements.app.txt
-    poetry export --without-hashes --only dev --format=requirements.txt > ./raw_requirements/requirements.dev.txt
-    git add ./raw_requirements/requirements.app.txt
-    git add ./raw_requirements/requirements.dev.txt
+    poetry export --without-hashes --only dev --format=requirements.txt > ./requirements/dev.txt
+    poetry export --without-hashes --format=requirements.txt > ./requirements/app.txt
+    git add ./requirements/app.txt
+    git add ./requirements/dev.txt
 fi
 
 # ** info: updating staged files
