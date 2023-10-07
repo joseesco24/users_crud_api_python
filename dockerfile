@@ -19,8 +19,8 @@ COPY ["requirements/app.txt" ,"$WORKDIR/"]
 COPY ["requirements/dev.txt" ,"$WORKDIR/"]
 
 # ** info: installing the dependencies and upgrading pip, wheel and setuptools
-RUN pip install --no-cache -r $WORKDIR/requirements.app.txt
-RUN pip install --no-cache -r $WORKDIR/requirements.dev.txt
+RUN pip install --no-cache -r $WORKDIR/app.txt
+RUN pip install --no-cache -r $WORKDIR/dev.txt
 
 # ** info: validating dependencies integrity
 RUN pip check
@@ -52,7 +52,7 @@ ARG WORKDIR=/home/$USERNAME
 RUN useradd --create-home --shell /bin/bash $USERNAME
 
 # ** info: copying the app requirements file from the testing image
-COPY --from=testing ["/home/testing/requirements.app.txt","$WORKDIR/"]
+COPY --from=testing ["/home/testing/app.txt","$WORKDIR/"]
 
 # ** info: changing the premises of the working directory
 RUN chown -R $USERNAME $WORKDIR
@@ -66,7 +66,7 @@ RUN chmod 755 $WORKDIR
 WORKDIR $WORKDIR
 
 # ** info: installing the dependencies and upgrading pip, wheel and setuptools
-RUN pip install --no-cache -r $WORKDIR/requirements.app.txt
+RUN pip install --no-cache -r $WORKDIR/app.txt
 
 # ** info: validating dependencies integrity
 RUN pip check
@@ -78,7 +78,7 @@ COPY --from=testing ["/home/testing/src", "$WORKDIR/src"]
 RUN find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
 
 # ** info: removing the app requirements file
-RUN rm -r requirements.app.txt
+RUN rm -r app.txt
 
 # ** info: establishing the default user inside the production image
 USER $USERNAME
