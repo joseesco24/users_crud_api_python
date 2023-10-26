@@ -8,7 +8,7 @@ packages = [{ include = "users_crud_api_python" }]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-fastapi = "^0.103.1"
+fastapi = "^0.104.0"
 psycopg2-binary = "^2.9.5"
 SQLAlchemy = "^2.0.1"
 loguru = "^0.7.0"
