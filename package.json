@@ -8,8 +8,8 @@
 	},
 	"readme": "readme.md",
 	"scripts": {
+		"clean-cache": "find . | grep -E \"(/__pycache__$|\\.pyc$|\\.pyo$)\" | xargs rm -rf && rm -r .mypy_cache .pytest_cache",
 		"lint": "flake8 ./src --max-line-length=150 --verbose && mypy --explicit-package-bases ./src",
-		"clean-cache": "find . | grep -E \"(/__pycache__$|\\.pyc$|\\.pyo$)\" | xargs rm -rf",
 		"start-dev": "APP_ENVIRONMENT_MODE=development python src/main.py",
 		"start-app": "APP_ENVIRONMENT_MODE=production python src/main.py",
 		"format": "black ./src --line-length=150",
