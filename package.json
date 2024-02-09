@@ -10,6 +10,9 @@
 	"scripts": {
 		"clean-cache": "find . | grep -E \"(/__pycache__$|\\.pyc$|\\.pyo$)\" | xargs rm -rf && rm -r .mypy_cache .pytest_cache",
 		"lint": "flake8 ./src --max-line-length=150 --verbose && mypy --explicit-package-bases ./src",
+		"docker-build-ms-image": "docker-compose -f docker_compose/compose.databases.yaml build",
+		"docker-start-databases": "docker-compose -f docker_compose/compose.databases.yaml up",
+		"docker-start-proyect": "docker-compose -f docker_compose/compose.databases.yaml up",
 		"start-dev": "APP_ENVIRONMENT_MODE=development python src/main.py",
 		"start-app": "APP_ENVIRONMENT_MODE=production python src/main.py",
 		"format": "black ./src --line-length=150",
@@ -19,8 +22,8 @@
 		"test": "pytest"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^18.4.3",
-		"@commitlint/config-conventional": "^18.4.3",
-		"husky": "^8.0.3"
+		"@commitlint/cli": "^18.6.0",
+		"@commitlint/config-conventional": "^18.6.0",
+		"husky": "^9.0.10"
 	}
 }
