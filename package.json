@@ -12,6 +12,7 @@
 		"lint": "flake8 ./src --max-line-length=150 --verbose && mypy --explicit-package-bases ./src",
 		"docker-build-ms-image": "docker-compose -f docker_compose/compose.databases.yaml build",
 		"docker-start-databases": "docker-compose -f docker_compose/compose.databases.yaml up",
+		"docker-stop-proyect": "docker-compose -f docker_compose/compose.databases.yaml down",
 		"docker-start-proyect": "docker-compose -f docker_compose/compose.databases.yaml up",
 		"start-dev": "APP_ENVIRONMENT_MODE=development python src/main.py",
 		"start-app": "APP_ENVIRONMENT_MODE=production python src/main.py",
